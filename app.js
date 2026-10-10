@@ -722,23 +722,25 @@ render();
 syncMissions();
 
 
-/* BLOKS: DAILY 30 S COINS REWARD */
-(function giveDailySCoins() {
-  const today = new Date();
-  const dateKey =
-    `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+/* BLOKS: DAILY 30 C COINS REWARD */
+(function giveDailyCCoins() {
+  const now = new Date();
+  const dateKey = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("-");
 
-  const lastReward = localStorage.getItem("bloks_s_daily_reward_date");
+  const rewardKey = "bloks_c_daily_reward_date";
+  const lastReward = localStorage.getItem(rewardKey);
 
   if (lastReward === dateKey) return;
 
-  state.coins += 30;
-  localStorage.setItem("bloks_s_daily_reward_date", dateKey);
+  state.money += 30;
+  localStorage.setItem(rewardKey, dateKey);
 
-  if (typeof persist === "function") persist();
-  if (typeof render === "function") render();
-
-  if (typeof showToast === "function") {
-    showToast("🎉 Daily reward: +30 S Coins!");
-  }
+  persist();
+  render();
+  toast("🎉 Daily reward: +30 C Coins!");
 })();
+
