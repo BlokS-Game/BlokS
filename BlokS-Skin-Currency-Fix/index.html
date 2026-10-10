@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b12">
+  <title>BlokS — Play Your World</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="BlokS home">
+        <span class="brand-mark">B</span><span>Blok<span class="brand-accent">S</span></span>
+      </a>
+      <div class="side-label">PLAY</div>
+      <button class="nav-item" data-view="games"><span>▶</span> Play Games</button>
+      <button class="nav-item" data-view="friends"><span>♧</span> Add Friend</button>
+      <button class="nav-item" data-view="invite"><span>↗</span> Invite Friend</button>
+      <button class="nav-item" data-view="groups"><span>＋</span> Create Group</button>
+      <button class="nav-item" data-view="joinGroup"><span>⌁</span> Join Group</button>
+      <div class="side-label extra-side-label">COLLECT</div>
+      <button class="nav-item active" data-view="discover"><span>◈</span> Discover</button>
+      <button class="nav-item" data-view="skins"><span>✦</span> Skin Shop</button>
+      <button class="nav-item" data-view="inventory"><span>▣</span> My Skins</button>
+      <button class="nav-item" data-view="emotes"><span>✺</span> Emote Shop</button>
+      <button class="nav-item" data-view="missions"><span>⚡</span> Missions</button>
+      <div class="sidebar-bottom">
+        <div class="mini-card">
+          <div class="mini-icon">✧</div>
+          <strong>Make your mark.</strong>
+          <p>Your style. Your world. Your BlokS.</p>
+        </div>
+        <div class="profile-mini"><div class="avatar-small">S</div><div><strong>Guest Player</strong><small>Level 1</small></div><span class="online-dot"></span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-brand" id="mobileMenu" aria-label="Open menu">☰ <strong>Blok<span class="brand-accent">S</span></strong></button>
+        <div class="breadcrumbs">HOME <span>/</span> <strong id="crumb">DISCOVER</strong></div>
+        <div class="top-actions">
+          <div class="wallet-pills"><div class="coin-pill money-pill"><span class="coin-symbol money-symbol">C</span><strong id="moneyBalance">5,000</strong><span class="coin-label">COINS</span></div><div class="coin-pill"><span class="coin-symbol">S</span><strong id="coinBalance">0</strong><span class="coin-label">S COINS</span></div></div>
+          <button class="sign-in" id="signInBtn">↗ Sign in</button>
+        </div>
+      </header>
+
+      <section class="view active-view" id="discoverView">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="live-dot"></span> YOUR NEXT ADVENTURE STARTS HERE</div>
+            <h1>Play your way.<br><span>Look legendary.</span></h1>
+            <p>Discover original worlds, collect cool looks, and build your own BlokS identity.</p>
+            <div class="hero-buttons"><button class="primary-btn" data-go="skins">Explore skins <span>→</span></button><button class="ghost-btn" data-go="missions">View missions</button></div>
+            <div class="hero-stats"><div><strong>4</strong><small>Shop sections</small></div><div><strong>57</strong><small>Original skins</small></div><div><strong>∞</strong><small>Ways to play</small></div></div>
+          </div>
+          <div class="hero-art" aria-label="Original abstract BlokS character artwork">
+            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <div class="floating-cube cube-one"></div><div class="floating-cube cube-two"></div>
+            <div class="character">
+              <div class="char-halo"></div><div class="char-head"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></div>
+              <div class="char-body"><div class="shirt-mark">B</div></div>
+              <div class="char-arm arm-left"></div><div class="char-arm arm-right"></div>
+              <div class="char-leg leg-left"></div><div class="char-leg leg-right"></div>
+            </div>
+            <div class="art-tag tag-top">✦ ORIGINAL AVATARS</div><div class="art-tag tag-bottom">NO TWO WORLDS ALIKE</div>
+          </div>
+        </div>
+
+        <div class="section-heading"><div><div class="eyebrow">CHOOSE YOUR PATH</div><h2>Four ways to style up</h2></div><button class="text-btn" data-go="skins">Open Skin Shop ↗</button></div>
+        <div class="path-grid">
+          <button class="path-card free-path" data-category="free"><span class="path-icon">✦</span><span class="path-label">01 / START HERE</span><h3>Free Skins</h3><p>Simple, fun looks for every player.</p><span class="path-link">Unlock by playing ↗</span></button>
+          <button class="path-card coin-path" data-category="coins"><span class="path-icon">S</span><span class="path-label">02 / RARE COLLECTION</span><h3>S Coin Skins</h3><p>High-tier original outfits with armor, glowing details and legendary accessories.</p><span class="path-link">Spend S Coins ↗</span></button>
+          <button class="path-card money-path" data-category="money"><span class="path-icon">C</span><span class="path-label">03 / EARN & SPEND</span><h3>C Coins Shop</h3><p>Earn C Coins by playing and completing missions.</p><span class="path-link">Spend earned Coins ↗</span></button>
+          <button class="path-card exclusive-path" data-category="premium"><span class="path-icon">♛</span><span class="path-label">04 / ULTRA EXCLUSIVE</span><h3>Exclusive Skins</h3><p>Five original ultra-premium looks.</p><span class="path-link">View exclusives ↗</span></button>
+        </div>
+
+        <div class="section-heading"><div><div class="eyebrow">FEATURED LOOKS</div><h2>Find your signature style</h2></div><button class="text-btn" data-go="skins">See all skins ↗</button></div>
+        <div class="skin-grid" id="featuredGrid"></div>
+      </section>
+
+      <section class="view" id="skinsView">
+        <div class="page-intro"><div class="eyebrow">THE COLLECTION</div><h1>Skin <span>Shop</span></h1><p>Every look is original to BlokS. Choose your style and collect your favourites.</p></div>
+        <div class="shop-toolbar"><div class="category-tabs" role="tablist" aria-label="Skin categories">
+          <button class="category-tab selected" data-category="all">All skins <span id="allCount">57</span></button>
+          <button class="category-tab" data-category="free">Free <span>7</span></button>
+          <button class="category-tab" data-category="money">Money shop <span>20</span></button>
+          <button class="category-tab" data-category="coins">S Coins <span>25</span></button>
+          <button class="category-tab" data-category="premium">Exclusive <span>5</span></button>
+        </div><label class="search-box"><span>⌕</span><input id="skinSearch" type="search" placeholder="Search skins…"></label></div>
+        <div class="skin-grid" id="skinGrid"></div>
+      </section>
+
+
+      <section class="view" id="gamesView">
+        <div class="page-intro"><div class="eyebrow">YOUR NEXT ADVENTURE</div><h1>Play <span>Games</span></h1><p>Choose a BlokS experience. Game cards are ready for your original games to be connected.</p></div>
+        <div class="game-grid">
+          <article class="game-card game-featured"><div class="game-art game-art-neon"><span>✦</span><b>01</b></div><div class="game-card-copy"><span class="eyebrow">COMING TO BLOKS</span><h3>Neon Obby Run</h3><p>Jump across glowing platforms, dodge traps, and race your friends.</p><button class="primary-btn" data-launch-game="obby">Play game <span>→</span></button></div></article>
+          <article class="game-card"><div class="game-art game-art-island"><span>◈</span><b>02</b></div><div class="game-card-copy"><span class="eyebrow">ADVENTURE</span><h3>Sky Island Quest</h3><p>Explore floating islands and discover hidden rewards.</p><button class="ghost-btn" data-launch-game="island">Coming soon</button></div></article>
+          <article class="game-card"><div class="game-art game-art-arena"><span>⚡</span><b>03</b></div><div class="game-card-copy"><span class="eyebrow">TEAM PLAY</span><h3>Power Arena</h3><p>Team up with your group in a colourful challenge arena.</p><button class="ghost-btn" data-launch-game="arena">Coming soon</button></div></article>
+        </div>
+        <p class="demo-warning">These are game concepts, not playable games yet. Multiplayer needs a game client and a shared server.</p>
+      </section>
+      <section class="view" id="friendsView">
+        <div class="page-intro"><div class="eyebrow">PLAY TOGETHER</div><h1>Friends <span>Hub</span></h1><p>Add a display name to test the friend list and prepare group invites.</p></div>
+        <div class="social-layout"><div class="panel-card"><h2>Add a friend</h2><form id="addFriendForm" class="inline-form"><label class="field-label" for="friendName">Player display name</label><input id="friendName" class="field-input" placeholder="e.g. PixelRider" maxlength="24" required><button class="primary-btn" type="submit">Add friend</button></form><div class="panel-heading"><h2>Your friends</h2><span id="friendCount">Local demo</span></div><div id="friendList" class="people-list"></div></div><div class="panel-card"><h2>Player profile</h2><label class="field-label" for="playerName">Your display name</label><input id="playerName" class="field-input" maxlength="24" placeholder="Guest Player"><div id="equippedLook" class="equipped-look"></div><p class="demo-warning">Friend data currently stays in this browser. Real requests between different players need a shared backend and player accounts.</p></div></div>
+      </section>
+      <section class="view" id="inviteView">
+        <div class="page-intro"><div class="eyebrow">BRING YOUR SQUAD</div><h1>Invite <span>Friends</span></h1><p>Prepare invites to your current group. Online delivery will be enabled with the multiplayer backend.</p></div>
+        <div class="panel-card invite-panel"><div class="invite-icon">↗</div><h2>Invite your crew</h2><p>Add friends in the Friends Hub, then create or join a group to prepare invitations.</p><button class="primary-btn" data-go="friends">Manage friends</button><button class="ghost-btn" id="inviteCurrentBtn">Prepare group invites</button><div id="inviteCurrentPanel" class="current-group-panel"></div></div>
+      </section>
+      <section class="view" id="groupsView">
+        <div class="page-intro"><div class="eyebrow">SQUAD UP</div><h1>Create <span>Group</span></h1><p>Start a group, get a random five-digit code, and invite up to four other players.</p></div>
+        <div class="panel-card group-create-panel"><h2>Your squad starts here</h2><p class="muted-copy">The creator counts as player 1. Maximum group size is 5.</p><button class="primary-btn" id="createGroupBtn">＋ Create group & generate code</button><div id="groupCurrentPanel" class="current-group-panel"></div></div>
+        <p class="demo-warning">Prototype limitation: group codes and members are local to this browser, so they cannot yet connect different devices. Real online groups require a shared backend.</p>
+      </section>
+      <section class="view" id="joinGroupView">
+        <div class="page-intro"><div class="eyebrow">JOIN YOUR SQUAD</div><h1>Join <span>Group</span></h1><p>Enter the five-digit code shared by your group creator.</p></div>
+        <div class="social-layout"><div class="panel-card"><h2>Enter group code</h2><form id="joinGroupForm" class="inline-form"><label class="field-label" for="groupCodeInput">Five-digit group code</label><input id="groupCodeInput" class="field-input code-input" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="12345" required><button class="primary-btn" type="submit">Join group</button></form></div><div class="panel-card"><h2>Groups in this browser</h2><div id="groupList" class="people-list"></div><p class="demo-warning">Groups created in this browser appear here. Online joining across devices needs a backend.</p></div></div>
+      </section>
+      <section class="view" id="emotesView">
+        <div class="page-intro"><div class="eyebrow">EXPRESS YOURSELF</div><h1>Emote <span>Shop</span></h1><p>30 original BlokS emotes, from friendly gestures to legendary celebrations.</p></div>
+        <div id="emoteStage" class="emote-stage"><div class="stage-hint">Choose an emote below to preview its animation.</div></div>
+        <div class="shop-toolbar"><div class="category-tabs emote-tabs"><button class="category-tab selected" data-emote-category="all">All emotes <span>30</span></button><button class="category-tab" data-emote-category="free">Free <span>5</span></button><button class="category-tab" data-emote-category="money">Coins <span>15</span></button><button class="category-tab" data-emote-category="coins">S Coins <span>10</span></button></div><div id="emoteBalance" class="wallet-summary"></div></div>
+        <div class="emote-grid" id="emoteGrid"></div><p class="demo-warning">Emote previews use original simple effects. Full skeletal animation and synced multiplayer emotes need a 3D game client.</p>
+      </section>
+
+      <section class="view" id="inventoryView">
+        <div class="page-intro"><div class="eyebrow">YOUR COLLECTION</div><h1>My <span>Skins</span></h1><p>Skins you have unlocked in this demo will appear here.</p></div>
+        <div class="inventory-note">Your collection is saved only in this browser demo. Sign-in and cloud inventory need to be connected before launch.</div>
+        <div class="skin-grid" id="inventoryGrid"></div>
+      </section>
+
+      <section class="view" id="missionsView">
+        <div class="page-intro"><div class="eyebrow">PLAY. EARN. REPEAT.</div><h1>Daily <span>Missions</span></h1><p>Complete missions to earn normal in-game Coins for the Money skin shop.</p></div>
+        <div class="mission-grid">
+          <article class="mission-card"><div class="mission-symbol">🎮</div><div class="mission-meta">STARTER MISSION · ONCE</div><h3>Enter BlokS</h3><p>Visit the game hub and get your first reward.</p><div class="mission-reward">🟡 +150 C Coins</div><button class="primary-btn mission-btn" data-mission="visit">Claim reward</button></article>
+          <article class="mission-card"><div class="mission-symbol">✦</div><div class="mission-meta">COLLECTOR MISSION · ONCE</div><h3>Pick a style</h3><p>Unlock any free skin and make it yours.</p><div class="mission-reward">🟡 +300 C Coins</div><button class="primary-btn mission-btn" data-mission="collect">Claim reward</button></article>
+          <article class="mission-card"><div class="mission-symbol">🧭</div><div class="mission-meta">EXPLORER MISSION · DEMO</div><h3>Explore the shop</h3><p>Check out all four skin sections.</p><div class="mission-reward">🟡 +250 C Coins</div><button class="primary-btn mission-btn" data-mission="explore">Claim reward</button></article>
+        </div>
+        <p class="demo-warning">Demo balances are stored in this browser and are not secure or transferable. Do not sell these demo balances as real currency.</p>
+      </section>
+
+      <footer class="footer"><span>© 2026 BlokS · Play your world.</span><span>Original concept · Built for mobile + PC</span></footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="skinDialog" class="skin-dialog"><button class="dialog-close" id="dialogClose" aria-label="Close">×</button><div id="dialogContent"></div></dialog>
+  <dialog id="signInDialog" class="skin-dialog sign-dialog">
+    <button class="dialog-close" id="signClose" aria-label="Close">×</button>
+    <div class="dialog-icon">B</div><h2>Welcome to BlokS</h2>
+    <p>Use your Google account to sign in. Google sign-in becomes active after you add your own Firebase web configuration.</p>
+    <button class="primary-btn full-btn" id="googleSignInBtn">◎ Continue with Google</button>
+    <button class="ghost-btn full-btn" id="demoSignIn">Continue as demo guest</button>
+    <p id="authMessage" class="auth-message" role="status">Google setup required before sign-in can work.</p>
+    <div id="signedInProfile" class="signed-in-profile" hidden></div>
+    <button class="ghost-btn full-btn" id="signOutBtn" hidden>Sign out</button>
+    <small>BlokS never asks you to type your Google password into this website. Google handles sign-in.</small>
+  </dialog>
+  <script src="app.js"></script>
+  <script type="module" src="firebase-auth.js"></script>
+</body>
+</html>
