@@ -816,3 +816,668 @@ if ($("playerName")) {
 }
 
 render();
+
+
+/* ==========================================================
+   BLOKS UPGRADE PACK
+   Adds: daily rewards, XP/levels, rarity effects, chat demo,
+   room UI, body emotes, sound, music and mobile controls.
+   Append to the END of your existing app.js.
+   ========================================================== */
+(() => {
+  "use strict";
+
+  const KEY = "bloks_upgrade_v1";
+  const load = () => {
+    try {
+      return JSON.parse(localStorage.getItem(KEY)) || {};
+    } catch {
+      return {};
+    }
+  };
+
+  const saved = load();
+  const upgrade = {
+    xp: Number(saved.xp || 0),
+    level: Number(saved.level || 1),
+    lastDaily: saved.lastDaily || "",
+    streak: Number(saved.streak || 0),
+    messages: Array.isArray(saved.messages) ? saved.messages : [],
+    sound: saved.sound !== false,
+    music: saved.music === true,
+    roomCode: saved.roomCode || "",
+    mobileMode: saved.mobileMode === true
+  };
+
+  const save = () => {
+    localStorage.setItem(KEY, JSON.stringify(upgrade));
+  };
+
+  const safe = (value) => String(value).replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[c]);
+
+  const playerName = () => {
+    const input = document.getElementById("playerName");
+    return (input?.value || localStorage.getItem("bloks_player_name") || "Guest Player")
+      .trim().slice(0, 24) || "Guest Player";
+  };
+
+  const notify = (message) => {
+    if (typeof showToast === "function") showToast(message);
+    else alert(message);
+  };
+
+  /* ---------- Visual effects and responsive layout ---------- */
+
+  const style = document.createElement("style");
+  style.id = "bloks-upgrade-styles";
+  style.textContent = `
+    .bu-panel {
+      margin: 22px auto;
+      padding: clamp(14px, 3vw, 24px);
+      width: min(1100px, calc(100% - 24px));
+      box-sizing: border-box;
+      color: var(--text, #f7f7ff);
+      background: var(--panel, #17182a);
+      border: 1px solid rgba(170,155,255,.22);
+      border-radius: 22px;
+      box-shadow: 0 15px 45px rgba(0,0,0,.18);
+    }
+    .bu-panel h2 { margin: 0 0 8px; }
+    .bu-muted { opacity: .72; font-size: 13px; }
+    .bu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(min(100%,220px),1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .bu-card {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid rgba(170,155,255,.2);
+      background: rgba(130,115,255,.07);
+      border-radius: 17px;
+    }
+    .bu-button {
+      border: 0; border-radius: 12px; padding: 11px 15px;
+      color: white; background: linear-gradient(135deg,#8066ff,#5540c7);
+      font: inherit; font-weight: 700; cursor: pointer;
+      transition: transform .15s, filter .15s;
+    }
+    .bu-button:hover { transform: translateY(-2px); filter: brightness(1.12); }
+    .bu-button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    .bu-input {
+      width: 100%; box-sizing: border-box; min-width: 0;
+      padding: 12px; border-radius: 11px;
+      color: inherit; background: rgba(0,0,0,.2);
+      border: 1px solid rgba(170,155,255,.3); font: inherit;
+    }
+    .bu-progress {
+      height: 10px; border-radius: 20px; overflow: hidden;
+      background: rgba(255,255,255,.1); margin: 12px 0;
+    }
+    .bu-progress > span {
+      display: block; height: 100%; width: 0%;
+      background: linear-gradient(90deg,#48e6c1,#9878ff);
+      transition: width .3s;
+    }
+    .bu-chat-log {
+      height: 210px; overflow-y: auto; padding: 10px;
+      background: rgba(0,0,0,.2); border-radius: 12px;
+      margin: 12px 0; overflow-wrap: anywhere;
+    }
+    .bu-message { padding: 7px 0; border-bottom: 1px solid #ffffff12; }
+    .bu-message strong { color: #b9aaff; }
+    .bu-avatar {
+      width: 100px; height: 135px; margin: 12px auto;
+      position: relative; perspective: 500px;
+      filter: drop-shadow(0 10px 12px #0005);
+    }
+    .bu-avatar .head {
+      width: 46px; height: 46px; border-radius: 35% 35% 42% 42%;
+      position: absolute; left: 27px; top: 4px;
+      background: linear-gradient(135deg,#ffe0b8,#d89a73);
+      box-shadow: inset -7px -5px 0 #0002, inset 5px 4px 0 #fff4;
+    }
+    .bu-avatar .torso {
+      width: 52px; height: 48px; position: absolute;
+      top: 52px; left: 24px; border-radius: 12px 12px 9px 9px;
+      background: linear-gradient(135deg,#a99aff,#5b49bf);
+      box-shadow: inset -9px -4px 0 #0003, inset 5px 3px 0 #fff3;
+    }
+    .bu-avatar .arm {
+      position: absolute; top: 55px; width: 15px; height: 43px;
+      border-radius: 10px; background: linear-gradient(90deg,#c58b69,#f4c5a2);
+      transform-origin: top center;
+    }
+    .bu-avatar .arm.left { left: 12px; transform: rotate(12deg); }
+    .bu-avatar .arm.right { right: 10px; transform: rotate(-12deg); }
+    .bu-avatar .leg {
+      position: absolute; top: 95px; width: 19px; height: 34px;
+      border-radius: 5px 5px 8px 8px;
+      background: linear-gradient(90deg,#36385d,#777bd0);
+      transform-origin: top center;
+    }
+    .bu-avatar .leg.left { left: 29px; }
+    .bu-avatar .leg.right { left: 51px; }
+    .bu-avatar .eye {
+      position:absolute; top:22px; left:38px; width:5px; height:5px;
+      border-radius:50%; background:#24213a;
+      box-shadow: 15px 0 #24213a;
+    }
+    .bu-avatar.rarity-rare .torso { box-shadow: 0 0 14px #55c9ff, inset -9px -4px #0003; }
+    .bu-avatar.rarity-epic .torso { box-shadow: 0 0 18px #b26aff, inset -9px -4px #0003; }
+    .bu-avatar.rarity-legendary .torso {
+      box-shadow: 0 0 22px #ffc75e, inset -9px -4px #0003;
+      animation: buGlow 1.7s ease-in-out infinite alternate;
+    }
+    .bu-avatar.rarity-mythic .torso {
+      box-shadow: 0 0 24px #ff69db, 0 0 38px #55cfff, inset -9px -4px #0003;
+      animation: buGlow 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes buGlow { to { filter: brightness(1.35); } }
+    .bu-avatar.move-wave .arm.right { animation: buWave .35s ease-in-out 5 alternate; }
+    @keyframes buWave { to { transform: rotate(-145deg); } }
+    .bu-avatar.move-dance { animation: buDance .35s ease-in-out 8 alternate; }
+    @keyframes buDance { to { transform: rotate(9deg) translateY(-5px); } }
+    .bu-avatar.move-jump { animation: buJump .45s ease-in-out 4 alternate; }
+    @keyframes buJump { to { transform: translateY(-28px) rotate(5deg); } }
+    .bu-avatar.move-laugh { animation: buLaugh .2s ease-in-out 10 alternate; }
+    @keyframes buLaugh { to { transform: rotate(-7deg) translateY(-3px); } }
+    .bu-avatar.move-flex .arm.left { animation: buFlex .4s ease-in-out 4 alternate; }
+    .bu-avatar.move-flex .arm.right { animation: buFlex2 .4s ease-in-out 4 alternate; }
+    @keyframes buFlex { to { transform: rotate(65deg); } }
+    @keyframes buFlex2 { to { transform: rotate(-65deg); } }
+    .bu-avatar.move-spin { animation: buSpin .65s ease-in-out 3; }
+    @keyframes buSpin { to { transform: rotateY(360deg); } }
+    .bu-avatar.move-cheer .arm { animation: buCheer .35s ease-in-out 5 alternate; }
+    @keyframes buCheer { to { transform: rotate(155deg); } }
+    .bu-avatar.move-clap .arm.left { animation: buClapL .25s ease-in-out 6 alternate; }
+    .bu-avatar.move-clap .arm.right { animation: buClapR .25s ease-in-out 6 alternate; }
+    @keyframes buClapL { to { transform: rotate(-48deg); } }
+    @keyframes buClapR { to { transform: rotate(48deg); } }
+    .bu-avatar.move-sneak .leg.left { animation: buStep .3s ease-in-out 6 alternate; }
+    .bu-avatar.move-sneak .leg.right { animation: buStep2 .3s ease-in-out 6 alternate; }
+    @keyframes buStep { to { transform: rotate(-28deg) translateY(-5px); } }
+    @keyframes buStep2 { to { transform: rotate(28deg) translateY(-5px); } }
+    .bu-controls {
+      position: fixed; z-index: 9998; bottom: 16px; right: 14px;
+      display: none; gap: 8px; align-items: center;
+      padding: 10px; border-radius: 20px;
+      background: #151526eF; border: 1px solid #a99aff55;
+      box-shadow: 0 8px 30px #0005;
+    }
+    .bu-controls button {
+      border: 0; border-radius: 50%; width: 48px; height: 48px;
+      color: white; background: #6550d9; font-size: 20px;
+      touch-action: manipulation;
+    }
+    body.bu-mobile-mode .bu-controls { display: flex; }
+    body.bu-mobile-mode { padding-bottom: 85px; }
+    @media(max-width:600px) {
+      .bu-panel { width: calc(100% - 16px); padding: 14px; }
+      .bu-button { min-height: 42px; }
+      .bu-chat-log { height: 170px; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  /* ---------- Inject the upgrade dashboard ---------- */
+
+  const panel = document.createElement("section");
+  panel.className = "bu-panel";
+  panel.id = "bloksUpgradePanel";
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+      <div>
+        <div class="bu-muted">BLOKS PLAYER HUB</div>
+        <h2>⚡ Player upgrades</h2>
+        <div class="bu-muted">Rewards · Levels · Emotes · Rooms · Chat</div>
+      </div>
+      <button class="bu-button" id="buMobileToggle">📱 Mobile controls</button>
+    </div>
+
+    <div class="bu-grid">
+      <article class="bu-card">
+        <h3>🏆 Level & XP</h3>
+        <div id="buLevelLabel">Level 1</div>
+        <div class="bu-progress"><span id="buXpBar"></span></div>
+        <div class="bu-muted" id="buXpLabel">0 XP</div>
+        <button class="bu-button" id="buEarnXp">Earn 25 XP</button>
+      </article>
+      <article class="bu-card">
+        <h3>🎁 Daily reward</h3>
+        <p class="bu-muted" id="buDailyInfo">Claim your daily reward.</p>
+        <button class="bu-button" id="buClaimDaily">Claim daily reward</button>
+      </article>
+      <article class="bu-card">
+        <h3>🔊 Audio settings</h3>
+        <p class="bu-muted">Toggle interface sound effects and music.</p>
+        <button class="bu-button" id="buSoundToggle">Sound: ON</button>
+        <button class="bu-button" id="buMusicToggle" style="margin-top:8px">Music: OFF</button>
+      </article>
+      <article class="bu-card">
+        <h3>🌐 Multiplayer room</h3>
+        <p class="bu-muted">Create a five-digit room code for your group.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="bu-button" id="buCreateRoom">Create room</button>
+          <button class="bu-button" id="buCopyRoom">Copy code</button>
+        </div>
+        <p id="buRoomLabel">No room created</p>
+        <div style="display:flex;gap:8px">
+          <input class="bu-input" id="buJoinCode" inputmode="numeric" maxlength="5" placeholder="5-digit code">
+          <button class="bu-button" id="buJoinRoom">Join</button>
+        </div>
+        <p class="bu-muted">Demo only: rooms are not shared across devices until a backend is connected.</p>
+      </article>
+      <article class="bu-card">
+        <h3>💬 Friends chat demo</h3>
+        <p class="bu-muted">Messages are stored in this browser only.</p>
+        <div class="bu-chat-log" id="buChatLog"></div>
+        <form id="buChatForm" style="display:flex;gap:8px">
+          <input class="bu-input" id="buChatInput" maxlength="240" placeholder="Write a message..." required>
+          <button class="bu-button" type="submit">Send</button>
+        </form>
+      </article>
+      <article class="bu-card">
+        <h3>🕺 Body emote studio</h3>
+        <p class="bu-muted">Choose a movement to animate your character.</p>
+        <div id="buAvatar" class="bu-avatar rarity-rare">
+          <div class="head"></div><div class="eye"></div><div class="torso"></div>
+          <div class="arm left"></div><div class="arm right"></div>
+          <div class="leg left"></div><div class="leg right"></div>
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button class="bu-button" data-bu-emote="wave">👋 Wave</button>
+          <button class="bu-button" data-bu-emote="dance">💃 Dance</button>
+          <button class="bu-button" data-bu-emote="jump">⬆️ Jump</button>
+          <button class="bu-button" data-bu-emote="laugh">😂 Laugh</button>
+          <button class="bu-button" data-bu-emote="flex">💪 Flex</button>
+          <button class="bu-button" data-bu-emote="spin">🌀 Spin</button>
+          <button class="bu-button" data-bu-emote="cheer">🎉 Cheer</button>
+          <button class="bu-button" data-bu-emote="clap">👏 Clap</button>
+          <button class="bu-button" data-bu-emote="sneak">🥷 Sneak</button>
+        </div>
+      </article>
+    </div>
+  `;
+
+  const anchor = document.querySelector("main") ||
+    document.querySelector("#app") ||
+    document.querySelector(".main-content") ||
+    document.body;
+  anchor.appendChild(panel);
+
+  /* ---------- XP and level progression ---------- */
+
+  const xpNeeded = level => 100 + (Math.max(1, level) - 1) * 50;
+
+  function addXP(amount) {
+    upgrade.xp += Math.max(0, Number(amount) || 0);
+    let levelUps = 0;
+
+    while (upgrade.xp >= xpNeeded(upgrade.level)) {
+      upgrade.xp -= xpNeeded(upgrade.level);
+      upgrade.level++;
+      levelUps++;
+    }
+
+    save();
+    renderXP();
+
+    if (levelUps) {
+      notify(`Level up! You are now Level ${upgrade.level}.`);
+      playTone(740, 0.16);
+      setTimeout(() => playTone(980, 0.2), 140);
+    } else {
+      playTone(520, 0.07);
+    }
+  }
+
+  function renderXP() {
+    const needed = xpNeeded(upgrade.level);
+    document.getElementById("buLevelLabel").textContent =
+      `Level ${upgrade.level}`;
+    document.getElementById("buXpLabel").textContent =
+      `${upgrade.xp} / ${needed} XP to next level`;
+    document.getElementById("buXpBar").style.width =
+      `${Math.min(100, upgrade.xp / needed * 100)}%`;
+  }
+
+  document.getElementById("buEarnXp").addEventListener("click", () => {
+    addXP(25);
+    notify("+25 XP earned!");
+  });
+
+  /* ---------- Daily rewards ---------- */
+
+  function todayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  }
+
+  function yesterdayKey() {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  }
+
+  function renderDaily() {
+    const claimed = upgrade.lastDaily === todayKey();
+    document.getElementById("buClaimDaily").disabled = claimed;
+    document.getElementById("buClaimDaily").textContent =
+      claimed ? "Reward claimed today ✓" : "Claim daily reward";
+    document.getElementById("buDailyInfo").textContent =
+      claimed
+        ? `Come back tomorrow. Current streak: ${upgrade.streak} day(s).`
+        : `Claim 250 C Coins and 30 XP. Streak: ${upgrade.streak} day(s).`;
+  }
+
+  document.getElementById("buClaimDaily").addEventListener("click", () => {
+    if (upgrade.lastDaily === todayKey()) {
+      notify("You have already claimed today's reward.");
+      return;
+    }
+
+    upgrade.streak = upgrade.lastDaily === yesterdayKey()
+      ? upgrade.streak + 1
+      : 1;
+    upgrade.lastDaily = todayKey();
+
+    /* Existing app.js uses state.money for C Coins. */
+    if (typeof state !== "undefined" && Number.isFinite(state.money)) {
+      state.money += 250;
+      if (typeof persist === "function") persist();
+      if (typeof render === "function") render();
+    } else {
+      const oldBalance = Number(localStorage.getItem("bloks_demo_money") || 5000);
+      localStorage.setItem("bloks_demo_money", String(oldBalance + 250));
+    }
+
+    addXP(30);
+    save();
+    renderDaily();
+    notify("Daily reward claimed: 250 C Coins + 30 XP!");
+  });
+
+  /* ---------- Rarity effects on existing skin previews ---------- */
+
+  function rarityClass(rarity) {
+    const r = String(rarity || "").toLowerCase();
+    if (r.includes("mythic") || r.includes("ultra")) return "rarity-mythic";
+    if (r.includes("legendary")) return "rarity-legendary";
+    if (r.includes("epic")) return "rarity-epic";
+    if (r.includes("rare")) return "rarity-rare";
+    return "";
+  }
+
+  function decorateSkinCards() {
+    if (typeof SKINS === "undefined") return;
+    document.querySelectorAll("[data-details]").forEach(button => {
+      const skin = SKINS.find(s => s.id === button.dataset.details);
+      if (!skin) return;
+      const cls = rarityClass(skin.rarity);
+      if (cls) button.classList.add("bu-" + cls);
+      button.style.setProperty("--bu-rarity", skin.glow || "#8b7cff");
+      button.title = `${skin.name} · ${skin.rarity}`;
+    });
+  }
+
+  style.textContent += `
+    .bu-rarity-rarity-rare { box-shadow: 0 0 12px #55c9ff66; }
+    .bu-rarity-rarity-epic { box-shadow: 0 0 14px #b26aff77; }
+    .bu-rarity-rarity-legendary { box-shadow: 0 0 17px #ffc75e88; }
+    .bu-rarity-rarity-mythic { box-shadow: 0 0 20px #ff69db99, 0 0 30px #55cfff66; }
+    [data-details].bu-rarity-rarity-legendary,
+    [data-details].bu-rarity-rarity-mythic { animation: buGlow 1.8s ease-in-out infinite alternate; }
+  `;
+
+  /* ---------- Friends chat (local demo) ---------- */
+
+  function renderChat() {
+    const log = document.getElementById("buChatLog");
+    log.innerHTML = upgrade.messages.map(message => `
+      <div class="bu-message">
+        <strong>${safe(message.name)}</strong>
+        <span class="bu-muted"> · ${safe(message.time)}</span><br>
+        ${safe(message.text)}
+      </div>
+    `).join("") || '<p class="bu-muted">No messages yet. Say hello!</p>';
+    log.scrollTop = log.scrollHeight;
+  }
+
+  document.getElementById("buChatForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const input = document.getElementById("buChatInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    upgrade.messages.push({
+      name: playerName(),
+      text: text.slice(0, 240),
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    });
+
+    upgrade.messages = upgrade.messages.slice(-100);
+    input.value = "";
+    save();
+    renderChat();
+    playTone(640, 0.06);
+  });
+
+  /* ---------- Room code helper ---------- */
+
+  function renderRoom() {
+    document.getElementById("buRoomLabel").textContent =
+      upgrade.roomCode ? `Your room code: ${upgrade.roomCode}` : "No room created";
+  }
+
+  document.getElementById("buCreateRoom").addEventListener("click", () => {
+    upgrade.roomCode = String(Math.floor(10000 + Math.random() * 90000));
+    save();
+    renderRoom();
+    notify(`Room created: ${upgrade.roomCode}. Share the code with friends.`);
+  });
+
+  document.getElementById("buCopyRoom").addEventListener("click", async () => {
+    if (!upgrade.roomCode) {
+      notify("Create a room first.");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(upgrade.roomCode);
+      notify("Room code copied!");
+    } catch {
+      notify(`Room code: ${upgrade.roomCode}`);
+    }
+  });
+
+  document.getElementById("buJoinRoom").addEventListener("click", () => {
+    const code = document.getElementById("buJoinCode").value.trim();
+    if (!/^\d{5}$/.test(code)) {
+      notify("Enter a valid five-digit code.");
+      return;
+    }
+
+    if (typeof joinGroup === "function") {
+      joinGroup(code);
+      return;
+    }
+
+    notify(`You entered room code ${code}. Online joining requires a shared backend.`);
+  });
+
+  /* ---------- Sound effects and optional generated music ---------- */
+
+  let audioContext = null;
+  let musicTimer = null;
+  let musicStep = 0;
+
+  function playTone(frequency = 520, duration = 0.08) {
+    if (!upgrade.sound) return;
+
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      audioContext = audioContext || new AudioCtx();
+      if (audioContext.state === "suspended") audioContext.resume();
+
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration + 0.02);
+    } catch (error) {
+      console.warn("BlokS audio unavailable:", error);
+    }
+  }
+
+  function startMusic() {
+    stopMusic();
+    if (!upgrade.music) return;
+    const notes = [392, 494, 587, 494, 440, 523, 659, 523];
+    musicTimer = window.setInterval(() => {
+      if (upgrade.music) {
+        const frequency = notes[musicStep++ % notes.length];
+        playMusicNote(frequency);
+      }
+    }, 360);
+  }
+
+  function playMusicNote(frequency) {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      audioContext = audioContext || new AudioCtx();
+      if (audioContext.state === "suspended") audioContext.resume();
+
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.type = "triangle";
+      osc.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.025, audioContext.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.24);
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.25);
+    } catch {}
+  }
+
+  function stopMusic() {
+    if (musicTimer) window.clearInterval(musicTimer);
+    musicTimer = null;
+  }
+
+  document.getElementById("buSoundToggle").addEventListener("click", () => {
+    upgrade.sound = !upgrade.sound;
+    document.getElementById("buSoundToggle").textContent =
+      `Sound: ${upgrade.sound ? "ON" : "OFF"}`;
+    save();
+    if (upgrade.sound) playTone(700, 0.1);
+  });
+
+  document.getElementById("buMusicToggle").addEventListener("click", () => {
+    upgrade.music = !upgrade.music;
+    document.getElementById("buMusicToggle").textContent =
+      `Music: ${upgrade.music ? "ON" : "OFF"}`;
+    save();
+    if (upgrade.music) startMusic();
+    else stopMusic();
+  });
+
+  /* ---------- Animated body emotes ---------- */
+
+  document.querySelectorAll("[data-bu-emote]").forEach(button => {
+    button.addEventListener("click", () => {
+      const avatar = document.getElementById("buAvatar");
+      const emote = button.dataset.buEmote;
+      avatar.className = `bu-avatar rarity-rare move-${emote}`;
+      playTone(480 + Math.random() * 350, 0.09);
+      window.setTimeout(() => {
+        avatar.className = "bu-avatar rarity-rare";
+      }, 3200);
+      addXP(2);
+    });
+  });
+
+  /* ---------- Mobile controls ---------- */
+
+  const controls = document.createElement("div");
+  controls.className = "bu-controls";
+  controls.innerHTML = `
+    <button type="button" data-bu-control="left" aria-label="Move left">◀</button>
+    <button type="button" data-bu-control="jump" aria-label="Jump">⬆</button>
+    <button type="button" data-bu-control="right" aria-label="Move right">▶</button>
+    <button type="button" data-bu-control="emote" aria-label="Play emote">🕺</button>
+  `;
+  document.body.appendChild(controls);
+
+  document.getElementById("buMobileToggle").addEventListener("click", () => {
+    upgrade.mobileMode = !upgrade.mobileMode;
+    document.body.classList.toggle("bu-mobile-mode", upgrade.mobileMode);
+    document.getElementById("buMobileToggle").textContent =
+      upgrade.mobileMode ? "📱 Hide mobile controls" : "📱 Mobile controls";
+    save();
+  });
+
+  controls.addEventListener("click", event => {
+    const button = event.target.closest("[data-bu-control]");
+    if (!button) return;
+    const action = button.dataset.buControl;
+
+    if (action === "jump") {
+      document.getElementById("buAvatar").className = "bu-avatar move-jump";
+    } else if (action === "emote") {
+      document.getElementById("buAvatar").className = "bu-avatar move-dance";
+    } else {
+      document.getElementById("buAvatar").style.transform =
+        action === "left" ? "translateX(-12px)" : "translateX(12px)";
+      window.setTimeout(() => {
+        document.getElementById("buAvatar").style.transform = "";
+      }, 220);
+    }
+
+    playTone(520, 0.07);
+  });
+
+  /* ---------- Connect existing BlokS actions to XP ---------- */
+
+  document.addEventListener("click", event => {
+    if (event.target.closest("[data-action]")) addXP(5);
+    if (event.target.closest("[data-emote-action]")) addXP(3);
+    if (event.target.closest("[data-launch-game]")) addXP(10);
+  });
+
+  /* ---------- Keep upgrade visuals refreshed ---------- */
+
+  const observer = new MutationObserver(() => decorateSkinCards());
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  renderXP();
+  renderDaily();
+  renderChat();
+  renderRoom();
+
+  if (upgrade.mobileMode) {
+    document.body.classList.add("bu-mobile-mode");
+    document.getElementById("buMobileToggle").textContent = "📱 Hide mobile controls";
+  }
+
+  document.getElementById("buSoundToggle").textContent =
+    `Sound: ${upgrade.sound ? "ON" : "OFF"}`;
+  document.getElementById("buMusicToggle").textContent =
+    `Music: ${upgrade.music ? "ON" : "OFF"}`;
+
+  decorateSkinCards();
+  console.log("BlokS upgrade pack loaded.");
+})();
