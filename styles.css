@@ -992,3 +992,101 @@ button:disabled { cursor: not-allowed; opacity: .55; }
     animation: none;
   }
 }
+
+/* ==================================
+   BLOKS SIGNATURE S + R CHEST LOGO
+================================== */
+
+.skin-torso {
+  position: relative;
+  overflow: visible;
+}
+
+.figure-mark {
+  position: absolute;
+  z-index: 8;
+  top: 20%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  transform: translateX(-50%) rotate(-7deg);
+  font-family: Arial, sans-serif;
+  font-weight: 1000;
+  font-style: italic;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.figure-logo-s {
+  color: #fff;
+  font-size: 25px;
+  -webkit-text-stroke: 1px #e9b7ff;
+  text-shadow:
+    0 0 3px #fff,
+    0 0 7px #d500ff,
+    0 0 15px #a100ff,
+    0 0 25px #7100ff;
+  animation: bloksSGlow 1.8s ease-in-out infinite alternate;
+}
+
+.figure-logo-r {
+  align-self: flex-end;
+  margin-bottom: -3px;
+  color: #e8b5ff;
+  font-size: 10px;
+  -webkit-text-stroke: 0.4px #fff;
+  text-shadow:
+    0 0 4px #e8b5ff,
+    0 0 9px #a100ff;
+}
+
+@keyframes bloksSGlow {
+  from {
+    filter: brightness(0.9);
+    text-shadow:
+      0 0 3px #fff,
+      0 0 7px #d500ff,
+      0 0 14px #8b00ff;
+  }
+
+  to {
+    filter: brightness(1.3);
+    text-shadow:
+      0 0 4px #fff,
+      0 0 10px #e9a5ff,
+      0 0 20px #b000ff,
+      0 0 30px #7100ff;
+  }
+}
+
+/* Purple-and-black signature look */
+.emote-preview {
+  border-color: #8b45ff;
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      rgba(139, 45, 255, 0.38),
+      transparent 65%
+    ),
+    linear-gradient(145deg, #171025, #080b18);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.emote-preview:hover {
+  border-color: #df8aff;
+  box-shadow:
+    0 0 12px rgba(153, 51, 255, 0.35),
+    inset 0 0 18px rgba(153, 51, 255, 0.12);
+}
+
+/* Respect reduced-motion accessibility settings */
+@media (prefers-reduced-motion: reduce) {
+  .figure-logo-s {
+    animation: none;
+  }
+}
