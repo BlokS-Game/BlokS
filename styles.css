@@ -1090,3 +1090,53 @@ button:disabled { cursor: not-allowed; opacity: .55; }
     animation: none;
   }
 }
+
+
+/* BLOKS FIX: SCROLLABLE SIDEBAR */
+.sidebar {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #554477 #0d0f18;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* Keep sidebar menu buttons readable */
+.nav-item {
+  flex-shrink: 0;
+}
+
+/* BLOKS FIX: SIGNATURE S + R LOGO */
+.skin-shirt-mark {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  text-shadow:
+    0 0 4px #fff,
+    0 0 9px #d500ff,
+    0 0 18px #a100ff,
+    0 0 28px #7100ff;
+  animation: bloksSGlow 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes bloksSGlow {
+  from {
+    filter: brightness(.9);
+  }
+  to {
+    filter: brightness(1.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skin-shirt-mark {
+    animation: none;
+  }
+}
