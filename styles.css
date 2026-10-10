@@ -728,3 +728,73 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   border-radius: 50%;
 }
 
+
+/* =========================================
+   BLOKS EMOTES - FIX HUGE PLAY THUMBNAILS
+========================================= */
+
+/* Keep emote artwork inside its own card */
+.emote-card .emote-preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 140px;
+  height: 140px;
+  padding: 12px;
+  overflow: hidden;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at center, #30264f 0%, #191727 65%, #11121d 100%);
+}
+
+/* Hide oversized video/play artwork if present */
+.emote-card .emote-preview video,
+.emote-card .emote-preview iframe,
+.emote-card .emote-preview img {
+  display: none !important;
+}
+
+/* Display the actual emoji preview */
+.emote-card .emote-preview > span {
+  display: block !important;
+  position: relative;
+  z-index: 2;
+  font-size: 64px;
+  line-height: 1;
+  width: auto;
+  height: auto;
+  letter-spacing: normal;
+  transform: none;
+  filter: drop-shadow(0 8px 14px rgba(155, 138, 255, 0.3));
+}
+
+/* Prevent card text from being oversized */
+.emote-card .emote-copy {
+  min-width: 0;
+  padding: 12px;
+}
+
+.emote-card .emote-copy h3 {
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.emote-card .emote-copy p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Keep price and action button aligned */
+.emote-card .emote-buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.emote-card .emote-buy button {
+  flex-shrink: 0;
+}
