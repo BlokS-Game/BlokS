@@ -1169,10 +1169,10 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   border-radius: 10px;
 }
 
-
-/* BlokS update: Play Games and owned-emote picker */
-#gamesView .mission-grid, #missionsView .mission-grid { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
-.owned-emote-picker { display:flex; flex-wrap:wrap; gap:10px; margin: 0 0 24px; }
-.owned-emote-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:88px; padding:12px; border:1px solid #34304d; border-radius:12px; background:#141522; color:#f4f2ff; cursor:pointer; }
-.owned-emote-btn span { font-size:28px; }
-.owned-emote-btn small { color:#a3abc0; font-size:11px; }
+/* BlokS update: local demo lobby controls */
+.lobby-chat-messages{display:flex;flex-direction:column;gap:10px;max-height:260px;overflow:auto;padding:14px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:14px;margin:12px 0;background:rgba(0,0,0,.12)}
+.lobby-chat-line{display:flex;gap:10px;align-items:flex-start;overflow-wrap:anywhere}
+.lobby-chat-line strong{color:var(--accent,#b6a2ff);min-width:90px}
+.lobby-emote-picker{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.lobby-emote-picker .emote-preview{width:48px;height:48px;border-radius:12px;border:1px solid var(--line,rgba(255,255,255,.14));background:rgba(255,255,255,.06);font-size:24px;cursor:pointer}
+#lobbyTools{margin-top:24px}

@@ -247,6 +247,7 @@ function go(view){
 
   document.body.classList.remove('mobile-menu-open');
 
+  if(view==='playgames'){}
   if(view==='skins'){
     state.activeCategory='all';
     state.search='';
@@ -338,11 +339,6 @@ function openDetails(id){
 }
 
 function renderEmotes(){
-  const ownedPicker=$('ownedEmotePicker');
-  if(ownedPicker){
-    const ownedList=EMOTES.filter(e=>state.ownedEmotes.includes(e.id));
-    ownedPicker.innerHTML=ownedList.length?ownedList.map(e=>`<button class="owned-emote-btn" type="button" data-preview-emote="${e.id}" title="Use ${escapeHTML(e.name)}"><span>${e.emoji}</span><small>${escapeHTML(e.name)}</small></button>`).join(''):'<p class="muted-copy">Unlock an emote below to add it here.</p>';
-  }
   const grid=$('emoteGrid');
   if(!grid)return;
 
@@ -552,7 +548,9 @@ function createGroup(){
   state.currentGroup=code;
   persist();
   renderGroups();
-  toast(`Group created! Code: ${code}`);
+  if($('lobbyTools'))$('lobbyTools').scrollIntoView({behavior:'smooth',block:'start'});
+  renderLobbyTools();
+  toast(`Test lobby created! Code: ${code}`);
 }
 
 function joinGroup(code){
@@ -580,14 +578,32 @@ function joinGroup(code){
   state.currentGroup=code;
   persist();
   renderGroups();
-  toast(`Joined group ${code}.`);
+  if($('lobbyTools'))$('lobbyTools').scrollIntoView({behavior:'smooth',block:'start'});
+  renderLobbyTools();
+  toast(`Joined demo lobby ${code}.`);
 }
 
 function claimMission(id,btn){
-  if(state.claimed.includes(id)){ toast('You already claimed this reward.'); return; }
-  const rewards={mission1:100,mission2:100,mission3:250,mission4:400,mission5:600,mission6:1000,mission7:200,mission8:500,mission9:100,mission10:400,mission11:800};
-  if(!Object.prototype.hasOwnProperty.call(rewards,id)){ toast('Mission not found.'); return; }
-  toast('Mission progress cannot be verified yet. Connect real gameplay and account tracking before rewards can be claimed.');
+  if(state.claimed.includes(id)){
+    toast('You already claimed this reward.');
+    return;
+  }
+
+  if(id==='collect'&&!state.owned.some(sid=>SKINS.find(s=>s.id===sid)?.category==='free')){
+    toast('Unlock a free skin first.');
+    return;
+  }
+
+  const rewards={time2:100,games10:100,games25:250,games40:400,games60:600,games100:1000,skins15:200,skins30:500,friends5:100,friends22:400,friends40:800};
+  const requirements={skins15:()=>state.owned.length>=15,skins30:()=>state.owned.length>=30,friends5:()=>state.friends.length>=5,friends22:()=>state.friends.length>=22,friends40:()=>state.friends.length>=40};
+  if(requirements[id]&&!requirements[id]()){toast('Complete the goal first.');return;}
+  if(['time2','games10','games25','games40','games60','games100'].includes(id)){toast('This gameplay goal cannot be verified until real game tracking is connected.');return;}
+  if(!rewards[id]){toast('Unknown mission.');return;}
+  state.claimed.push(id);
+  state.money+=rewards[id]||0;
+  persist();
+  render();
+  toast(`You earned ${fmt(rewards[id])} C Coins!`);
 }
 
 function syncMissions(){
@@ -599,7 +615,30 @@ function syncMissions(){
   });
 }
 
+function renderLobbyTools(){
+  const picker=$('lobbyEmotePicker');
+  if(picker){
+    picker.innerHTML=EMOTES.filter(e=>state.ownedEmotes.includes(e.id)).map(e=>`<button type="button" class="emote-preview" data-lobby-emote="${e.id}" title="${escapeHTML(e.name)}">${e.emoji}</button>`).join('') || '<p class="muted-copy">Unlock an emote in Emote Studio first.</p>';
+  }
+  const messages=readJSON('bloks_lobby_chat_demo',[]);
+  const chat=$('lobbyChatMessages');
+  if(chat)chat.innerHTML=messages.length?messages.map(m=>`<div class="lobby-chat-line"><strong>${escapeHTML(m.name)}</strong><span>${escapeHTML(m.text)}</span></div>`).join(''):'<p class="muted-copy">No messages yet. Say hello to your squad!</p>';
+}
+renderLobbyTools();
+if($('lobbyChatForm'))$('lobbyChatForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!currentGroup()){toast('Create or join a group before chatting.');return;}
+  const input=$('lobbyChatInput');const text=input.value.trim();if(!text)return;
+  const messages=readJSON('bloks_lobby_chat_demo',[]);messages.push({name:state.player,text,at:Date.now()});
+  localStorage.setItem('bloks_lobby_chat_demo',JSON.stringify(messages.slice(-100)));input.value='';renderLobbyTools();toast('Message added to this browser’s demo lobby.');
+});
+
 document.addEventListener('click',e=>{
+  const em=e.target.closest('[data-lobby-emote]');
+  if(em){const item=EMOTES.find(x=>x.id===em.dataset.lobbyEmote);if(item&&$('lobbyEmoteNotice'))$('lobbyEmoteNotice').textContent=`${state.player} displayed ${item.emoji} ${item.name}`;return;}
+  const game=e.target.closest('[data-demo-game]');
+  if(game){toast(`${game.dataset.demoGame} is a concept preview; gameplay is not built yet.`);return;}
+
   const nav=e.target.closest('[data-view]');
   if(nav){
     go(nav.dataset.view);
@@ -738,7 +777,7 @@ if($('addFriendForm')){
     persist();
     $('friendName').value='';
     renderFriends();
-    toast(`${name} added to your local friends list.`);
+    toast(`${name} added to your local demo list. Registered-user verification needs the online backend.`);
   });
 }
 
