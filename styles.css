@@ -1160,3 +1160,11 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   margin-top: auto;
   flex-shrink: 0;
 }
+.profile-mini {
+  cursor: pointer;
+}
+
+.profile-mini:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
