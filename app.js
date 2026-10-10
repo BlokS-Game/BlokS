@@ -33,8 +33,22 @@ const EMOTES = [
   {id:'legend',name:'Legend Pose',emoji:'🏆',category:'coins',price:22000,description:'Celebrate like a champion.'}
 ];
 
-const STORAGE = {money:'bloks_demo_money',scoins:'bloks_demo_scoins',owned:'bloks_demo_owned_v2',missions:'bloks_demo_missions_v2',emotes:'bloks_demo_emotes',friends:'bloks_demo_friends',groups:'bloks_demo_groups',player:'bloks_demo_player'};
-
+const STORAGE = {
+  money: 'bloks_demo_money',
+  scoins: 'bloks_demo_scoins',
+  owned: 'bloks_demo_owned_v2',
+  missions: 'bloks_demo_missions_v2',
+  emotes: 'bloks_demo_emotes',
+  friends: 'bloks_demo_friends',
+  groups: 'bloks_demo_groups',
+  player: 'bloks_demo_player',
+  gender: 'bloks_demo_profile_gender',
+  country: 'bloks_demo_profile_country',
+  language: 'bloks_demo_profile_language',
+  accent: 'bloks_demo_profile_accent',
+  bio: 'bloks_demo_profile_bio',
+  showCountry: 'bloks_demo_profile_show_country'
+};
 function readJSON(key,fallback){
   try {
     const v=localStorage.getItem(key);
@@ -44,21 +58,26 @@ function readJSON(key,fallback){
   }
 }
 
-const state={
-  money:Number(localStorage.getItem(STORAGE.money) ?? 5000),
-  scoins:Number(localStorage.getItem(STORAGE.scoins) ?? 0),
-  owned:readJSON(STORAGE.owned,['classic']),
-  activeCategory:'all',
-  search:'',
-  claimed:readJSON(STORAGE.missions,[]),
-  ownedEmotes:readJSON(STORAGE.emotes,['wave','handshake','thumbs','peace','handsup']),
-  activeEmoteCategory:'all',
-  friends:readJSON(STORAGE.friends,[]),
-  groups:readJSON(STORAGE.groups,[]),
-  currentGroup:null,
-  player:localStorage.getItem(STORAGE.player)||'Guest Player'
+const state = {
+  money: Number(localStorage.getItem(STORAGE.money) ?? 5000),
+  scoins: Number(localStorage.getItem(STORAGE.scoins) ?? 0),
+  owned: readJSON(STORAGE.owned, ['classic']),
+  activeCategory: 'all',
+  search: '',
+  claimed: readJSON(STORAGE.missions, []),
+  ownedEmotes: readJSON(STORAGE.emotes, ['wave', 'handshake', 'thumbs', 'peace', 'handsup']),
+  activeEmoteCategory: 'all',
+  friends: readJSON(STORAGE.friends, []),
+  groups: readJSON(STORAGE.groups, []),
+  currentGroup: null,
+  player: localStorage.getItem(STORAGE.player) || 'Guest Player',
+  profileGender: localStorage.getItem(STORAGE.gender) || '',
+  profileCountry: localStorage.getItem(STORAGE.country) || '',
+  profileLanguage: localStorage.getItem(STORAGE.language) || '',
+  profileAccent: localStorage.getItem(STORAGE.accent) || '#7860df',
+  profileBio: localStorage.getItem(STORAGE.bio) || '',
+  profileShowCountry: localStorage.getItem(STORAGE.showCountry) !== 'false'
 };
-
 const $=id=>document.getElementById(id);
 const fmt=n=>Number(n).toLocaleString('en-IN');
 const categoryName=c=>({free:'FREE',money:'C COINS',coins:'S COINS',premium:'EXCLUSIVE'}[c]||c.toUpperCase());
@@ -72,6 +91,12 @@ function persist(){
   localStorage.setItem(STORAGE.friends,JSON.stringify(state.friends));
   localStorage.setItem(STORAGE.groups,JSON.stringify(state.groups));
   localStorage.setItem(STORAGE.player,state.player);
+  localStorage.setItem(STORAGE.gender, state.profileGender);
+  localStorage.setItem(STORAGE.country, state.profileCountry);
+  localStorage.setItem(STORAGE.language, state.profileLanguage);
+  localStorage.setItem(STORAGE.accent, state.profileAccent);
+  localStorage.setItem(STORAGE.bio, state.profileBio);
+  localStorage.setItem(STORAGE.showCountry, String(state.profileShowCountry));
 }
 
 function toast(msg){
@@ -419,23 +444,49 @@ function renderFriends(){
   }
 }
 
+
 function renderEquipped(){
-  const el=$('equippedLook');
-  if(!el)return;
+  const equipped = SKINS.find(s => state.owned.includes(s.id)) || SKINS[0];
 
-  const equipped=SKINS.find(s=>state.owned.includes(s.id))||SKINS[0];
+  const el = $('equippedLook');
+  if(el){
+    el.innerHTML = `
+      <div class="equipped-avatar">${figureHTML(equipped)}</div>
+      <div>
+        <strong>${escapeHTML(state.player)}</strong>
+        <small>Wearing ${escapeHTML(equipped.name)}</small>
+      </div>`;
+  }
 
-  el.innerHTML=`
-    <div class="equipped-avatar">${figureHTML(equipped)}</div>
-    <div>
-      <strong>${escapeHTML(state.player)}</strong>
-      <small>Wearing ${escapeHTML(equipped.name)}</small>
-    </div>`;
+  const sidebarName = $('sidebarPlayerName');
+  if(sidebarName) sidebarName.textContent = state.player;
 
-  if($('playerName')&&document.activeElement!==$('playerName')){
-    $('playerName').value=state.player;
+  const previewName = $('profileNamePreview');
+  if(previewName) previewName.textContent = state.player;
+
+  const previewCountry = $('profileCountryPreview');
+  if(previewCountry){
+    previewCountry.textContent =
+      state.profileShowCountry ? state.profileCountry : '';
+  }
+
+  const previewBio = $('profileBioPreview');
+  if(previewBio) previewBio.textContent = state.profileBio;
+
+  const previewCard = $('profilePreviewCard');
+  if(previewCard){
+    previewCard.style.setProperty('--profile-accent', state.profileAccent);
+  }
+
+  if($('playerName') && document.activeElement !== $('playerName')){
+    $('playerName').value = state.player;
+  }
+
+  if($('profileName') && document.activeElement !== $('profileName')){
+    $('profileName').value = state.player;
   }
 }
+
 
 function currentGroup(){
   return state.groups.find(g=>g.code===state.currentGroup)||null;
@@ -744,3 +795,63 @@ syncMissions();
   toast("🎉 Daily reward: +30 C Coins!");
 })();
 
+
+function loadProfileForm() {
+  const fields = {
+    profileName: state.player,
+    profileGender: state.profileGender,
+    profileCountry: state.profileCountry,
+    profileLanguage: state.profileLanguage,
+    profileAccent: state.profileAccent,
+    profileBio: state.profileBio
+  };
+
+  Object.entries(fields).forEach(([id, value]) => {
+    const el = $(id);
+    if (el) el.value = value || '';
+  });
+
+  const showCountry = $('profileShowCountry');
+  if (showCountry) showCountry.checked = state.profileShowCountry;
+
+  renderEquipped();
+}
+
+function saveProfileForm(event) {
+  event.preventDefault();
+
+  state.player = ($('profileName')?.value || 'Guest Player').trim().slice(0, 24) || 'Guest Player';
+  state.profileGender = $('profileGender')?.value || '';
+  state.profileCountry = $('profileCountry')?.value || '';
+  state.profileLanguage = $('profileLanguage')?.value || '';
+  state.profileAccent = $('profileAccent')?.value || '#7860df';
+  state.profileBio = ($('profileBio')?.value || '').trim().slice(0, 160);
+  state.profileShowCountry = $('profileShowCountry')
+    ? $('profileShowCountry').checked
+    : true;
+
+  persist();
+  renderEquipped();
+
+  if (typeof renderGroups === 'function') renderGroups();
+
+  toast('Profile saved successfully!');
+}
+
+const profileForm = $('profileForm');
+if (profileForm) {
+  profileForm.addEventListener('submit', saveProfileForm);
+}
+
+const profileCancel = $('profileCancel');
+if (profileCancel) {
+  profileCancel.addEventListener('click', loadProfileForm);
+}
+
+const profileMini = document.querySelector('.profile-mini');
+if (profileMini) {
+  profileMini.style.cursor = 'pointer';
+  profileMini.addEventListener('click', () => go('profile'));
+}
+
+loadProfileForm();
