@@ -1,1483 +1,722 @@
-
-const SKINS = [{"id":"classic","name":"Classic Starter","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"A clean violet starter outfit for your first adventure.","colors":["#9b8aff","#6d5ce7","#313453"],"glow":"#313453","design":0},{"id":"mint","name":"Mint Dash","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"Fresh mint panels and sporty explorer details.","colors":["#79e2c1","#3baf98","#24594f"],"glow":"#24594f","design":1},{"id":"sunny","name":"Sunny Side","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"Golden yellow layers for bright, cheerful worlds.","colors":["#ffd27c","#df9b37","#644d30"],"glow":"#644d30","design":2},{"id":"night","name":"Night Pixel","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"A midnight-blue look with crisp pixel accents.","colors":["#9ba8c9","#596783","#252b40"],"glow":"#252b40","design":3},{"id":"sprout","name":"Little Sprout","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"Leafy colours for curious nature explorers.","colors":["#a7e477","#5aaf49","#315a38"],"glow":"#315a38","design":4},{"id":"berry","name":"Berry Pop","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"Pink and plum colour blocking with playful energy.","colors":["#f5a5d1","#b84e9d","#582b65"],"glow":"#582b65","design":0},{"id":"tide","name":"Tidepool","category":"free","rarity":"Basic","price":0,"priceLabel":"FREE","description":"Ocean blue basics with a wave-inspired chest mark.","colors":["#8bdcff","#328eb0","#203d64"],"glow":"#203d64","design":1},{"id":"street","name":"Street Spark","category":"money","rarity":"Style","price":400,"priceLabel":"400 Coins","description":"Layered streetwear with bright contrast panels.","colors":["#f4c5a1","#ec6b50","#3a3156"],"glow":"#3a3156","design":1},{"id":"citrus","name":"Citrus Crew","category":"money","rarity":"Style","price":625,"priceLabel":"625 Coins","description":"Lime and forest tones with a sporty silhouette.","colors":["#e9f37c","#9bbd3e","#375344"],"glow":"#375344","design":2},{"id":"denim","name":"Denim Drift","category":"money","rarity":"Style","price":850,"priceLabel":"850 Coins","description":"A casual blue jacket look with clean stitching.","colors":["#b8c9f8","#597bb9","#273b68"],"glow":"#273b68","design":3},{"id":"rose","name":"Rose Circuit","category":"money","rarity":"Style","price":1075,"priceLabel":"1,075 Coins","description":"Rose-coloured panels and polished urban details.","colors":["#ffc1dc","#d45b9c","#55385e"],"glow":"#55385e","design":4},{"id":"desert","name":"Desert Nomad","category":"money","rarity":"Style","price":1300,"priceLabel":"1,300 Coins","description":"Warm sand colours and travel-ready layers.","colors":["#e8c08b","#b8754b","#60443b"],"glow":"#60443b","design":0},{"id":"voltage","name":"Voltage Kid","category":"money","rarity":"Style","price":1525,"priceLabel":"1,525 Coins","description":"Electric yellow details over a dark athletic base.","colors":["#f5ee70","#b6a92b","#30344e"],"glow":"#30344e","design":1},{"id":"cloud","name":"Cloudwave","category":"money","rarity":"Style","price":1750,"priceLabel":"1,750 Coins","description":"Soft cloud colours and a modern oversized jacket.","colors":["#e5e8ff","#899ce4","#454c86"],"glow":"#454c86","design":2},{"id":"racer","name":"Comet Racer","category":"money","rarity":"Style","price":1975,"priceLabel":"1,975 Coins","description":"Racing stripes and bright red trainer accents.","colors":["#ff9e91","#df4f58","#302f52"],"glow":"#302f52","design":3},{"id":"patchwork","name":"Patchwork Hero","category":"money","rarity":"Style","price":2200,"priceLabel":"2,200 Coins","description":"Colour-blocked layers inspired by handmade patches.","colors":["#e9b7ff","#a66ed5","#384f88"],"glow":"#384f88","design":4},{"id":"neon","name":"Neon Courier","category":"money","rarity":"Style","price":2425,"priceLabel":"2,425 Coins","description":"Teal piping and a messenger-ready techwear look.","colors":["#8ef5e7","#328f98","#252e52"],"glow":"#252e52","design":0},{"id":"copper","name":"Copper Fox","category":"money","rarity":"Style","price":2650,"priceLabel":"2,650 Coins","description":"Copper accents and warm brown utility pieces.","colors":["#ffc18a","#b86b46","#49354b"],"glow":"#49354b","design":1},{"id":"glacier","name":"Glacier Club","category":"money","rarity":"Style","price":2875,"priceLabel":"2,875 Coins","description":"Cool blue panels with a frosty sporty finish.","colors":["#d6f7ff","#76bad9","#3c5386"],"glow":"#3c5386","design":2},{"id":"lilac","name":"Lilac Tempo","category":"money","rarity":"Style","price":3100,"priceLabel":"3,100 Coins","description":"Lilac and indigo layers with a rhythm-inspired badge.","colors":["#e4baff","#9874cf","#3d3b6e"],"glow":"#3d3b6e","design":3},{"id":"jungle","name":"Jungle Beat","category":"money","rarity":"Style","price":3325,"priceLabel":"3,325 Coins","description":"Leaf green utility styling with rugged boots.","colors":["#b7e27a","#4c9758","#293e46"],"glow":"#293e46","design":4},{"id":"starlight","name":"Starlight Prep","category":"money","rarity":"Style","price":3550,"priceLabel":"3,550 Coins","description":"A polished navy-and-gold academy-inspired outfit.","colors":["#fff0b3","#d7ad4b","#3e4a79"],"glow":"#3e4a79","design":0},{"id":"pixel","name":"Pixel Pilot","category":"money","rarity":"Style","price":3775,"priceLabel":"3,775 Coins","description":"A pilot jacket look with graphic shoulder panels.","colors":["#a9c7ff","#4c70bd","#30354f"],"glow":"#30354f","design":1},{"id":"candy","name":"Candy Static","category":"money","rarity":"Style","price":4000,"priceLabel":"4,000 Coins","description":"Sweet pink and violet colours with playful shapes.","colors":["#ffb5f1","#c35ab7","#55417f"],"glow":"#55417f","design":2},{"id":"storm","name":"Storm Runner","category":"money","rarity":"Style","price":4225,"priceLabel":"4,225 Coins","description":"Layered slate panels made for moody weather worlds.","colors":["#aab8d3","#526b91","#252b40"],"glow":"#252b40","design":3},{"id":"ember","name":"Ember Street","category":"money","rarity":"Style","price":4450,"priceLabel":"4,450 Coins","description":"Charcoal streetwear warmed by ember-orange accents.","colors":["#ffb080","#e65e4b","#682d46"],"glow":"#682d46","design":4},{"id":"prism","name":"Prism Runner","category":"money","rarity":"Style","price":4675,"priceLabel":"4,675 Coins","description":"A vivid multi-tone runner outfit with reflective panels.","colors":["#f7a9ff","#8d75ee","#3b7cb3"],"glow":"#3b7cb3","design":0},{"id":"cyber","name":"Cyber Pulse","category":"coins","rarity":"Rare","price":1200,"priceLabel":"1,200 S","description":"Electric cyan armour panels and a futuristic visor.","colors":["#62e8fa","#238eae","#173f60"],"glow":"#173f60","design":2},{"id":"emberlord","name":"Ember Warden","category":"coins","rarity":"Epic","price":2200,"priceLabel":"2,200 S","description":"Volcanic plates and glowing ember seams.","colors":["#ffad73","#e65e4b","#682d46"],"glow":"#682d46","design":3},{"id":"frostline","name":"Frostline","category":"coins","rarity":"Epic","price":3000,"priceLabel":"3,000 S","description":"Icy layers with crystalline shoulder guards.","colors":["#c4f4ff","#5bb4e7","#2b477f"],"glow":"#2b477f","design":4},{"id":"void","name":"Void Monarch","category":"coins","rarity":"Legendary","price":6500,"priceLabel":"6,500 S","description":"A dark cosmic coat edged in violet light.","colors":["#d3a2ff","#7244bd","#24183f"],"glow":"#24183f","design":0},{"id":"starforge","name":"Starforge","category":"coins","rarity":"Mythic","price":12000,"priceLabel":"12,000 S","description":"Celestial armour with star-metal trim.","colors":["#fff0a6","#d8a84b","#5940a2"],"glow":"#5940a2","design":1},{"id":"thunder","name":"Thunder Circuit","category":"coins","rarity":"Epic","price":1800,"priceLabel":"1,800 S","description":"Storm-charged panels with electric gold lines.","colors":["#fff080","#8d75e8","#2a3157"],"glow":"#2a3157","design":2},{"id":"deepsea","name":"Abyss Diver","category":"coins","rarity":"Epic","price":2600,"priceLabel":"2,600 S","description":"Deep-sea armour with bioluminescent highlights.","colors":["#71f1e5","#167e91","#142e4d"],"glow":"#142e4d","design":3},{"id":"solar","name":"Solar Flare","category":"coins","rarity":"Legendary","price":5200,"priceLabel":"5,200 S","description":"Radiant sun plates and a fiery back crest.","colors":["#fff1a1","#f28b45","#9c3c55"],"glow":"#9c3c55","design":4},{"id":"moonveil","name":"Moonveil","category":"coins","rarity":"Legendary","price":4800,"priceLabel":"4,800 S","description":"Moonlit layered robes with a silver faceplate.","colors":["#e0dcff","#8a8bd5","#34345e"],"glow":"#34345e","design":0},{"id":"rune","name":"Rune Keeper","category":"coins","rarity":"Epic","price":3200,"priceLabel":"3,200 S","description":"Ancient rune markings glow across this explorer suit.","colors":["#a6f0c2","#418e77","#283f5e"],"glow":"#283f5e","design":1},{"id":"quantum","name":"Quantum Shift","category":"coins","rarity":"Mythic","price":8500,"priceLabel":"8,500 S","description":"Shifting colour panels with a quantum-core chest piece.","colors":["#a0f8ff","#6577f0","#2a2d65"],"glow":"#2a2d65","design":2},{"id":"crystal","name":"Crystal Crown","category":"coins","rarity":"Legendary","price":2800,"priceLabel":"2,800 S","description":"Faceted crystal shoulder pieces and a radiant crown.","colors":["#f9ccff","#b36ee0","#4a367d"],"glow":"#4a367d","design":3},{"id":"ironbloom","name":"Ironbloom","category":"coins","rarity":"Epic","price":6200,"priceLabel":"6,200 S","description":"Forged metal details meet botanical shapes.","colors":["#e8c0a4","#a86d54","#3d4b48"],"glow":"#3d4b48","design":4},{"id":"phantom","name":"Phantom Dash","category":"coins","rarity":"Legendary","price":3900,"priceLabel":"3,900 S","description":"A stealth silhouette with ghostly pale highlights.","colors":["#c9d4ff","#6975aa","#25243f"],"glow":"#25243f","design":0},{"id":"dragonfruit","name":"Dragonfruit Nova","category":"coins","rarity":"Epic","price":3600,"priceLabel":"3,600 S","description":"Magenta energy plates with a sharp lime accent.","colors":["#ff9dc7","#c43f80","#432d68"],"glow":"#432d68","design":1},{"id":"skybreaker","name":"Skybreaker","category":"coins","rarity":"Epic","price":7200,"priceLabel":"7,200 S","description":"Aerial pilot armour with wing-shaped back panels.","colors":["#c6eaff","#5489cf","#303c73"],"glow":"#303c73","design":2},{"id":"magma","name":"Magma Core","category":"coins","rarity":"Legendary","price":5400,"priceLabel":"5,400 S","description":"Molten lines shine through dark volcanic plates.","colors":["#ffc47a","#e24d35","#422640"],"glow":"#422640","design":3},{"id":"aurora","name":"Aurora Drift","category":"coins","rarity":"Legendary","price":4300,"priceLabel":"4,300 S","description":"Northern-light gradients and a flowing luminous scarf.","colors":["#8af0dd","#4d9fc2","#4d3d82"],"glow":"#4d3d82","design":4},{"id":"synthwave","name":"Synthwave Ace","category":"coins","rarity":"Epic","price":2400,"priceLabel":"2,400 S","description":"Retro-future panels with hot pink energy strips.","colors":["#ff9ef5","#8455cc","#252950"],"glow":"#252950","design":0},{"id":"wildwood","name":"Wildwood Guardian","category":"coins","rarity":"Epic","price":3000,"priceLabel":"3,000 S","description":"Moss-green armour and carved wooden details.","colors":["#c9ed8a","#5c9a52","#304b43"],"glow":"#304b43","design":1},{"id":"clockwork","name":"Clockwork Comet","category":"coins","rarity":"Legendary","price":5800,"priceLabel":"5,800 S","description":"Brass gears and a mechanical shoulder mantle.","colors":["#f8d18c","#ad8049","#3b425f"],"glow":"#3b425f","design":2},{"id":"nebulark","name":"Nebulark","category":"coins","rarity":"Mythic","price":14000,"priceLabel":"14,000 S","description":"Nebula gradients and floating shard accessories.","colors":["#bca4ff","#6050a7","#22213f"],"glow":"#22213f","design":3},{"id":"tidal","name":"Tidal Phantom","category":"coins","rarity":"Legendary","price":5100,"priceLabel":"5,100 S","description":"A spectral ocean outfit with wave-like trim.","colors":["#9af7ff","#3d9eb8","#243c64"],"glow":"#243c64","design":4},{"id":"prismguard","name":"Prism Guard","category":"coins","rarity":"Mythic","price":9500,"priceLabel":"9,500 S","description":"Iridescent guard plates split into prism facets.","colors":["#ffe0ff","#9b72e8","#3b477f"],"glow":"#3b477f","design":0},{"id":"eclipse","name":"Eclipse Sovereign","category":"coins","rarity":"Mythic","price":20000,"priceLabel":"20,000 S","description":"A dramatic eclipse cape and glowing solar crest.","colors":["#ffd49b","#8c5fc2","#1e1d38"],"glow":"#1e1d38","design":1},{"id":"celestial","name":"Celestial Sovereign","category":"premium","rarity":"Ultra Exclusive","price":0,"priceLabel":"₹499","description":"A radiant cosmic mantle, floating halo shards, and animated starlight.","colors":["#fff1bf","#d9b3ff","#32265f"],"glow":"#32265f","design":3},{"id":"auric","name":"Auric Overdrive","category":"premium","rarity":"Ultra Exclusive","price":0,"priceLabel":"₹599","description":"Sculpted gold plating with a pulsing amber energy core.","colors":["#fff2a8","#d59a32","#49305f"],"glow":"#49305f","design":4},{"id":"glitchking","name":"Glitch Kingdom","category":"premium","rarity":"Ultra Exclusive","price":0,"priceLabel":"₹699","description":"A prismatic glitch cloak with shifting holographic trim.","colors":["#a9fff4","#f28aff","#24254f"],"glow":"#24254f","design":0},{"id":"stormcrown","name":"Tempest Crown","category":"premium","rarity":"Ultra Exclusive","price":0,"priceLabel":"₹799","description":"A storm halo, layered cloud cape, and electric-blue sparks.","colors":["#e0edff","#7695df","#34304f"],"glow":"#34304f","design":1},{"id":"dreamnova","name":"Dreamnova Ascendant","category":"premium","rarity":"Ultra Exclusive","price":0,"priceLabel":"₹999","description":"A dreamy astral suit with orbiting crystal ornaments.","colors":["#ffd4ee","#a9a1ff","#34255c"],"glow":"#34255c","design":2}];
+const SKINS = [{"id":"classic","name":"Classic Starter","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#b8a6ff","#7860df","#302847"],"glow":"#7860df","gender":"boy","style":"streetwear"},{"id":"mint","name":"Mint Dash","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#a2f1d7","#36b99a","#174d48"],"glow":"#36b99a","gender":"boy","style":"sport"},{"id":"sunny","name":"Sunny Side","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#ffe09b","#e9a73f","#62401f"],"glow":"#e9a73f","gender":"boy","style":"casual"},{"id":"night","name":"Night Pixel","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#c4cce9","#58688d","#20253c"],"glow":"#58688d","gender":"boy","style":"ninja"},{"id":"sprout","name":"Little Sprout","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#c2f58a","#5ea84d","#25452b"],"glow":"#5ea84d","gender":"girl","style":"nature"},{"id":"berry","name":"Berry Pop","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#ffb9df","#d75aa8","#54254f"],"glow":"#d75aa8","gender":"girl","style":"cute"},{"id":"cloud","name":"Cloud Club","category":"free","rarity":"Basic","price":0,"description":"A free original BlokS outfit for your next adventure.","colors":["#f0f2ff","#9aadee","#454b78"],"glow":"#9aadee","gender":"boy","style":"casual"},{"id":"coin-1","name":"Cherry Street","category":"money","rarity":"Rare","price":650,"description":"Original streetwear outfit with layered details and a distinct silhouette.","colors":["#ffb2d1","#e94f91","#462548"],"glow":"#e94f91","gender":"girl","style":"streetwear"},{"id":"coin-2","name":"Moonlight Idol","category":"money","rarity":"Rare","price":850,"description":"Original fantasy outfit with layered details and a distinct silhouette.","colors":["#e7c6ff","#9862d9","#32204f"],"glow":"#9862d9","gender":"girl","style":"fantasy"},{"id":"coin-3","name":"Pastel Skater","category":"money","rarity":"Rare","price":1000,"description":"Original sport outfit with layered details and a distinct silhouette.","colors":["#a8f4e7","#42bda9","#1b3d4b"],"glow":"#42bda9","gender":"girl","style":"sport"},{"id":"coin-4","name":"Crimson Queen","category":"money","rarity":"Rare","price":1200,"description":"Original royal outfit with layered details and a distinct silhouette.","colors":["#ffc0c7","#c63d63","#3b1c37"],"glow":"#c63d63","gender":"girl","style":"royal"},{"id":"coin-5","name":"Cyber Bloom","category":"money","rarity":"Rare","price":1450,"description":"Original cyber outfit with layered details and a distinct silhouette.","colors":["#9af4ff","#4b8fe5","#241f53"],"glow":"#4b8fe5","gender":"girl","style":"cyber"},{"id":"coin-6","name":"Neon Drifter","category":"money","rarity":"Rare","price":1600,"description":"Original cyber outfit with layered details and a distinct silhouette.","colors":["#9cf4ff","#287fc2","#162544"],"glow":"#287fc2","gender":"boy","style":"cyber"},{"id":"coin-7","name":"Shadow Ninja","category":"money","rarity":"Rare","price":1800,"description":"Original ninja outfit with layered details and a distinct silhouette.","colors":["#b6b9d5","#4c506e","#161a2b"],"glow":"#4c506e","gender":"boy","style":"ninja"},{"id":"coin-8","name":"Urban Legend","category":"money","rarity":"Rare","price":2000,"description":"Original streetwear outfit with layered details and a distinct silhouette.","colors":["#f2c69c","#bd6749","#29283b"],"glow":"#bd6749","gender":"boy","style":"streetwear"},{"id":"coin-9","name":"Frost Runner","category":"money","rarity":"Epic","price":2200,"description":"Original sport outfit with layered details and a distinct silhouette.","colors":["#d9f8ff","#72bde8","#243b6c"],"glow":"#72bde8","gender":"boy","style":"sport"},{"id":"coin-10","name":"Golden Striker","category":"money","rarity":"Epic","price":2400,"description":"Original sport outfit with layered details and a distinct silhouette.","colors":["#fff0a8","#c99635","#49321e"],"glow":"#c99635","gender":"boy","style":"sport"},{"id":"coin-11","name":"Midnight Hacker","category":"money","rarity":"Epic","price":2600,"description":"Original cyber outfit with layered details and a distinct silhouette.","colors":["#b4a0ff","#6250bd","#201b3b"],"glow":"#6250bd","gender":"boy","style":"cyber"},{"id":"coin-12","name":"Desert Nomad","category":"money","rarity":"Epic","price":2800,"description":"Original fantasy outfit with layered details and a distinct silhouette.","colors":["#eac59b","#a56c47","#3e302c"],"glow":"#a56c47","gender":"boy","style":"fantasy"},{"id":"coin-13","name":"Retro Racer","category":"money","rarity":"Epic","price":3000,"description":"Original sport outfit with layered details and a distinct silhouette.","colors":["#ffb47f","#e94c57","#3c2446"],"glow":"#e94c57","gender":"boy","style":"sport"},{"id":"coin-14","name":"Forest Guardian","category":"money","rarity":"Epic","price":3200,"description":"Original nature outfit with layered details and a distinct silhouette.","colors":["#c8f09b","#5e9a50","#243d35"],"glow":"#5e9a50","gender":"boy","style":"nature"},{"id":"coin-15","name":"Storm Captain","category":"money","rarity":"Epic","price":3500,"description":"Original fantasy outfit with layered details and a distinct silhouette.","colors":["#b4d5ff","#527fc8","#1d2948"],"glow":"#527fc8","gender":"boy","style":"fantasy"},{"id":"coin-16","name":"Chrome Rebel","category":"money","rarity":"Epic","price":3800,"description":"Original cyber outfit with layered details and a distinct silhouette.","colors":["#e2e8f5","#7c8ba9","#252b3b"],"glow":"#7c8ba9","gender":"boy","style":"cyber"},{"id":"coin-17","name":"Crimson Ronin","category":"money","rarity":"Epic","price":4200,"description":"Original ninja outfit with layered details and a distinct silhouette.","colors":["#ffb1a2","#c84748","#351d36"],"glow":"#c84748","gender":"boy","style":"ninja"},{"id":"coin-18","name":"Skyline Pro","category":"money","rarity":"Epic","price":4600,"description":"Original streetwear outfit with layered details and a distinct silhouette.","colors":["#a9e5ff","#3e92c7","#1e3155"],"glow":"#3e92c7","gender":"boy","style":"streetwear"},{"id":"coin-19","name":"Phantom Ace","category":"money","rarity":"Epic","price":5000,"description":"Original fantasy outfit with layered details and a distinct silhouette.","colors":["#d9c4ff","#7756b8","#241a3b"],"glow":"#7756b8","gender":"boy","style":"fantasy"},{"id":"coin-20","name":"Lava Breaker","category":"money","rarity":"Epic","price":5500,"description":"Original fantasy outfit with layered details and a distinct silhouette.","colors":["#ffc08c","#ed633e","#4b202d"],"glow":"#ed633e","gender":"boy","style":"fantasy"},{"id":"scoin-1","name":"Starlight Empress","category":"coins","rarity":"Legendary","price":2500,"description":"High-tier royal look with premium colourwork and standout accessories.","colors":["#ffd8fa","#bb70e9","#39204e"],"glow":"#bb70e9","gender":"girl","style":"royal"},{"id":"scoin-2","name":"Galaxy Witch","category":"coins","rarity":"Legendary","price":3500,"description":"High-tier fantasy look with premium colourwork and standout accessories.","colors":["#c6b5ff","#7751c8","#21173d"],"glow":"#7751c8","gender":"girl","style":"fantasy"},{"id":"scoin-3","name":"Aurora Valkyrie","category":"coins","rarity":"Legendary","price":4500,"description":"High-tier fantasy look with premium colourwork and standout accessories.","colors":["#b7fff1","#4cabb7","#203b55"],"glow":"#4cabb7","gender":"girl","style":"fantasy"},{"id":"scoin-4","name":"Ruby Phantom","category":"coins","rarity":"Legendary","price":6000,"description":"High-tier ninja look with premium colourwork and standout accessories.","colors":["#ffb9cb","#d33f75","#35182f"],"glow":"#d33f75","gender":"girl","style":"ninja"},{"id":"scoin-5","name":"Celestial Popstar","category":"coins","rarity":"Legendary","price":7500,"description":"High-tier cute look with premium colourwork and standout accessories.","colors":["#fff0b8","#e6a3e8","#48305f"],"glow":"#e6a3e8","gender":"girl","style":"cute"},{"id":"scoin-6","name":"Void Monarch","category":"coins","rarity":"Legendary","price":9000,"description":"High-tier fantasy look with premium colourwork and standout accessories.","colors":["#d3a2ff","#7244bd","#24183f"],"glow":"#7244bd","gender":"boy","style":"fantasy"},{"id":"scoin-7","name":"Starforge Knight","category":"coins","rarity":"Legendary","price":10500,"description":"High-tier fantasy look with premium colourwork and standout accessories.","colors":["#fff0a6","#d8a84b","#5940a2"],"glow":"#d8a84b","gender":"boy","style":"fantasy"},{"id":"scoin-8","name":"Quantum Samurai","category":"coins","rarity":"Legendary","price":12000,"description":"High-tier ninja look with premium colourwork and standout accessories.","colors":["#b5efff","#4c70db","#1a234b"],"glow":"#4c70db","gender":"boy","style":"ninja"},{"id":"scoin-9","name":"Dragon Circuit","category":"coins","rarity":"Legendary","price":14000,"description":"High-tier cyber look with premium colourwork and standout accessories.","colors":["#ffc18b","#ec5a4f","#39203f"],"glow":"#ec5a4f","gender":"boy","style":"cyber"},{"id":"scoin-10","name":"Obsidian Titan","category":"coins","rarity":"Legendary","price":16000,"description":"High-tier armor look with premium colourwork and standout accessories.","colors":["#b4bfd9","#505a7d","#171a2a"],"glow":"#505a7d","gender":"boy","style":"armor"},{"id":"scoin-11","name":"Solar Overdrive","category":"coins","rarity":"Mythic","price":18000,"description":"High-tier cyber look with premium colourwork and standout accessories.","colors":["#fff1a4","#ef8c39","#4e2740"],"glow":"#ef8c39","gender":"boy","style":"cyber"},{"id":"scoin-12","name":"Glacier Warden","category":"coins","rarity":"Mythic","price":20000,"description":"High-tier armor look with premium colourwork and standout accessories.","colors":["#d7ffff","#68a9e8","#253e70"],"glow":"#68a9e8","gender":"boy","style":"armor"},{"id":"scoin-13","name":"Eclipse Hunter","category":"coins","rarity":"Mythic","price":22000,"description":"High-tier ninja look with premium colourwork and standout accessories.","colors":["#d7c1ff","#7755a8","#1c1834"],"glow":"#7755a8","gender":"boy","style":"ninja"},{"id":"scoin-14","name":"Royal Thunder","category":"coins","rarity":"Mythic","price":24000,"description":"High-tier royal look with premium colourwork and standout accessories.","colors":["#ffe2a6","#b58b42","#2c2850"],"glow":"#b58b42","gender":"boy","style":"royal"},{"id":"scoin-15","name":"Mecha Phantom","category":"coins","rarity":"Mythic","price":26000,"description":"High-tier cyber look with premium colourwork and standout accessories.","colors":["#b8ffff","#4f9eae","#20283e"],"glow":"#4f9eae","gender":"boy","style":"cyber"},{"id":"scoin-16","name":"Inferno Beast","category":"coins","rarity":"Mythic","price":28000,"description":"High-tier armor look with premium colourwork and standout accessories.","colors":["#ffc2a0","#e34e3e","#401b2b"],"glow":"#e34e3e","gender":"boy","style":"armor"},{"id":"scoin-17","name":"Astral Voyager","category":"coins","rarity":"Mythic","price":30000,"description":"High-tier fantasy look with premium colourwork and standout accessories.","colors":["#c7d7ff","#7774db","#26234c"],"glow":"#7774db","gender":"boy","style":"fantasy"},{"id":"scoin-18","name":"Titan Circuit X","category":"coins","rarity":"Mythic","price":33000,"description":"High-tier cyber look with premium colourwork and standout accessories.","colors":["#d2f5ff","#578cae","#1c2638"],"glow":"#578cae","gender":"boy","style":"cyber"},{"id":"scoin-19","name":"Shadow Sovereign","category":"coins","rarity":"Mythic","price":36000,"description":"High-tier royal look with premium colourwork and standout accessories.","colors":["#d6c6f9","#5c467e","#171421"],"glow":"#5c467e","gender":"boy","style":"royal"},{"id":"scoin-20","name":"Neon Overlord","category":"coins","rarity":"Mythic","price":39000,"description":"High-tier cyber look with premium colourwork and standout accessories.","colors":["#a7fff2","#2c9eaa","#171d39"],"glow":"#2c9eaa","gender":"boy","style":"cyber"},{"id":"scoin-21","name":"Prism Dragon","category":"coins","rarity":"Mythic","price":42000,"description":"High-tier fantasy look with premium colourwork and standout accessories.","colors":["#ffd1f4","#b14fca","#2b1c51"],"glow":"#b14fca","gender":"boy","style":"fantasy"},{"id":"scoin-22","name":"Stormborn Elite","category":"coins","rarity":"Mythic","price":46000,"description":"High-tier armor look with premium colourwork and standout accessories.","colors":["#c5d9ff","#5979c5","#202844"],"glow":"#5979c5","gender":"boy","style":"armor"},{"id":"scoin-23","name":"Phoenix Vanguard","category":"coins","rarity":"Mythic","price":50000,"description":"High-tier armor look with premium colourwork and standout accessories.","colors":["#ffd5a3","#e16a48","#42233d"],"glow":"#e16a48","gender":"boy","style":"armor"},{"id":"scoin-24","name":"Deep Space Ace","category":"coins","rarity":"Mythic","price":55000,"description":"High-tier cyber look with premium colourwork and standout accessories.","colors":["#c6eaff","#526bb7","#171b3e"],"glow":"#526bb7","gender":"boy","style":"cyber"},{"id":"scoin-25","name":"Legend Zero","category":"coins","rarity":"Mythic","price":60000,"description":"High-tier streetwear look with premium colourwork and standout accessories.","colors":["#f7e6ff","#a27ed6","#27203f"],"glow":"#a27ed6","gender":"boy","style":"streetwear"},{"id":"exclusive-1","name":"Diamond Monarch","category":"premium","rarity":"Exclusive","price":149,"description":"An exclusive cosmetic concept. Real payment checkout is not connected in this demo.","colors":["#fff1b8","#d7b34f","#4c326d"],"glow":"#d7b34f","gender":"boy","style":"royal"},{"id":"exclusive-2","name":"Rose Eclipse","category":"premium","rarity":"Exclusive","price":199,"description":"An exclusive cosmetic concept. Real payment checkout is not connected in this demo.","colors":["#ffd2ec","#cb6ba9","#38224e"],"glow":"#cb6ba9","gender":"girl","style":"fantasy"},{"id":"exclusive-3","name":"Apex Cyberlord","category":"premium","rarity":"Exclusive","price":249,"description":"An exclusive cosmetic concept. Real payment checkout is not connected in this demo.","colors":["#c5ffff","#45a5c6","#1b2345"],"glow":"#45a5c6","gender":"boy","style":"cyber"},{"id":"exclusive-4","name":"Ember Sovereign","category":"premium","rarity":"Exclusive","price":299,"description":"An exclusive cosmetic concept. Real payment checkout is not connected in this demo.","colors":["#ffd0a5","#eb684d","#411e32"],"glow":"#eb684d","gender":"boy","style":"armor"},{"id":"exclusive-5","name":"Prism Goddess","category":"premium","rarity":"Exclusive","price":349,"description":"An exclusive cosmetic concept. Real payment checkout is not connected in this demo.","colors":["#f6d5ff","#a879ed","#342052"],"glow":"#a879ed","gender":"girl","style":"royal"}];
 
 const EMOTES = [
-  {id:"hello",name:"Hello Wave",category:"free",emoji:"👋",description:"A friendly wave to greet the lobby."},
-  {id:"handshake",name:"Good Game Handshake",category:"free",emoji:"🤝",description:"Offer a friendly handshake."},
-  {id:"thumbsup",name:"Thumbs Up",category:"free",emoji:"👍",description:"Show your approval."},
-  {id:"peace",name:"Double Peace",category:"free",emoji:"✌️",description:"Flash a playful two-finger peace sign."},
-  {id:"handsup",name:"Hands to the Sky",category:"free",emoji:"🙌",description:"Raise both hands in celebration."},
-  {id:"groove",name:"Sidewalk Groove",category:"money",emoji:"🕺",description:"An original bouncy side-step dance.",price:450},
-  {id:"robot",name:"Tinbot Shuffle",category:"money",emoji:"🤖",description:"A playful mechanical shuffle.",price:650},
-  {id:"heart",name:"Heart Spark",category:"money",emoji:"💖",description:"Make a heart gesture with a sparkling finish.",price:700},
-  {id:"laugh",name:"Giggle Burst",category:"money",emoji:"😂",description:"A big laugh with a shoulder bounce.",price:500},
-  {id:"clap",name:"Pocket Applause",category:"money",emoji:"👏",description:"A quick double clap and nod.",price:550},
-  {id:"shrug",name:"Who Knows?",category:"money",emoji:"🤷",description:"A cheeky shoulder shrug.",price:400},
-  {id:"sleepy",name:"Sleepy Stand",category:"money",emoji:"😴",description:"A funny doze-off sway.",price:600},
-  {id:"flex",name:"Power Flex",category:"money",emoji:"💪",description:"Show off with an exaggerated flex.",price:850},
-  {id:"spin",name:"Orbit Spin",category:"money",emoji:"🌀",description:"A fast turn ending in a pose.",price:950},
-  {id:"salute",name:"Star Salute",category:"money",emoji:"🫡",description:"A crisp salute with a confident nod.",price:750},
-  {id:"sneak",name:"Sneaky Steps",category:"money",emoji:"🥷",description:"A comic tiptoe and look-around.",price:1000},
-  {id:"bounce",name:"Bounce Beat",category:"money",emoji:"🎵",description:"A rhythm bounce with two foot taps.",price:900},
-  {id:"taunt",name:"Tiny Triumph",category:"money",emoji:"😎",description:"A relaxed cool pose with a quick lean.",price:800},
-  {id:"cheer",name:"Team Cheer",category:"money",emoji:"🎉",description:"A mini celebration for your squad.",price:1100},
-  {id:"skate",name:"Air Skate",category:"money",emoji:"🛹",description:"A pretend skate glide ending in a wave.",price:1200},
-  {id:"phoenix",name:"Phoenix Rise",category:"coins",emoji:"🔥",description:"Rise into a bold victory pose with a flame aura.",price:1400},
-  {id:"galaxy",name:"Galaxy Waltz",category:"coins",emoji:"🌌",description:"A graceful orbiting dance with star-like sparks.",price:2200},
-  {id:"thunderclap",name:"Thunder Clap",category:"coins",emoji:"⚡",description:"Clap as a stylised lightning flash bursts around you.",price:2600},
-  {id:"crystalbow",name:"Crystal Bow",category:"coins",emoji:"💎",description:"A formal bow with crystalline glints.",price:1800},
-  {id:"shadowstep",name:"Shadowstep",category:"coins",emoji:"🌑",description:"A quick shadowy sidestep and reveal.",price:3000},
-  {id:"comet",name:"Comet Landing",category:"coins",emoji:"☄️",description:"A superhero-like landing with a comet trail.",price:3600},
-  {id:"aurora-dance",name:"Aurora Flow",category:"coins",emoji:"🌈",description:"A flowing dance with aurora-coloured trails.",price:4200},
-  {id:"crown",name:"Royal Arrival",category:"coins",emoji:"👑",description:"A grand entrance ending in a crown gesture.",price:5000},
-  {id:"dragon",name:"Dragon Roar",category:"coins",emoji:"🐉",description:"A powerful stance with an original dragon-shaped energy arc.",price:6200},
-  {id:"cosmic",name:"Cosmic Finale",category:"coins",emoji:"✨",description:"A legendary spin ending in a burst of cosmic particles.",price:8000}
+  {id:'wave',name:'Wave Hello',emoji:'👋',category:'free',price:0,description:'A friendly hello for new friends.'},
+  {id:'handshake',name:'Handshake',emoji:'🤝',category:'free',price:0,description:'Show respect and make a connection.'},
+  {id:'thumbs',name:'Thumbs Up',emoji:'👍',category:'free',price:0,description:'Give your squad some approval.'},
+  {id:'peace',name:'Peace Sign',emoji:'✌️',category:'free',price:0,description:'Stay cool and keep the peace.'},
+  {id:'handsup',name:'Hands Up',emoji:'🙌',category:'free',price:0,description:'Celebrate a win with both hands.'},
+  {id:'dance',name:'Victory Dance',emoji:'🕺',category:'money',price:250,description:'A little celebration after a great round.'},
+  {id:'clap',name:'Big Applause',emoji:'👏',category:'money',price:350,description:'Give a player a round of applause.'},
+  {id:'laugh',name:'Laugh Out',emoji:'😂',category:'money',price:450,description:'Share a laugh with your friends.'},
+  {id:'flex',name:'Flex',emoji:'💪',category:'money',price:550,description:'Show off your confidence.'},
+  {id:'heart',name:'Heart Hands',emoji:'🫶',category:'money',price:650,description:'Send a little love to your squad.'},
+  {id:'shrug',name:'The Shrug',emoji:'🤷',category:'money',price:750,description:'Sometimes you just do not know.'},
+  {id:'sleep',name:'Sleepy',emoji:'😴',category:'money',price:850,description:'A relaxed emote for a quiet moment.'},
+  {id:'think',name:'Big Brain',emoji:'🤔',category:'money',price:950,description:'Think through your next move.'},
+  {id:'cool',name:'Too Cool',emoji:'😎',category:'money',price:1100,description:'A smooth look for a smooth player.'},
+  {id:'fire',name:'Fire Up',emoji:'🔥',category:'money',price:1250,description:'Bring the energy to your team.'},
+  {id:'sparkle',name:'Sparkle Spin',emoji:'✨',category:'money',price:1400,description:'A magical little moment.'},
+  {id:'cry',name:'Tiny Violin',emoji:'🥲',category:'money',price:1550,description:'Playfully dramatic disappointment.'},
+  {id:'robot',name:'Robot Mode',emoji:'🤖',category:'money',price:1750,description:'Act like a machine.'},
+  {id:'sunglasses',name:'Shades Drop',emoji:'🕶️',category:'money',price:1950,description:'Drop into style.'},
+  {id:'star',name:'Star Pose',emoji:'🌟',category:'coins',price:1500,description:'A shining pose for standout players.'},
+  {id:'crown',name:'Crown Moment',emoji:'👑',category:'coins',price:2500,description:'Take your royal moment.'},
+  {id:'lightning',name:'Lightning Charge',emoji:'⚡',category:'coins',price:3500,description:'Power up with an electric burst.'},
+  {id:'dragon',name:'Dragon Roar',emoji:'🐉',category:'coins',price:5000,description:'Unleash a mythical roar.'},
+  {id:'galaxy',name:'Galaxy Portal',emoji:'🌌',category:'coins',price:6500,description:'Call on the stars.'},
+  {id:'meteor',name:'Meteor Crash',emoji:'☄️',category:'coins',price:8000,description:'Make an explosive entrance.'},
+  {id:'phoenix',name:'Phoenix Rise',emoji:'🪽',category:'coins',price:10000,description:'Rise up in legendary style.'},
+  {id:'aura',name:'Aura Burst',emoji:'💫',category:'coins',price:12500,description:'Let your energy shine.'},
+  {id:'shadow',name:'Shadow Blink',emoji:'🌑',category:'coins',price:15000,description:'Vanish into the shadows.'},
+  {id:'cosmic',name:'Cosmic Victory',emoji:'🌠',category:'coins',price:18000,description:'A cosmic celebration for elite players.'},
+  {id:'legend',name:'Legend Pose',emoji:'🏆',category:'coins',price:22000,description:'Celebrate like a champion.'}
 ];
 
-const state = {
-  coins: Number(localStorage.getItem("bloks_demo_coins") ?? 0),
-  money: Number(localStorage.getItem("bloks_demo_money") ?? 5000),
-  owned: safeJSON("bloks_demo_owned", ["classic"]),
-  ownedEmotes: safeJSON("bloks_demo_emotes", ["hello","handshake","thumbsup","peace","handsup"]),
-  equipped: localStorage.getItem("bloks_equipped_skin") || "classic",
-  equippedEmote: localStorage.getItem("bloks_equipped_emote") || "hello",
-  activeCategory: "all", emoteCategory: "all", search: "",
-  claimed: safeJSON("bloks_demo_missions", []),
-  friends: safeJSON("bloks_demo_friends", []),
-  groups: safeJSON("bloks_demo_groups", []),
-  currentGroup: localStorage.getItem("bloks_current_group") || ""
-};
+const STORAGE = {money:'bloks_demo_money',scoins:'bloks_demo_scoins',owned:'bloks_demo_owned_v2',missions:'bloks_demo_missions_v2',emotes:'bloks_demo_emotes',friends:'bloks_demo_friends',groups:'bloks_demo_groups',player:'bloks_demo_player'};
 
-function safeJSON(key, fallback) {
+function readJSON(key,fallback){
   try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return Array.isArray(value) ? value : fallback;
+    const v=localStorage.getItem(key);
+    return v===null?fallback:JSON.parse(v);
   } catch {
     return fallback;
   }
 }
 
-const $ = (id) => document.getElementById(id);
-const coinFormat = (n) => Number(n).toLocaleString("en-IN");
-const categoryName = (category) => ({
-  free:"FREE", coins:"S COINS", money:"C COINS", premium:"EXCLUSIVE"
-}[category] || category.toUpperCase());
+const state={
+  money:Number(localStorage.getItem(STORAGE.money) ?? 5000),
+  scoins:Number(localStorage.getItem(STORAGE.scoins) ?? 0),
+  owned:readJSON(STORAGE.owned,['classic']),
+  activeCategory:'all',
+  search:'',
+  claimed:readJSON(STORAGE.missions,[]),
+  ownedEmotes:readJSON(STORAGE.emotes,['wave','handshake','thumbs','peace','handsup']),
+  activeEmoteCategory:'all',
+  friends:readJSON(STORAGE.friends,[]),
+  groups:readJSON(STORAGE.groups,[]),
+  currentGroup:null,
+  player:localStorage.getItem(STORAGE.player)||'Guest Player'
+};
 
-function persist() {
-  localStorage.setItem("bloks_demo_coins", String(state.coins));
-  localStorage.setItem("bloks_demo_money", String(state.money));
-  localStorage.setItem("bloks_demo_owned", JSON.stringify(state.owned));
-  localStorage.setItem("bloks_demo_emotes", JSON.stringify(state.ownedEmotes));
-  localStorage.setItem("bloks_demo_missions", JSON.stringify(state.claimed));
-  localStorage.setItem("bloks_demo_friends", JSON.stringify(state.friends));
-  localStorage.setItem("bloks_demo_groups", JSON.stringify(state.groups));
-  localStorage.setItem("bloks_equipped_skin", state.equipped);
-  localStorage.setItem("bloks_equipped_emote", state.equippedEmote);
-  localStorage.setItem("bloks_current_group", state.currentGroup);
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n).toLocaleString('en-IN');
+const categoryName=c=>({free:'FREE',money:'C COINS',coins:'S COINS',premium:'EXCLUSIVE'}[c]||c.toUpperCase());
+
+function persist(){
+  localStorage.setItem(STORAGE.money,String(state.money));
+  localStorage.setItem(STORAGE.scoins,String(state.scoins));
+  localStorage.setItem(STORAGE.owned,JSON.stringify(state.owned));
+  localStorage.setItem(STORAGE.missions,JSON.stringify(state.claimed));
+  localStorage.setItem(STORAGE.emotes,JSON.stringify(state.ownedEmotes));
+  localStorage.setItem(STORAGE.friends,JSON.stringify(state.friends));
+  localStorage.setItem(STORAGE.groups,JSON.stringify(state.groups));
+  localStorage.setItem(STORAGE.player,state.player);
 }
 
-function showToast(message) {
-  const toast = $("toast");
-  if (!toast) return;
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.remove("show"), 2700);
+function toast(msg){
+  const el=$('toast');
+  if(!el)return;
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(toast.timer);
+  toast.timer=setTimeout(()=>el.classList.remove('show'),2800);
 }
 
-function escapeHTML(v) {
-  return String(v).replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
+function escapeHTML(v){
+  return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-function figureHTML(skin) {
-  return `<div class="skin-figure design-${skin.design || 0}" style="--skin:${skin.colors[0]};--skin2:${skin.colors[1]};--skin3:${skin.colors[2]}">
-    <div class="skin-head"></div>
-    <div class="skin-torso"><span class="figure-mark">${skin.design===1?'✦':skin.design===2?'B':skin.design===3?'◆':skin.design===4?'⚡':'●'}</span></div>
-    <div class="skin-arm left"></div>
-    <div class="skin-arm right"></div>
-    <div class="skin-leg left"></div>
-    <div class="skin-leg right"></div>
-    <span class="figure-accessory"></span>
-  </div>`;
+/* BlokS avatar: glowing S with a smaller R accent on the hoodie */
+function figureHTML(s){
+  return `
+    <div class="skin-figure gender-${s.gender||'boy'} style-${s.style||'streetwear'}"
+         style="--skin:${s.colors[0]};--skin2:${s.colors[1]};--skin3:${s.colors[2]};--glow:${s.glow}">
+      <div class="skin-shadow"></div>
+      <div class="skin-hair"></div>
+      <div class="skin-head">
+        <i class="skin-eye eye-left"></i>
+        <i class="skin-eye eye-right"></i>
+        <i class="skin-mouth"></i>
+      </div>
+      <div class="skin-neck"></div>
+      <div class="skin-arm left"></div>
+      <div class="skin-arm right"></div>
+      <div class="skin-torso">
+        <i class="skin-jacket"></i>
+        <i class="skin-shirt-mark" aria-label="S R logo"
+           style="color:#fff;text-shadow:0 0 4px #fff,0 0 9px #e879ff,0 0 18px #a100ff">
+          S<span style="font-size:.42em;vertical-align:sub;margin-left:1px;color:#e8b5ff;text-shadow:0 0 5px #d500ff">R</span>
+        </i>
+        <i class="skin-belt"></i>
+      </div>
+      <div class="skin-leg left"></div>
+      <div class="skin-leg right"></div>
+      <div class="skin-shoe left"></div>
+      <div class="skin-shoe right"></div>
+      <div class="skin-accessory"></div>
+    </div>`;
 }
 
-/* Add dimensional shading and animated body movement directly from app.js. */
-(function installBloksCharacterEffects() {
-  if (document.getElementById("bloks-character-effects")) return;
+function skinCard(s){
+  const owned=state.owned.includes(s.id);
+  let price=s.category==='free'
+    ?'FREE'
+    :s.category==='money'
+      ?`🟡 ${fmt(s.price)} <small>C COINS</small>`
+      :s.category==='coins'
+        ?`✦ ${fmt(s.price)} <small>S COINS</small>`
+        :`₹${s.price}`;
 
-  const style = document.createElement("style");
-  style.id = "bloks-character-effects";
-  style.textContent = `
-    .skin-art,.dialog-skin-art,.member-avatar-scene,.emote-preview,.emote-stage-character {
-      perspective:900px;
-    }
-    .skin-figure {
-      position:relative;
-      transform-style:preserve-3d;
-      filter:drop-shadow(7px 10px 5px #0007);
-      isolation:isolate;
-    }
-    .skin-head {
-      border-radius:43% 43% 37% 37%;
-      background:linear-gradient(110deg,#ffffff60,transparent 34%),linear-gradient(145deg,var(--skin),var(--skin2));
-      box-shadow:inset -5px -5px 0 #0004,inset 3px 3px 0 #ffffff45,3px 4px 0 #0004;
-      transform:translateZ(7px) rotateY(-5deg);
-    }
-    .skin-torso {
-      border-radius:9px 9px 12px 12px;
-      background:linear-gradient(110deg,#ffffff50,transparent 34%),linear-gradient(145deg,var(--skin2),var(--skin3));
-      box-shadow:inset -6px -4px 0 #0004,inset 3px 2px 0 #ffffff30,3px 5px 0 #0004;
-      transform:translateZ(5px);
-    }
-    .skin-arm,.skin-leg {
-      transform-style:preserve-3d;
-      background:linear-gradient(90deg,#0005,#ffffff38 45%,#0003),linear-gradient(145deg,var(--skin),var(--skin2));
-      box-shadow:inset 2px 1px 0 #ffffff35;
-    }
-    .skin-arm { transform-origin:50% 8%; border-radius:10px; }
-    .skin-leg { transform-origin:50% 5%; border-radius:6px 6px 8px 8px; }
-    .figure-accessory { filter:drop-shadow(2px 3px 2px #0008); }
+  let action=owned
+    ?'Owned'
+    :s.category==='free'
+      ?'Unlock free'
+      :s.category==='money'
+        ?'Buy with C'
+        :s.category==='coins'
+          ?'Buy with S'
+          :'View exclusive';
 
-    .emote-preview {
-      position:relative;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      overflow:hidden;
-      isolation:isolate;
-      background:radial-gradient(ellipse at 50% 38%,var(--glow,#6250a5),transparent 55%),linear-gradient(145deg,#24253b,#10121b);
-    }
-    .emote-preview::before {
-      content:"";
-      position:absolute;
-      width:95px;
-      height:95px;
-      top:8px;
-      left:50%;
-      transform:translateX(-50%);
-      border:1px solid #ffffff20;
-      border-radius:50%;
-      box-shadow:0 0 30px #a78bfa25;
-    }
-    .emote-character {
-      position:relative;
-      z-index:2;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      height:150px;
-      transform:scale(.72);
-      transform-origin:center bottom;
-    }
-    .emote-character .skin-figure { transform:scale(1); transform-origin:center bottom; }
-    .emote-floor {
-      position:absolute;
-      z-index:1;
-      bottom:7px;
-      left:50%;
-      width:75px;
-      height:15px;
-      transform:translateX(-50%);
-      border-radius:50%;
-      background:#0009;
-      filter:blur(5px);
-    }
-    .emote-play {
-      position:absolute;
-      z-index:4;
-      top:8px;
-      right:8px;
-      border:1px solid #ffffff22;
-      border-radius:20px;
-      padding:5px 8px;
-      background:#0b0c16cc;
-      color:#e6ddff;
-      font-size:9px;
-      font-weight:800;
-      letter-spacing:.5px;
-    }
-    .emote-preview:hover {
-      background:radial-gradient(ellipse at 50% 38%,#8065d3,transparent 58%),linear-gradient(145deg,#302344,#10121b);
-    }
-
-    .emote-stage-character {
-      position:relative;
-      min-height:280px;
-      padding:18px 12px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-    .emote-stage-platform {
-      position:absolute;
-      bottom:66px;
-      left:50%;
-      width:150px;
-      height:34px;
-      transform:translateX(-50%) rotateX(58deg);
-      border:1px solid #a78bfa55;
-      border-radius:50%;
-      background:radial-gradient(ellipse,#8b5cf633,transparent 72%);
-      box-shadow:0 0 25px #8b5cf622;
-    }
-    .emote-stage-figure {
-      position:relative;
-      z-index:2;
-      width:120px;
-      height:170px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      margin:0 auto 6px;
-    }
-    .emote-stage-figure .skin-figure {
-      transform:scale(1.1);
-      transform-origin:center top;
-    }
-    .stage-name { position:relative; z-index:3; margin-top:4px; }
-    .stage-caption {
-      position:relative;
-      z-index:3;
-      color:#a6aec3;
-      margin-top:5px;
-      text-align:center;
-    }
-    .emote-replay-btn {
-      position:relative;
-      z-index:3;
-      margin-top:12px;
-      padding:8px 13px;
-      border:1px solid #4b416c;
-      border-radius:20px;
-      background:#211c35;
-      color:#e6ddff;
-      font-size:11px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .emote-replay.emote-groove .skin-figure,
-    .emote-replay.emote-robot .skin-figure,
-    .emote-replay.emote-bounce .skin-figure,
-    .emote-replay.emote-spin .skin-figure,
-    .emote-replay.emote-skate .skin-figure,
-    .emote-replay.emote-galaxy .skin-figure,
-    .emote-replay.emote-aurora-dance .skin-figure {
-      animation:bloksBodyDance .8s ease-in-out 3;
-    }
-    .emote-replay.emote-hello .skin-figure,
-    .emote-replay.emote-handshake .skin-figure,
-    .emote-replay.emote-salute .skin-figure,
-    .emote-replay.emote-peace .skin-figure {
-      animation:bloksBodyWave .7s ease-in-out 3;
-    }
-    .emote-replay.emote-handsup .skin-figure,
-    .emote-replay.emote-cheer .skin-figure,
-    .emote-replay.emote-phoenix .skin-figure,
-    .emote-replay.emote-crown .skin-figure,
-    .emote-replay.emote-comet .skin-figure,
-    .emote-replay.emote-cosmic .skin-figure {
-      animation:bloksBodyVictory .8s ease-in-out 3;
-    }
-    .emote-replay.emote-flex .skin-figure,
-    .emote-replay.emote-thunderclap .skin-figure {
-      animation:bloksBodyJump .7s ease-in-out 3;
-    }
-    .emote-replay.emote-sleepy .skin-figure,
-    .emote-replay.emote-shrug .skin-figure,
-    .emote-replay.emote-sneak .skin-figure {
-      animation:bloksBodyIdle .9s ease-in-out 3;
-    }
-    .emote-replay.emote-laugh .skin-figure,
-    .emote-replay.emote-taunt .skin-figure,
-    .emote-replay.emote-dragon .skin-figure {
-      animation:bloksBodyLaugh .45s ease-in-out 4;
-    }
-    .emote-replay.emote-hello .skin-arm.right,
-    .emote-replay.emote-handshake .skin-arm.right,
-    .emote-replay.emote-salute .skin-arm.right {
-      animation:bloksArmWave .28s ease-in-out 6 alternate;
-    }
-    .emote-replay.emote-groove .skin-arm.left,
-    .emote-replay.emote-robot .skin-arm.left {
-      animation:bloksArmLeft .4s ease-in-out 5 alternate;
-    }
-    .emote-replay.emote-groove .skin-arm.right,
-    .emote-replay.emote-robot .skin-arm.right {
-      animation:bloksArmRight .4s ease-in-out 5 alternate;
-    }
-    .emote-replay.emote-clap .skin-arm {
-      animation:bloksClap .32s ease-in-out 5 alternate;
-    }
-    .emote-replay.emote-handsup .skin-arm,
-    .emote-replay.emote-cheer .skin-arm,
-    .emote-replay.emote-flex .skin-arm,
-    .emote-replay.emote-phoenix .skin-arm {
-      animation:bloksRaiseArms .5s ease-in-out 3 alternate;
-    }
-    .emote-replay.emote-groove .skin-leg.left,
-    .emote-replay.emote-skate .skin-leg.left {
-      animation:bloksLegStep .35s ease-in-out 5 alternate;
-    }
-    .emote-replay.emote-groove .skin-leg.right,
-    .emote-replay.emote-skate .skin-leg.right {
-      animation:bloksLegStep .35s ease-in-out 5 alternate-reverse;
-    }
-
-    @keyframes bloksBodyDance {
-      0%,100% { transform:rotate(0) translateY(0) scale(1.1); }
-      25% { transform:rotate(-10deg) translateY(-5px) scale(1.1); }
-      50% { transform:rotate(10deg) translateY(0) scale(1.1); }
-      75% { transform:rotate(-5deg) translateY(-3px) scale(1.1); }
-    }
-    @keyframes bloksBodyWave {
-      0%,100% { transform:rotate(0) scale(1.1); }
-      30%,70% { transform:rotate(-7deg) scale(1.1); }
-    }
-    @keyframes bloksBodyVictory {
-      0%,100% { transform:translateY(0) rotate(0) scale(1.1); }
-      35% { transform:translateY(-11px) rotate(-5deg) scale(1.1); }
-      70% { transform:translateY(-4px) rotate(5deg) scale(1.1); }
-    }
-    @keyframes bloksBodyJump {
-      0%,100% { transform:translateY(0) scale(1.1); }
-      45% { transform:translateY(-25px) scale(1.1); }
-      65% { transform:translateY(-18px) scale(1.1); }
-    }
-    @keyframes bloksBodyIdle {
-      0%,100% { transform:rotate(0) translateY(0) scale(1.1); }
-      50% { transform:rotate(5deg) translateY(3px) scale(1.1); }
-    }
-    @keyframes bloksBodyLaugh {
-      0%,100% { transform:rotate(0) translateY(0) scale(1.1); }
-      25% { transform:rotate(-5deg) translateY(-2px) scale(1.1); }
-      75% { transform:rotate(5deg) translateY(-2px) scale(1.1); }
-    }
-    @keyframes bloksArmWave {
-      from { transform:rotate(-8deg); }
-      to { transform:rotate(-115deg); }
-    }
-    @keyframes bloksArmLeft {
-      from { transform:rotate(65deg); }
-      to { transform:rotate(-35deg); }
-    }
-    @keyframes bloksArmRight {
-      from { transform:rotate(-65deg); }
-      to { transform:rotate(35deg); }
-    }
-    @keyframes bloksClap {
-      from { transform:rotate(-55deg); }
-      to { transform:rotate(55deg); }
-    }
-    @keyframes bloksRaiseArms {
-      from { transform:rotate(8deg); }
-      to { transform:rotate(-125deg); }
-    }
-    @keyframes bloksLegStep {
-      from { transform:rotate(-8deg); }
-      to { transform:rotate(28deg); }
-    }
-    @media(prefers-reduced-motion:reduce) {
-      .emote-replay * { animation-duration:.01ms!important; animation-iteration-count:1!important; }
-    }
-  `;
-  document.head.appendChild(style);
-})();
-
-function skinPrice(s) {
-  return s.category==="free" ? "FREE"
-    : s.category==="coins" ? `${coinFormat(s.price)} S COINS`
-    : s.category==="money" ? `${coinFormat(s.price)} C COINS`
-    : s.priceLabel;
-}
-
-function cardHTML(skin) {
-  const owned = state.owned.includes(skin.id);
-  const equipped = state.equipped === skin.id;
-  const action = owned
-    ? (equipped ? "Equipped ✓" : "Equip")
-    : skin.category==="free" ? "Unlock free"
-    : skin.category==="coins" ? "Buy with S"
-    : skin.category==="money" ? "Buy with C"
-    : "View exclusive";
-  const cls = owned ? "owned"
-    : skin.category==="premium" ? "exclusive"
-    : skin.category==="money" ? "paid"
-    : skin.category==="coins" ? "coin" : "";
-
-  return `<article class="skin-card">
-    <button class="skin-art" data-details="${skin.id}" aria-label="Preview ${escapeHTML(skin.name)}" style="--glow:${skin.glow};--skin:${skin.colors[0]}">
-      <span class="skin-badge">${categoryName(skin.category)}</span>
-      <span class="rarity-dot" style="--rarity-color:${skin.category==="free"?"#75e0bd":skin.category==="coins"?"#c4a0ff":skin.category==="premium"?"#f5d36f":"#80e5d3"}"></span>
-      ${figureHTML(skin)}
-    </button>
-    <div class="skin-info">
-      <div class="skin-title-row"><h3>${escapeHTML(skin.name)}</h3><span class="rarity-text">${escapeHTML(skin.rarity)}</span></div>
-      <p>${escapeHTML(skin.description)}</p>
-      <div class="skin-buy-row"><div class="skin-price">${skinPrice(skin)}</div><button class="skin-action ${cls}" data-action="${skin.id}">${action}</button></div>
-    </div>
-  </article>`;
-}
-
-function renderSkins(target,list) {
-  const el = $(target);
-  if (!el) return;
-  el.innerHTML = list.length
-    ? list.map(cardHTML).join("")
-    : `<div class="empty-state"><strong>No skins found</strong>Try another search or category.</div>`;
-}
-
-function filteredSkins() {
-  return SKINS.filter(s =>
-    (state.activeCategory==="all" || s.category===state.activeCategory) &&
-    (s.name+" "+s.rarity+" "+s.description).toLowerCase().includes(state.search.toLowerCase())
-  );
-}
-
-function renderEmotes() {
-  const grid = $("emoteGrid");
-  if (!grid) return;
-
-  const list = EMOTES.filter(e =>
-    state.emoteCategory==="all" || e.category===state.emoteCategory
-  );
-  const skin = SKINS.find(s => s.id===state.equipped) || SKINS[0];
-
-  grid.innerHTML = list.map(e => {
-    const owned = state.ownedEmotes.includes(e.id);
-    const equipped = state.equippedEmote===e.id;
-    const price = e.category==="free" ? "FREE"
-      : e.category==="money" ? `${coinFormat(e.price)} C COINS`
-      : `${coinFormat(e.price)} S COINS`;
-
-    return `<article class="emote-card">
-      <button class="emote-preview emote-${e.id}" data-play-emote="${e.id}" aria-label="Play ${escapeHTML(e.name)}" style="--glow:${skin.glow}">
-        <span class="emote-floor"></span>
-        <span class="emote-character">${figureHTML(skin)}</span>
-        <span class="emote-play">▶ PLAY EMOTE</span>
+  return `
+    <article class="skin-card">
+      <button class="skin-art" data-details="${s.id}"
+        aria-label="Preview ${escapeHTML(s.name)}"
+        style="--glow:${s.glow};--skin:${s.colors[0]}">
+        <span class="skin-badge">${categoryName(s.category)}</span>
+        <span class="skin-gender">${s.gender==='girl'?'♀ GIRL':'♂ BOY'}</span>
+        <span class="rarity-dot"
+          style="--rarity-color:${s.category==='free'?'#75e0bd':s.category==='money'?'#f4d078':s.category==='coins'?'#c4a0ff':'#ff91d8'}"></span>
+        ${figureHTML(s)}
       </button>
-      <div class="emote-info">
-        <span class="emote-tier">${categoryName(e.category)}</span>
-        <h3>${escapeHTML(e.name)}</h3>
-        <p>${escapeHTML(e.description)}</p>
-        <div class="emote-foot">
-          <strong>${price}</strong>
-          <button class="skin-action ${owned?"owned":e.category==="coins"?"coin":""}" data-emote-action="${e.id}">
-            ${owned?(equipped?"Equipped ✓":"Equip & Play"):e.category==="free"?"Claim free":"Unlock"}
-          </button>
+      <div class="skin-info">
+        <div class="skin-title-row">
+          <h3>${escapeHTML(s.name)}</h3>
+          <span class="rarity-text">${s.rarity}</span>
+        </div>
+        <p>${escapeHTML(s.description)}</p>
+        <div class="skin-buy-row">
+          <div class="skin-price">${price}</div>
+          <button class="skin-action ${owned?'owned':s.category==='money'?'money-action':s.category==='coins'?'coin':'paid'}"
+            data-action="${s.id}">${action}</button>
         </div>
       </div>
     </article>`;
-  }).join("");
-
-  document.querySelectorAll("[data-emote-category]").forEach(b =>
-    b.classList.toggle("selected",b.dataset.emoteCategory===state.emoteCategory)
-  );
-
-  const balance = $("emoteBalance");
-  if (balance) balance.textContent=`${coinFormat(state.money)} C Coins · ${coinFormat(state.coins)} S Coins`;
 }
 
-function renderFriends() {
-  const friendList = $("friendList");
-  if (friendList) {
-    friendList.innerHTML = state.friends.length
-      ? state.friends.map((f,i)=>`<div class="person-row"><div class="person-avatar">${escapeHTML(f[0].toUpperCase())}</div><div class="person-main"><strong>${escapeHTML(f)}</strong><small>Added in this browser demo</small></div><button class="ghost-btn compact-btn" data-invite="${i}">Invite</button><button class="remove-friend" data-remove-friend="${i}" aria-label="Remove ${escapeHTML(f)}">×</button></div>`).join("")
-      : '<div class="empty-state"><strong>No friends yet</strong>Add a display name above to try the friend interface.</div>';
-  }
+function renderSkins(target,list){
+  const el=$(target);
+  if(!el)return;
+  el.innerHTML=list.length
+    ?list.map(skinCard).join('')
+    :'<div class="empty-state"><strong>No skins found</strong>Try another search or category.</div>';
+}
 
-  const group = state.groups.find(g=>g.code===state.currentGroup);
-  const groupPanelHTML = group
-    ? `<div class="group-code-box"><span>YOUR GROUP CODE</span><strong>${group.code}</strong><small>${group.members.length}/5 players · creator: ${escapeHTML(group.creator)}</small><button class="ghost-btn full-btn" data-copy-code="${group.code}">Copy group code</button><div class="group-members">${group.members.map((m,i)=>{const member=typeof m==="string"?{name:m,skinId:state.equipped}:m;const look=SKINS.find(s=>s.id===member.skinId)||SKINS[0];return `<div class="member-chip"><div class="member-avatar-scene"><span class="member-name-label">${escapeHTML(member.name)}</span>${figureHTML(look)}</div><span class="member-role">${i===0?"Host":"Player"}</span></div>`;}).join("")}</div><p class="demo-warning">Group members are simulated locally. Online players need a shared backend.</p><button class="ghost-btn full-btn" data-leave-group>Leave group</button></div>`
-    : '<div class="empty-state"><strong>You are not in a group</strong>Create a group or join using a five-digit code.</div>';
+function filteredSkins(){
+  return SKINS.filter(s=>
+    (state.activeCategory==='all'||s.category===state.activeCategory)&&
+    (s.name+' '+s.rarity+' '+s.description+' '+s.gender+' '+s.style)
+      .toLowerCase().includes(state.search.toLowerCase())
+  );
+}
 
-  if ($("inviteCurrentPanel")) $("inviteCurrentPanel").innerHTML=groupPanelHTML;
-  if ($("groupCurrentPanel")) $("groupCurrentPanel").innerHTML=groupPanelHTML;
-  if ($("groupList")) {
-    $("groupList").innerHTML = state.groups.length
-      ? state.groups.map(g=>`<div class="group-list-row"><div><strong>Group ${g.code}</strong><small>${g.members.length}/5 players</small></div><button class="skin-action" data-join-local="${g.code}">Join</button></div>`).join("")
-      : '<p class="muted-copy">Groups created in this browser appear here.</p>';
+function renderWallet(){
+  if($('moneyBalance'))$('moneyBalance').textContent=fmt(state.money);
+  if($('coinBalance'))$('coinBalance').textContent=fmt(state.scoins);
+  if($('emoteBalance')){
+    $('emoteBalance').innerHTML=
+      `<span>🟡 ${fmt(state.money)} C Coins</span> <span>✦ ${fmt(state.scoins)} S Coins</span>`;
   }
 }
 
-function render() {
-  if ($("coinBalance")) $("coinBalance").textContent=coinFormat(state.coins);
-  if ($("moneyBalance")) $("moneyBalance").textContent=coinFormat(state.money);
-  if ($("allCount")) $("allCount").textContent=SKINS.length;
-
-  renderSkins("skinGrid",filteredSkins());
-  renderSkins("featuredGrid",[SKINS[7],SKINS[25],SKINS[32],SKINS[52]]);
-  renderSkins("inventoryGrid",SKINS.filter(s=>state.owned.includes(s.id)));
-
-  document.querySelectorAll(".category-tab").forEach(b =>
-    b.classList.toggle("selected",b.dataset.category===state.activeCategory)
+function render(){
+  renderWallet();
+  if($('allCount'))$('allCount').textContent=SKINS.length;
+  renderSkins('skinGrid',filteredSkins());
+  renderSkins('featuredGrid',[SKINS[7],SKINS[26],SKINS[32],SKINS[53]]);
+  renderSkins('inventoryGrid',SKINS.filter(s=>state.owned.includes(s.id)));
+  document.querySelectorAll('.category-tab[data-category]').forEach(b=>
+    b.classList.toggle('selected',b.dataset.category===state.activeCategory)
   );
-
-  const equipped = SKINS.find(s=>s.id===state.equipped)||SKINS[0];
-  const equippedLook = $("equippedLook");
-  if (equippedLook) equippedLook.innerHTML=`${figureHTML(equipped)}<div><strong>${escapeHTML(equipped.name)}</strong><small>Equipped character look</small></div>`;
-
   renderEmotes();
   renderFriends();
+  renderGroups();
+  renderEquipped();
 }
 
-function go(view) {
-  const target=$(view+"View");
-  if (!target) { showToast("This section is not available yet."); return; }
-
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active-view"));
-  target.classList.add("active-view");
-  if ($("crumb")) $("crumb").textContent=view.toUpperCase();
-  document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
-  document.body.classList.remove("mobile-menu-open");
-
-  if (view==="skins") {
-    state.activeCategory="all";
-    state.search="";
-    if ($("skinSearch")) $("skinSearch").value="";
-    render();
-  } else if (["inventory","discover","friends","groups","emotes"].includes(view)) {
-    render();
+function go(view){
+  const target=$(view+'View');
+  if(!target){
+    toast('That section is not available.');
+    return;
   }
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active-view'));
+  target.classList.add('active-view');
+
+  if($('crumb'))$('crumb').textContent=view.toUpperCase();
+
+  document.querySelectorAll('.nav-item').forEach(b=>
+    b.classList.toggle('active',b.dataset.view===view)
+  );
+
+  document.body.classList.remove('mobile-menu-open');
+
+  if(view==='skins'){
+    state.activeCategory='all';
+    state.search='';
+    if($('skinSearch'))$('skinSearch').value='';
+  }
+
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function buySkin(id) {
+function buySkin(id){
   const s=SKINS.find(x=>x.id===id);
-  if (!s) return;
+  if(!s)return;
 
-  if (state.owned.includes(id)) {
-    state.equipped=id;
-    persist(); render();
-    showToast(`${s.name} equipped!`);
+  if(state.owned.includes(id)){
+    toast(`${s.name} is already in My Skins.`);
     return;
   }
 
-  if (s.category==="free") {
-    state.owned.push(id); state.equipped=id;
-    persist(); render();
-    showToast(`${s.name} unlocked and equipped!`);
+  if(s.category==='free'){
+    state.owned.push(id);
+    persist();
+    render();
+    toast(`${s.name} unlocked!`);
     return;
   }
 
-  if (s.category==="coins" || s.category==="money") {
-    const wallet=s.category==="coins"?"coins":"money";
-    if (state[wallet]<s.price) {
-      showToast(`Not enough ${wallet==="coins"?"S Coins":"C Coins"}. You need ${coinFormat(s.price-state[wallet])} more.`);
+  if(s.category==='money'||s.category==='coins'){
+    const wallet=s.category==='money'?'money':'scoins';
+
+    if(state[wallet]<s.price){
+      toast(`Not enough ${wallet==='money'?'C Coins':'S Coins'} — you need ${fmt(s.price-state[wallet])} more.`);
       return;
     }
+
     state[wallet]-=s.price;
     state.owned.push(id);
-    state.equipped=id;
-    persist(); render();
-    showToast(`${s.name} bought and equipped!`);
-    return;
-  }
-
-  openDetails(id,true);
-}
-
-function openDetails(id) {
-  const s=SKINS.find(x=>x.id===id);
-  if (!s) return;
-  const owned=state.owned.includes(id);
-  const purchaseText=s.category==="premium"?`Real-money exclusive · ${s.priceLabel}`:skinPrice(s);
-
-  $("dialogContent").innerHTML=`<div class="dialog-skin-art" style="--glow:${s.glow}">${figureHTML(s)}</div><div class="eyebrow">${categoryName(s.category)} · ${s.rarity.toUpperCase()}</div><h2>${escapeHTML(s.name)}</h2><p>${escapeHTML(s.description)}</p><div class="dialog-price">${purchaseText}<small>Cosmetic item</small></div>${s.category==="premium"&&!owned?`<button class="primary-btn full-btn" id="checkoutDemo">Continue to purchase · ${s.priceLabel}</button><small>Payment checkout is not connected. No payment will be taken.</small>`:`<button class="primary-btn full-btn" id="dialogAction">${owned?(state.equipped===id?"Currently equipped":"Equip skin"):s.category==="free"?"Unlock free skin":`Buy for ${skinPrice(s)}`}</button>`}<small>Original BlokS character design. Skins are cosmetic only.</small>`;
-
-  $("skinDialog").showModal();
-  const action=$("dialogAction");
-  if (action) action.addEventListener("click",()=>{$("skinDialog").close();buySkin(id);});
-  const checkout=$("checkoutDemo");
-  if (checkout) checkout.addEventListener("click",()=>{$("skinDialog").close();showToast("Real-money checkout is not connected. No charge was made.");});
-}
-
-function buyEmote(id) {
-  const e=EMOTES.find(x=>x.id===id);
-  if (!e) return;
-
-  if (state.ownedEmotes.includes(id)) {
-    state.equippedEmote=id;
-    persist();
-    renderEmotes();
-    previewEmote(id);
-    showToast(`${e.name} equipped!`);
-    return;
-  }
-
-  if (e.category==="free") {
-    state.ownedEmotes.push(id);
-    state.equippedEmote=id;
     persist();
     render();
+    toast(`${s.name} purchased with ${wallet==='money'?'C Coins':'S Coins'}!`);
+    return;
+  }
+
+  openDetails(id);
+}
+
+function openDetails(id){
+  const s=SKINS.find(x=>x.id===id);
+  if(!s||!$('dialogContent')||!$('skinDialog'))return;
+
+  const owned=state.owned.includes(id);
+  const price=s.category==='free'
+    ?'Free'
+    :s.category==='money'
+      ?`${fmt(s.price)} C Coins`
+      :s.category==='coins'
+        ?`${fmt(s.price)} S Coins`
+        :`₹${s.price}`;
+
+  $('dialogContent').innerHTML=`
+    <div class="dialog-skin-art" style="--glow:${s.glow}">${figureHTML(s)}</div>
+    <div class="eyebrow">${categoryName(s.category)} · ${s.rarity.toUpperCase()} · ${s.gender.toUpperCase()}</div>
+    <h2>${escapeHTML(s.name)}</h2>
+    <p>${escapeHTML(s.description)}</p>
+    <div class="dialog-price">${price}<small>Cosmetic item</small></div>
+    ${s.category==='premium'&&!owned
+      ?`<button class="primary-btn full-btn" id="checkoutDemo">Continue to purchase · ₹${s.price}</button><small>Demo only: payment checkout is not connected. No payment will be taken.</small>`
+      :`<button class="primary-btn full-btn" id="dialogAction">${owned?'Already in My Skins':s.category==='free'?'Unlock free skin':`Buy for ${price}`}</button>`
+    }
+    <small>Original BlokS avatar concept. Skins do not increase gameplay power.</small>`;
+
+  $('skinDialog').showModal();
+
+  const a=$('dialogAction');
+  if(a&&!owned){
+    a.addEventListener('click',()=>{
+      $('skinDialog').close();
+      buySkin(id);
+    });
+  }
+
+  const c=$('checkoutDemo');
+  if(c){
+    c.addEventListener('click',()=>{
+      $('skinDialog').close();
+      toast('Checkout is not connected; no payment was taken.');
+    });
+  }
+}
+
+function renderEmotes(){
+  const grid=$('emoteGrid');
+  if(!grid)return;
+
+  const list=EMOTES.filter(e=>
+    state.activeEmoteCategory==='all'||e.category===state.activeEmoteCategory
+  );
+
+  grid.innerHTML=list.map(e=>{
+    const owned=state.ownedEmotes.includes(e.id);
+    const price=e.category==='free'
+      ?'FREE'
+      :e.category==='money'
+        ?`🟡 ${fmt(e.price)} C`
+        :`✦ ${fmt(e.price)} S`;
+
+    return `
+      <article class="emote-card">
+        <button class="emote-preview" data-preview-emote="${e.id}"
+          aria-label="Preview ${escapeHTML(e.name)}">
+          <span>${e.emoji}</span>
+        </button>
+        <div class="emote-copy">
+          <h3>${escapeHTML(e.name)}</h3>
+          <p>${escapeHTML(e.description)}</p>
+          <div class="emote-buy">
+            <b>${price}</b>
+            <button class="skin-action ${owned?'owned':''}" data-emote-buy="${e.id}">
+              ${owned?'Owned':e.category==='free'?'Unlock':'Buy'}
+            </button>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+
+  document.querySelectorAll('[data-emote-category]').forEach(b=>
+    b.classList.toggle('selected',b.dataset.emoteCategory===state.activeEmoteCategory)
+  );
+}
+
+function buyEmote(id){
+  const e=EMOTES.find(x=>x.id===id);
+  if(!e)return;
+
+  if(state.ownedEmotes.includes(id)){
     previewEmote(id);
-    showToast(`${e.name} unlocked!`);
     return;
   }
 
-  const wallet=e.category==="coins"?"coins":"money";
-  if (state[wallet]<e.price) {
-    showToast(`Not enough ${wallet==="coins"?"S Coins":"C Coins"}.`);
-    return;
+  if(e.category==='free'){
+    state.ownedEmotes.push(id);
+  }else{
+    const wallet=e.category==='money'?'money':'scoins';
+
+    if(state[wallet]<e.price){
+      toast(`Not enough ${wallet==='money'?'C Coins':'S Coins'}.`);
+      return;
+    }
+
+    state[wallet]-=e.price;
+    state.ownedEmotes.push(id);
   }
 
-  state[wallet]-=e.price;
-  state.ownedEmotes.push(id);
-  state.equippedEmote=id;
   persist();
   render();
   previewEmote(id);
-  showToast(`${e.name} unlocked and equipped!`);
+  toast(`${e.name} unlocked!`);
 }
 
-function previewEmote(id) {
-  const emote=EMOTES.find(e=>e.id===id);
-  const preview=$("emoteStage");
-  if (!emote || !preview) return;
+function previewEmote(id){
+  const e=EMOTES.find(x=>x.id===id);
+  if(!e||!$('emoteStage'))return;
 
-  const skin=SKINS.find(s=>s.id===state.equipped)||SKINS[0];
-  const owned=state.ownedEmotes.includes(id);
+  $('emoteStage').innerHTML=`
+    <div class="emote-stage-character">
+      <div class="emote-stage-emoji">${e.emoji}</div>
+      <div class="emote-stage-label">${escapeHTML(e.name)}</div>
+      <div class="emote-stage-sub">${state.ownedEmotes.includes(id)?'Unlocked emote':'Preview · unlock to own'}</div>
+    </div>`;
 
-  preview.innerHTML=`<div class="emote-stage-character">
-    <div class="emote-stage-platform"></div>
-    <div class="emote-stage-figure emote-${id}">
-      ${figureHTML(skin)}
-    </div>
-    <strong class="stage-name">${escapeHTML(emote.name)}</strong>
-    <small class="stage-caption">${owned?"Unlocked emote · body animation":"Emote preview · body animation"}</small>
-    <button type="button" class="emote-replay-btn">↻ Replay movement</button>
-  </div>`;
-
-  const replay=()=>{
-    const figure=preview.querySelector(".emote-stage-figure");
-    if (!figure) return;
-    figure.classList.remove("emote-replay");
-    void figure.offsetWidth;
-    figure.classList.add("emote-replay");
-  };
-
-  preview.querySelector(".emote-replay-btn")?.addEventListener("click",replay);
-  replay();
+  $('emoteStage').classList.remove('emote-playing');
+  void $('emoteStage').offsetWidth;
+  $('emoteStage').classList.add('emote-playing');
 }
 
-function createGroup() {
+function renderFriends(){
+  const list=$('friendList');
+
+  if(list){
+    list.innerHTML=state.friends.length
+      ?state.friends.map((n,i)=>`
+        <div class="person-row">
+          <span class="person-avatar">${escapeHTML(n.slice(0,1).toUpperCase())}</span>
+          <div>
+            <strong>${escapeHTML(n)}</strong>
+            <small>Local demo friend</small>
+          </div>
+          <button class="text-btn" data-remove-friend="${i}">Remove</button>
+        </div>`).join('')
+      :'<p class="muted-copy">No friends added yet. Add a display name above.</p>';
+  }
+
+  if($('friendCount')){
+    $('friendCount').textContent=`${state.friends.length} friend${state.friends.length===1?'':'s'}`;
+  }
+}
+
+function renderEquipped(){
+  const el=$('equippedLook');
+  if(!el)return;
+
+  const equipped=SKINS.find(s=>state.owned.includes(s.id))||SKINS[0];
+
+  el.innerHTML=`
+    <div class="equipped-avatar">${figureHTML(equipped)}</div>
+    <div>
+      <strong>${escapeHTML(state.player)}</strong>
+      <small>Wearing ${escapeHTML(equipped.name)}</small>
+    </div>`;
+
+  if($('playerName')&&document.activeElement!==$('playerName')){
+    $('playerName').value=state.player;
+  }
+}
+
+function currentGroup(){
+  return state.groups.find(g=>g.code===state.currentGroup)||null;
+}
+
+function renderGroupCard(g){
+  return `
+    <div class="group-card">
+      <div class="group-card-top">
+        <div>
+          <span class="eyebrow">GROUP CODE</span>
+          <strong class="group-code">${g.code}</strong>
+        </div>
+        <span class="group-capacity">${g.members.length}/5 PLAYERS</span>
+      </div>
+      <div class="group-players">
+        ${g.members.map(m=>`
+          <div class="group-player">
+            <div class="group-player-avatar">${figureHTML(SKINS.find(s=>s.id===m.skin)||SKINS[0])}</div>
+            <strong>${escapeHTML(m.name)}</strong>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderGroups(){
+  const g=currentGroup();
+
+  if($('groupCurrentPanel')){
+    $('groupCurrentPanel').innerHTML=g
+      ?renderGroupCard(g)
+      :'<p class="muted-copy">You are not in a group yet.</p>';
+  }
+
+  if($('inviteCurrentPanel')){
+    $('inviteCurrentPanel').innerHTML=g
+      ?`${renderGroupCard(g)}<p class="muted-copy">Invite preview: ${state.friends.length?state.friends.map(escapeHTML).join(', '):'add friends first in Friends Hub'}.</p>`
+      :'<p class="muted-copy">Create or join a group to prepare invites.</p>';
+  }
+
+  if($('groupList')){
+    $('groupList').innerHTML=state.groups.length
+      ?state.groups.map(x=>`
+        <button class="group-list-item" data-select-group="${x.code}">
+          <strong>${x.code}</strong>
+          <span>${x.members.length}/5 players</span>
+        </button>`).join('')
+      :'<p class="muted-copy">No groups in this browser yet.</p>';
+  }
+}
+
+function createGroup(){
   const code=String(Math.floor(10000+Math.random()*90000));
-  const name=(($("playerName")?.value||"").trim()||"Guest Player").slice(0,24);
-  const group={code,creator:name,members:[{name,skinId:state.equipped}],createdAt:Date.now()};
-  state.groups.push(group);
+  const skin=SKINS.find(s=>state.owned.includes(s.id))||SKINS[0];
+  const g={code,members:[{name:state.player,skin:skin.id}]};
+
+  state.groups.push(g);
   state.currentGroup=code;
-  persist(); renderFriends();
-  showToast(`Group created! Your code is ${code}.`);
+  persist();
+  renderGroups();
+  toast(`Group created! Code: ${code}`);
 }
 
-function joinGroup(code) {
-  code=String(code||"").trim();
-  if (!/^\d{5}$/.test(code)) { showToast("Enter a valid five-digit group code."); return; }
-
+function joinGroup(code){
   const g=state.groups.find(x=>x.code===code);
-  if (!g) { showToast("Group not found in this browser demo. Online group joining needs a backend."); return; }
 
-  const name=(($("playerName")?.value||"").trim()||"Guest Player").slice(0,24);
-  if (g.members.some(m=>(typeof m==="string"?m:m.name)===name)) {
-    state.currentGroup=code; persist(); renderFriends();
-    showToast("You are already in this group."); return;
+  if(!g){
+    toast('That group code was not found in this browser demo.');
+    return;
   }
-  if (g.members.length>=5) { showToast("This group is full (maximum 5 players)."); return; }
 
-  g.members.push({name,skinId:state.equipped});
+  if(g.members.some(m=>m.name.toLowerCase()===state.player.toLowerCase())){
+    state.currentGroup=code;
+    renderGroups();
+    toast('You are already in this group.');
+    return;
+  }
+
+  if(g.members.length>=5){
+    toast('This group is full (maximum 5 players).');
+    return;
+  }
+
+  const skin=SKINS.find(s=>state.owned.includes(s.id))||SKINS[0];
+  g.members.push({name:state.player,skin:skin.id});
   state.currentGroup=code;
-  persist(); renderFriends();
-  showToast(`Joined group ${code}!`);
+  persist();
+  renderGroups();
+  toast(`Joined group ${code}.`);
 }
 
-function addFriend(name) {
-  name=String(name||"").trim().replace(/\s+/g," ").slice(0,24);
-  if (name.length<2) { showToast("Enter a display name with at least 2 characters."); return; }
-  if (state.friends.some(f=>f.toLowerCase()===name.toLowerCase())) {
-    showToast("That friend is already on your list."); return;
+function claimMission(id,btn){
+  if(state.claimed.includes(id)){
+    toast('You already claimed this reward.');
+    return;
   }
-  state.friends.push(name);
-  persist(); renderFriends();
-  showToast(`Friend request demo added for ${name}.`);
+
+  if(id==='collect'&&!state.owned.some(sid=>SKINS.find(s=>s.id===sid)?.category==='free')){
+    toast('Unlock a free skin first.');
+    return;
+  }
+
+  const rewards={visit:150,collect:300,explore:250};
+  state.claimed.push(id);
+  state.money+=rewards[id]||0;
+  persist();
+  render();
+  toast(`You earned ${fmt(rewards[id])} C Coins!`);
 }
 
-document.addEventListener("click",e=>{
-  const nav=e.target.closest("[data-view]");
-  if (nav) { go(nav.dataset.view); return; }
+function syncMissions(){
+  document.querySelectorAll('[data-mission]').forEach(b=>{
+    if(state.claimed.includes(b.dataset.mission)){
+      b.textContent='Reward claimed ✓';
+      b.disabled=true;
+    }
+  });
+}
 
-  const goBtn=e.target.closest("[data-go]");
-  if (goBtn) { go(goBtn.dataset.go); return; }
+document.addEventListener('click',e=>{
+  const nav=e.target.closest('[data-view]');
+  if(nav){
+    go(nav.dataset.view);
+    return;
+  }
 
-  const cat=e.target.closest("[data-category]");
-  if (cat) {
+  const goBtn=e.target.closest('[data-go]');
+  if(goBtn){
+    go(goBtn.dataset.go);
+    return;
+  }
+
+  const cat=e.target.closest('[data-category]');
+  if(cat){
     const c=cat.dataset.category;
-    if (cat.classList.contains("path-card")) { go("skins"); state.activeCategory=c; render(); }
-    else { state.activeCategory=c; render(); }
+    if(cat.classList.contains('path-card'))go('skins');
+    state.activeCategory=c;
+    render();
     return;
   }
 
-  const action=e.target.closest("[data-action]");
-  if (action) { buySkin(action.dataset.action); return; }
-
-  const details=e.target.closest("[data-details]");
-  if (details) { openDetails(details.dataset.details); return; }
-
-  const emoteCat=e.target.closest("[data-emote-category]");
-  if (emoteCat) { state.emoteCategory=emoteCat.dataset.emoteCategory; renderEmotes(); return; }
-
-  const emoteAction=e.target.closest("[data-emote-action]");
-  if (emoteAction) { buyEmote(emoteAction.dataset.emoteAction); return; }
-
-  const play=e.target.closest("[data-play-emote]");
-  if (play) { previewEmote(play.dataset.playEmote); return; }
-
-  const remove=e.target.closest("[data-remove-friend]");
-  if (remove) {
-    state.friends.splice(Number(remove.dataset.removeFriend),1);
-    persist(); renderFriends(); showToast("Friend removed."); return;
-  }
-
-  const invite=e.target.closest("[data-invite]");
-  if (invite) {
-    const friend=state.friends[Number(invite.dataset.invite)];
-    if (!state.currentGroup) { showToast("Create or join a group before inviting friends."); return; }
-    showToast(`Demo invite prepared for ${friend} to group ${state.currentGroup}.`); return;
-  }
-
-  const copy=e.target.closest("[data-copy-code]");
-  if (copy) {
-    const code=copy.dataset.copyCode;
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(()=>showToast("Group code copied!")).catch(()=>showToast(`Group code: ${code}`));
-    else showToast(`Group code: ${code}`);
+  const action=e.target.closest('[data-action]');
+  if(action){
+    buySkin(action.dataset.action);
     return;
   }
 
-  if (e.target.closest("[data-leave-group]")) {
-    state.currentGroup="";
-    persist(); renderFriends(); showToast("You left the group."); return;
+  const details=e.target.closest('[data-details]');
+  if(details){
+    openDetails(details.dataset.details);
+    return;
   }
 
-  const join=e.target.closest("[data-join-local]");
-  if (join) { joinGroup(join.dataset.joinLocal); return; }
+  const emCat=e.target.closest('[data-emote-category]');
+  if(emCat){
+    state.activeEmoteCategory=emCat.dataset.emoteCategory;
+    renderEmotes();
+    return;
+  }
 
-  const game=e.target.closest("[data-launch-game]");
-  if (game) { showToast("Game launch will be connected when a playable BlokS game is added."); return; }
+  const emPreview=e.target.closest('[data-preview-emote]');
+  if(emPreview){
+    previewEmote(emPreview.dataset.previewEmote);
+    return;
+  }
+
+  const emBuy=e.target.closest('[data-emote-buy]');
+  if(emBuy){
+    buyEmote(emBuy.dataset.emoteBuy);
+    return;
+  }
+
+  const rm=e.target.closest('[data-remove-friend]');
+  if(rm){
+    state.friends.splice(Number(rm.dataset.removeFriend),1);
+    persist();
+    renderFriends();
+    return;
+  }
+
+  const sg=e.target.closest('[data-select-group]');
+  if(sg){
+    state.currentGroup=sg.dataset.selectGroup;
+    renderGroups();
+    return;
+  }
+
+  if(e.target.closest('[data-launch-game]')){
+    toast('This game is a concept preview; playable game integration is still needed.');
+  }
 });
 
-if ($("skinSearch")) {
-  $("skinSearch").addEventListener("input",e=>{
+if($('skinSearch')){
+  $('skinSearch').addEventListener('input',e=>{
     state.search=e.target.value;
-    renderSkins("skinGrid",filteredSkins());
+    renderSkins('skinGrid',filteredSkins());
   });
 }
 
-if ($("dialogClose")) $("dialogClose").addEventListener("click",()=>$("skinDialog").close());
-if ($("signInBtn")) $("signInBtn").addEventListener("click",()=>$("signInDialog").showModal());
-if ($("signClose")) $("signClose").addEventListener("click",()=>$("signInDialog").close());
-if ($("demoSignIn")) $("demoSignIn").addEventListener("click",()=>{$("signInDialog").close();showToast("You are exploring as a demo guest.");});
-if ($("mobileMenu")) $("mobileMenu").addEventListener("click",()=>document.body.classList.toggle("mobile-menu-open"));
+if($('dialogClose')){
+  $('dialogClose').addEventListener('click',()=>$('skinDialog').close());
+}
 
-if ($("addFriendForm")) {
-  $("addFriendForm").addEventListener("submit",e=>{
+if($('signInBtn')){
+  $('signInBtn').addEventListener('click',()=>$('signInDialog').showModal());
+}
+
+if($('signClose')){
+  $('signClose').addEventListener('click',()=>$('signInDialog').close());
+}
+
+if($('demoSignIn')){
+  $('demoSignIn').addEventListener('click',()=>{
+    $('signInDialog').close();
+    toast('You are exploring as a demo guest.');
+  });
+}
+
+if($('mobileMenu')){
+  $('mobileMenu').addEventListener('click',()=>{
+    document.body.classList.toggle('mobile-menu-open');
+  });
+}
+
+if($('createGroupBtn')){
+  $('createGroupBtn').addEventListener('click',createGroup);
+}
+
+if($('inviteCurrentBtn')){
+  $('inviteCurrentBtn').addEventListener('click',()=>{
+    renderGroups();
+    toast(state.friends.length
+      ?'Invite preview prepared. Online sending is not connected.'
+      :'Add friends first, then prepare invites.');
+  });
+}
+
+if($('addFriendForm')){
+  $('addFriendForm').addEventListener('submit',e=>{
     e.preventDefault();
-    addFriend($("friendName").value);
-    $("friendName").value="";
+
+    const name=$('friendName').value.trim();
+    if(!name)return;
+
+    if(name.toLowerCase()===state.player.toLowerCase()){
+      toast('That is your own display name.');
+      return;
+    }
+
+    if(state.friends.some(x=>x.toLowerCase()===name.toLowerCase())){
+      toast('That friend is already listed.');
+      return;
+    }
+
+    state.friends.push(name);
+    persist();
+    $('friendName').value='';
+    renderFriends();
+    toast(`${name} added to your local friends list.`);
   });
 }
 
-if ($("createGroupBtn")) $("createGroupBtn").addEventListener("click",createGroup);
+if($('playerName')){
+  $('playerName').addEventListener('change',e=>{
+    state.player=e.target.value.trim().slice(0,24)||'Guest Player';
+    persist();
+    renderEquipped();
+    renderGroups();
+  });
+}
 
-if ($("joinGroupForm")) {
-  $("joinGroupForm").addEventListener("submit",e=>{
+if($('joinGroupForm')){
+  $('joinGroupForm').addEventListener('submit',e=>{
     e.preventDefault();
-    joinGroup($("groupCodeInput").value);
-    $("groupCodeInput").value="";
+    joinGroup($('groupCodeInput').value.trim());
   });
 }
 
-if ($("inviteCurrentBtn")) {
-  $("inviteCurrentBtn").addEventListener("click",()=>{
-    if (!state.friends.length) { showToast("Add a friend first to prepare an invite."); return; }
-    if (!state.currentGroup) { showToast("Create or join a group first."); return; }
-    showToast(`Invite prepared for ${state.friends.length} friend(s).`);
-  });
-}
-
-if ($("playerName")) {
-  $("playerName").addEventListener("change",()=>{
-    const name=$("playerName").value.trim();
-    if (name) localStorage.setItem("bloks_player_name",name);
-  });
-}
+document.querySelectorAll('[data-mission]').forEach(btn=>{
+  btn.addEventListener('click',()=>claimMission(btn.dataset.mission,btn));
+});
 
 render();
-
-
-/* ==========================================================
-   BLOKS UPGRADE PACK
-   Adds: daily rewards, XP/levels, rarity effects, chat demo,
-   room UI, body emotes, sound, music and mobile controls.
-   Append to the END of your existing app.js.
-   ========================================================== */
-(() => {
-  "use strict";
-
-  const KEY = "bloks_upgrade_v1";
-  const load = () => {
-    try {
-      return JSON.parse(localStorage.getItem(KEY)) || {};
-    } catch {
-      return {};
-    }
-  };
-
-  const saved = load();
-  const upgrade = {
-    xp: Number(saved.xp || 0),
-    level: Number(saved.level || 1),
-    lastDaily: saved.lastDaily || "",
-    streak: Number(saved.streak || 0),
-    messages: Array.isArray(saved.messages) ? saved.messages : [],
-    sound: saved.sound !== false,
-    music: saved.music === true,
-    roomCode: saved.roomCode || "",
-    mobileMode: saved.mobileMode === true
-  };
-
-  const save = () => {
-    localStorage.setItem(KEY, JSON.stringify(upgrade));
-  };
-
-  const safe = (value) => String(value).replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;",
-    '"': "&quot;", "'": "&#39;"
-  })[c]);
-
-  const playerName = () => {
-    const input = document.getElementById("playerName");
-    return (input?.value || localStorage.getItem("bloks_player_name") || "Guest Player")
-      .trim().slice(0, 24) || "Guest Player";
-  };
-
-  const notify = (message) => {
-    if (typeof showToast === "function") showToast(message);
-    else alert(message);
-  };
-
-  /* ---------- Visual effects and responsive layout ---------- */
-
-  const style = document.createElement("style");
-  style.id = "bloks-upgrade-styles";
-  style.textContent = `
-    .bu-panel {
-      margin: 22px auto;
-      padding: clamp(14px, 3vw, 24px);
-      width: min(1100px, calc(100% - 24px));
-      box-sizing: border-box;
-      color: var(--text, #f7f7ff);
-      background: var(--panel, #17182a);
-      border: 1px solid rgba(170,155,255,.22);
-      border-radius: 22px;
-      box-shadow: 0 15px 45px rgba(0,0,0,.18);
-    }
-    .bu-panel h2 { margin: 0 0 8px; }
-    .bu-muted { opacity: .72; font-size: 13px; }
-    .bu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(min(100%,220px),1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .bu-card {
-      min-width: 0;
-      padding: 16px;
-      border: 1px solid rgba(170,155,255,.2);
-      background: rgba(130,115,255,.07);
-      border-radius: 17px;
-    }
-    .bu-button {
-      border: 0; border-radius: 12px; padding: 11px 15px;
-      color: white; background: linear-gradient(135deg,#8066ff,#5540c7);
-      font: inherit; font-weight: 700; cursor: pointer;
-      transition: transform .15s, filter .15s;
-    }
-    .bu-button:hover { transform: translateY(-2px); filter: brightness(1.12); }
-    .bu-button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
-    .bu-input {
-      width: 100%; box-sizing: border-box; min-width: 0;
-      padding: 12px; border-radius: 11px;
-      color: inherit; background: rgba(0,0,0,.2);
-      border: 1px solid rgba(170,155,255,.3); font: inherit;
-    }
-    .bu-progress {
-      height: 10px; border-radius: 20px; overflow: hidden;
-      background: rgba(255,255,255,.1); margin: 12px 0;
-    }
-    .bu-progress > span {
-      display: block; height: 100%; width: 0%;
-      background: linear-gradient(90deg,#48e6c1,#9878ff);
-      transition: width .3s;
-    }
-    .bu-chat-log {
-      height: 210px; overflow-y: auto; padding: 10px;
-      background: rgba(0,0,0,.2); border-radius: 12px;
-      margin: 12px 0; overflow-wrap: anywhere;
-    }
-    .bu-message { padding: 7px 0; border-bottom: 1px solid #ffffff12; }
-    .bu-message strong { color: #b9aaff; }
-    .bu-avatar {
-      width: 100px; height: 135px; margin: 12px auto;
-      position: relative; perspective: 500px;
-      filter: drop-shadow(0 10px 12px #0005);
-    }
-    .bu-avatar .head {
-      width: 46px; height: 46px; border-radius: 35% 35% 42% 42%;
-      position: absolute; left: 27px; top: 4px;
-      background: linear-gradient(135deg,#ffe0b8,#d89a73);
-      box-shadow: inset -7px -5px 0 #0002, inset 5px 4px 0 #fff4;
-    }
-    .bu-avatar .torso {
-      width: 52px; height: 48px; position: absolute;
-      top: 52px; left: 24px; border-radius: 12px 12px 9px 9px;
-      background: linear-gradient(135deg,#a99aff,#5b49bf);
-      box-shadow: inset -9px -4px 0 #0003, inset 5px 3px 0 #fff3;
-    }
-    .bu-avatar .arm {
-      position: absolute; top: 55px; width: 15px; height: 43px;
-      border-radius: 10px; background: linear-gradient(90deg,#c58b69,#f4c5a2);
-      transform-origin: top center;
-    }
-    .bu-avatar .arm.left { left: 12px; transform: rotate(12deg); }
-    .bu-avatar .arm.right { right: 10px; transform: rotate(-12deg); }
-    .bu-avatar .leg {
-      position: absolute; top: 95px; width: 19px; height: 34px;
-      border-radius: 5px 5px 8px 8px;
-      background: linear-gradient(90deg,#36385d,#777bd0);
-      transform-origin: top center;
-    }
-    .bu-avatar .leg.left { left: 29px; }
-    .bu-avatar .leg.right { left: 51px; }
-    .bu-avatar .eye {
-      position:absolute; top:22px; left:38px; width:5px; height:5px;
-      border-radius:50%; background:#24213a;
-      box-shadow: 15px 0 #24213a;
-    }
-    .bu-avatar.rarity-rare .torso { box-shadow: 0 0 14px #55c9ff, inset -9px -4px #0003; }
-    .bu-avatar.rarity-epic .torso { box-shadow: 0 0 18px #b26aff, inset -9px -4px #0003; }
-    .bu-avatar.rarity-legendary .torso {
-      box-shadow: 0 0 22px #ffc75e, inset -9px -4px #0003;
-      animation: buGlow 1.7s ease-in-out infinite alternate;
-    }
-    .bu-avatar.rarity-mythic .torso {
-      box-shadow: 0 0 24px #ff69db, 0 0 38px #55cfff, inset -9px -4px #0003;
-      animation: buGlow 1.2s ease-in-out infinite alternate;
-    }
-    @keyframes buGlow { to { filter: brightness(1.35); } }
-    .bu-avatar.move-wave .arm.right { animation: buWave .35s ease-in-out 5 alternate; }
-    @keyframes buWave { to { transform: rotate(-145deg); } }
-    .bu-avatar.move-dance { animation: buDance .35s ease-in-out 8 alternate; }
-    @keyframes buDance { to { transform: rotate(9deg) translateY(-5px); } }
-    .bu-avatar.move-jump { animation: buJump .45s ease-in-out 4 alternate; }
-    @keyframes buJump { to { transform: translateY(-28px) rotate(5deg); } }
-    .bu-avatar.move-laugh { animation: buLaugh .2s ease-in-out 10 alternate; }
-    @keyframes buLaugh { to { transform: rotate(-7deg) translateY(-3px); } }
-    .bu-avatar.move-flex .arm.left { animation: buFlex .4s ease-in-out 4 alternate; }
-    .bu-avatar.move-flex .arm.right { animation: buFlex2 .4s ease-in-out 4 alternate; }
-    @keyframes buFlex { to { transform: rotate(65deg); } }
-    @keyframes buFlex2 { to { transform: rotate(-65deg); } }
-    .bu-avatar.move-spin { animation: buSpin .65s ease-in-out 3; }
-    @keyframes buSpin { to { transform: rotateY(360deg); } }
-    .bu-avatar.move-cheer .arm { animation: buCheer .35s ease-in-out 5 alternate; }
-    @keyframes buCheer { to { transform: rotate(155deg); } }
-    .bu-avatar.move-clap .arm.left { animation: buClapL .25s ease-in-out 6 alternate; }
-    .bu-avatar.move-clap .arm.right { animation: buClapR .25s ease-in-out 6 alternate; }
-    @keyframes buClapL { to { transform: rotate(-48deg); } }
-    @keyframes buClapR { to { transform: rotate(48deg); } }
-    .bu-avatar.move-sneak .leg.left { animation: buStep .3s ease-in-out 6 alternate; }
-    .bu-avatar.move-sneak .leg.right { animation: buStep2 .3s ease-in-out 6 alternate; }
-    @keyframes buStep { to { transform: rotate(-28deg) translateY(-5px); } }
-    @keyframes buStep2 { to { transform: rotate(28deg) translateY(-5px); } }
-    .bu-controls {
-      position: fixed; z-index: 9998; bottom: 16px; right: 14px;
-      display: none; gap: 8px; align-items: center;
-      padding: 10px; border-radius: 20px;
-      background: #151526eF; border: 1px solid #a99aff55;
-      box-shadow: 0 8px 30px #0005;
-    }
-    .bu-controls button {
-      border: 0; border-radius: 50%; width: 48px; height: 48px;
-      color: white; background: #6550d9; font-size: 20px;
-      touch-action: manipulation;
-    }
-    body.bu-mobile-mode .bu-controls { display: flex; }
-    body.bu-mobile-mode { padding-bottom: 85px; }
-    @media(max-width:600px) {
-      .bu-panel { width: calc(100% - 16px); padding: 14px; }
-      .bu-button { min-height: 42px; }
-      .bu-chat-log { height: 170px; }
-    }
-  `;
-  document.head.appendChild(style);
-
-  /* ---------- Inject the upgrade dashboard ---------- */
-
-  const panel = document.createElement("section");
-  panel.className = "bu-panel";
-  panel.id = "bloksUpgradePanel";
-  panel.innerHTML = `
-    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
-      <div>
-        <div class="bu-muted">BLOKS PLAYER HUB</div>
-        <h2>⚡ Player upgrades</h2>
-        <div class="bu-muted">Rewards · Levels · Emotes · Rooms · Chat</div>
-      </div>
-      <button class="bu-button" id="buMobileToggle">📱 Mobile controls</button>
-    </div>
-
-    <div class="bu-grid">
-      <article class="bu-card">
-        <h3>🏆 Level & XP</h3>
-        <div id="buLevelLabel">Level 1</div>
-        <div class="bu-progress"><span id="buXpBar"></span></div>
-        <div class="bu-muted" id="buXpLabel">0 XP</div>
-        <button class="bu-button" id="buEarnXp">Earn 25 XP</button>
-      </article>
-      <article class="bu-card">
-        <h3>🎁 Daily reward</h3>
-        <p class="bu-muted" id="buDailyInfo">Claim your daily reward.</p>
-        <button class="bu-button" id="buClaimDaily">Claim daily reward</button>
-      </article>
-      <article class="bu-card">
-        <h3>🔊 Audio settings</h3>
-        <p class="bu-muted">Toggle interface sound effects and music.</p>
-        <button class="bu-button" id="buSoundToggle">Sound: ON</button>
-        <button class="bu-button" id="buMusicToggle" style="margin-top:8px">Music: OFF</button>
-      </article>
-      <article class="bu-card">
-        <h3>🌐 Multiplayer room</h3>
-        <p class="bu-muted">Create a five-digit room code for your group.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="bu-button" id="buCreateRoom">Create room</button>
-          <button class="bu-button" id="buCopyRoom">Copy code</button>
-        </div>
-        <p id="buRoomLabel">No room created</p>
-        <div style="display:flex;gap:8px">
-          <input class="bu-input" id="buJoinCode" inputmode="numeric" maxlength="5" placeholder="5-digit code">
-          <button class="bu-button" id="buJoinRoom">Join</button>
-        </div>
-        <p class="bu-muted">Demo only: rooms are not shared across devices until a backend is connected.</p>
-      </article>
-      <article class="bu-card">
-        <h3>💬 Friends chat demo</h3>
-        <p class="bu-muted">Messages are stored in this browser only.</p>
-        <div class="bu-chat-log" id="buChatLog"></div>
-        <form id="buChatForm" style="display:flex;gap:8px">
-          <input class="bu-input" id="buChatInput" maxlength="240" placeholder="Write a message..." required>
-          <button class="bu-button" type="submit">Send</button>
-        </form>
-      </article>
-      <article class="bu-card">
-        <h3>🕺 Body emote studio</h3>
-        <p class="bu-muted">Choose a movement to animate your character.</p>
-        <div id="buAvatar" class="bu-avatar rarity-rare">
-          <div class="head"></div><div class="eye"></div><div class="torso"></div>
-          <div class="arm left"></div><div class="arm right"></div>
-          <div class="leg left"></div><div class="leg right"></div>
-        </div>
-        <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <button class="bu-button" data-bu-emote="wave">👋 Wave</button>
-          <button class="bu-button" data-bu-emote="dance">💃 Dance</button>
-          <button class="bu-button" data-bu-emote="jump">⬆️ Jump</button>
-          <button class="bu-button" data-bu-emote="laugh">😂 Laugh</button>
-          <button class="bu-button" data-bu-emote="flex">💪 Flex</button>
-          <button class="bu-button" data-bu-emote="spin">🌀 Spin</button>
-          <button class="bu-button" data-bu-emote="cheer">🎉 Cheer</button>
-          <button class="bu-button" data-bu-emote="clap">👏 Clap</button>
-          <button class="bu-button" data-bu-emote="sneak">🥷 Sneak</button>
-        </div>
-      </article>
-    </div>
-  `;
-
-  const anchor = document.querySelector("main") ||
-    document.querySelector("#app") ||
-    document.querySelector(".main-content") ||
-    document.body;
-  anchor.appendChild(panel);
-
-  /* ---------- XP and level progression ---------- */
-
-  const xpNeeded = level => 100 + (Math.max(1, level) - 1) * 50;
-
-  function addXP(amount) {
-    upgrade.xp += Math.max(0, Number(amount) || 0);
-    let levelUps = 0;
-
-    while (upgrade.xp >= xpNeeded(upgrade.level)) {
-      upgrade.xp -= xpNeeded(upgrade.level);
-      upgrade.level++;
-      levelUps++;
-    }
-
-    save();
-    renderXP();
-
-    if (levelUps) {
-      notify(`Level up! You are now Level ${upgrade.level}.`);
-      playTone(740, 0.16);
-      setTimeout(() => playTone(980, 0.2), 140);
-    } else {
-      playTone(520, 0.07);
-    }
-  }
-
-  function renderXP() {
-    const needed = xpNeeded(upgrade.level);
-    document.getElementById("buLevelLabel").textContent =
-      `Level ${upgrade.level}`;
-    document.getElementById("buXpLabel").textContent =
-      `${upgrade.xp} / ${needed} XP to next level`;
-    document.getElementById("buXpBar").style.width =
-      `${Math.min(100, upgrade.xp / needed * 100)}%`;
-  }
-
-  document.getElementById("buEarnXp").addEventListener("click", () => {
-    addXP(25);
-    notify("+25 XP earned!");
-  });
-
-  /* ---------- Daily rewards ---------- */
-
-  function todayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-  }
-
-  function yesterdayKey() {
-    const d = new Date();
-    d.setDate(d.getDate() - 1);
-    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-  }
-
-  function renderDaily() {
-    const claimed = upgrade.lastDaily === todayKey();
-    document.getElementById("buClaimDaily").disabled = claimed;
-    document.getElementById("buClaimDaily").textContent =
-      claimed ? "Reward claimed today ✓" : "Claim daily reward";
-    document.getElementById("buDailyInfo").textContent =
-      claimed
-        ? `Come back tomorrow. Current streak: ${upgrade.streak} day(s).`
-        : `Claim 250 C Coins and 30 XP. Streak: ${upgrade.streak} day(s).`;
-  }
-
-  document.getElementById("buClaimDaily").addEventListener("click", () => {
-    if (upgrade.lastDaily === todayKey()) {
-      notify("You have already claimed today's reward.");
-      return;
-    }
-
-    upgrade.streak = upgrade.lastDaily === yesterdayKey()
-      ? upgrade.streak + 1
-      : 1;
-    upgrade.lastDaily = todayKey();
-
-    /* Existing app.js uses state.money for C Coins. */
-    if (typeof state !== "undefined" && Number.isFinite(state.money)) {
-      state.money += 250;
-      if (typeof persist === "function") persist();
-      if (typeof render === "function") render();
-    } else {
-      const oldBalance = Number(localStorage.getItem("bloks_demo_money") || 5000);
-      localStorage.setItem("bloks_demo_money", String(oldBalance + 250));
-    }
-
-    addXP(30);
-    save();
-    renderDaily();
-    notify("Daily reward claimed: 250 C Coins + 30 XP!");
-  });
-
-  /* ---------- Rarity effects on existing skin previews ---------- */
-
-  function rarityClass(rarity) {
-    const r = String(rarity || "").toLowerCase();
-    if (r.includes("mythic") || r.includes("ultra")) return "rarity-mythic";
-    if (r.includes("legendary")) return "rarity-legendary";
-    if (r.includes("epic")) return "rarity-epic";
-    if (r.includes("rare")) return "rarity-rare";
-    return "";
-  }
-
-  function decorateSkinCards() {
-    if (typeof SKINS === "undefined") return;
-    document.querySelectorAll("[data-details]").forEach(button => {
-      const skin = SKINS.find(s => s.id === button.dataset.details);
-      if (!skin) return;
-      const cls = rarityClass(skin.rarity);
-      if (cls) button.classList.add("bu-" + cls);
-      button.style.setProperty("--bu-rarity", skin.glow || "#8b7cff");
-      button.title = `${skin.name} · ${skin.rarity}`;
-    });
-  }
-
-  style.textContent += `
-    .bu-rarity-rarity-rare { box-shadow: 0 0 12px #55c9ff66; }
-    .bu-rarity-rarity-epic { box-shadow: 0 0 14px #b26aff77; }
-    .bu-rarity-rarity-legendary { box-shadow: 0 0 17px #ffc75e88; }
-    .bu-rarity-rarity-mythic { box-shadow: 0 0 20px #ff69db99, 0 0 30px #55cfff66; }
-    [data-details].bu-rarity-rarity-legendary,
-    [data-details].bu-rarity-rarity-mythic { animation: buGlow 1.8s ease-in-out infinite alternate; }
-  `;
-
-  /* ---------- Friends chat (local demo) ---------- */
-
-  function renderChat() {
-    const log = document.getElementById("buChatLog");
-    log.innerHTML = upgrade.messages.map(message => `
-      <div class="bu-message">
-        <strong>${safe(message.name)}</strong>
-        <span class="bu-muted"> · ${safe(message.time)}</span><br>
-        ${safe(message.text)}
-      </div>
-    `).join("") || '<p class="bu-muted">No messages yet. Say hello!</p>';
-    log.scrollTop = log.scrollHeight;
-  }
-
-  document.getElementById("buChatForm").addEventListener("submit", event => {
-    event.preventDefault();
-    const input = document.getElementById("buChatInput");
-    const text = input.value.trim();
-    if (!text) return;
-
-    upgrade.messages.push({
-      name: playerName(),
-      text: text.slice(0, 240),
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    });
-
-    upgrade.messages = upgrade.messages.slice(-100);
-    input.value = "";
-    save();
-    renderChat();
-    playTone(640, 0.06);
-  });
-
-  /* ---------- Room code helper ---------- */
-
-  function renderRoom() {
-    document.getElementById("buRoomLabel").textContent =
-      upgrade.roomCode ? `Your room code: ${upgrade.roomCode}` : "No room created";
-  }
-
-  document.getElementById("buCreateRoom").addEventListener("click", () => {
-    upgrade.roomCode = String(Math.floor(10000 + Math.random() * 90000));
-    save();
-    renderRoom();
-    notify(`Room created: ${upgrade.roomCode}. Share the code with friends.`);
-  });
-
-  document.getElementById("buCopyRoom").addEventListener("click", async () => {
-    if (!upgrade.roomCode) {
-      notify("Create a room first.");
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(upgrade.roomCode);
-      notify("Room code copied!");
-    } catch {
-      notify(`Room code: ${upgrade.roomCode}`);
-    }
-  });
-
-  document.getElementById("buJoinRoom").addEventListener("click", () => {
-    const code = document.getElementById("buJoinCode").value.trim();
-    if (!/^\d{5}$/.test(code)) {
-      notify("Enter a valid five-digit code.");
-      return;
-    }
-
-    if (typeof joinGroup === "function") {
-      joinGroup(code);
-      return;
-    }
-
-    notify(`You entered room code ${code}. Online joining requires a shared backend.`);
-  });
-
-  /* ---------- Sound effects and optional generated music ---------- */
-
-  let audioContext = null;
-  let musicTimer = null;
-  let musicStep = 0;
-
-  function playTone(frequency = 520, duration = 0.08) {
-    if (!upgrade.sound) return;
-
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      audioContext = audioContext || new AudioCtx();
-      if (audioContext.state === "suspended") audioContext.resume();
-
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
-      oscillator.connect(gain);
-      gain.connect(audioContext.destination);
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + duration + 0.02);
-    } catch (error) {
-      console.warn("BlokS audio unavailable:", error);
-    }
-  }
-
-  function startMusic() {
-    stopMusic();
-    if (!upgrade.music) return;
-    const notes = [392, 494, 587, 494, 440, 523, 659, 523];
-    musicTimer = window.setInterval(() => {
-      if (upgrade.music) {
-        const frequency = notes[musicStep++ % notes.length];
-        playMusicNote(frequency);
-      }
-    }, 360);
-  }
-
-  function playMusicNote(frequency) {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      audioContext = audioContext || new AudioCtx();
-      if (audioContext.state === "suspended") audioContext.resume();
-
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.type = "triangle";
-      osc.frequency.value = frequency;
-      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.025, audioContext.currentTime + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.24);
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      osc.start();
-      osc.stop(audioContext.currentTime + 0.25);
-    } catch {}
-  }
-
-  function stopMusic() {
-    if (musicTimer) window.clearInterval(musicTimer);
-    musicTimer = null;
-  }
-
-  document.getElementById("buSoundToggle").addEventListener("click", () => {
-    upgrade.sound = !upgrade.sound;
-    document.getElementById("buSoundToggle").textContent =
-      `Sound: ${upgrade.sound ? "ON" : "OFF"}`;
-    save();
-    if (upgrade.sound) playTone(700, 0.1);
-  });
-
-  document.getElementById("buMusicToggle").addEventListener("click", () => {
-    upgrade.music = !upgrade.music;
-    document.getElementById("buMusicToggle").textContent =
-      `Music: ${upgrade.music ? "ON" : "OFF"}`;
-    save();
-    if (upgrade.music) startMusic();
-    else stopMusic();
-  });
-
-  /* ---------- Animated body emotes ---------- */
-
-  document.querySelectorAll("[data-bu-emote]").forEach(button => {
-    button.addEventListener("click", () => {
-      const avatar = document.getElementById("buAvatar");
-      const emote = button.dataset.buEmote;
-      avatar.className = `bu-avatar rarity-rare move-${emote}`;
-      playTone(480 + Math.random() * 350, 0.09);
-      window.setTimeout(() => {
-        avatar.className = "bu-avatar rarity-rare";
-      }, 3200);
-      addXP(2);
-    });
-  });
-
-  /* ---------- Mobile controls ---------- */
-
-  const controls = document.createElement("div");
-  controls.className = "bu-controls";
-  controls.innerHTML = `
-    <button type="button" data-bu-control="left" aria-label="Move left">◀</button>
-    <button type="button" data-bu-control="jump" aria-label="Jump">⬆</button>
-    <button type="button" data-bu-control="right" aria-label="Move right">▶</button>
-    <button type="button" data-bu-control="emote" aria-label="Play emote">🕺</button>
-  `;
-  document.body.appendChild(controls);
-
-  document.getElementById("buMobileToggle").addEventListener("click", () => {
-    upgrade.mobileMode = !upgrade.mobileMode;
-    document.body.classList.toggle("bu-mobile-mode", upgrade.mobileMode);
-    document.getElementById("buMobileToggle").textContent =
-      upgrade.mobileMode ? "📱 Hide mobile controls" : "📱 Mobile controls";
-    save();
-  });
-
-  controls.addEventListener("click", event => {
-    const button = event.target.closest("[data-bu-control]");
-    if (!button) return;
-    const action = button.dataset.buControl;
-
-    if (action === "jump") {
-      document.getElementById("buAvatar").className = "bu-avatar move-jump";
-    } else if (action === "emote") {
-      document.getElementById("buAvatar").className = "bu-avatar move-dance";
-    } else {
-      document.getElementById("buAvatar").style.transform =
-        action === "left" ? "translateX(-12px)" : "translateX(12px)";
-      window.setTimeout(() => {
-        document.getElementById("buAvatar").style.transform = "";
-      }, 220);
-    }
-
-    playTone(520, 0.07);
-  });
-
-  /* ---------- Connect existing BlokS actions to XP ---------- */
-
-  document.addEventListener("click", event => {
-    if (event.target.closest("[data-action]")) addXP(5);
-    if (event.target.closest("[data-emote-action]")) addXP(3);
-    if (event.target.closest("[data-launch-game]")) addXP(10);
-  });
-
-  /* ---------- Keep upgrade visuals refreshed ---------- */
-
-  const observer = new MutationObserver(() => decorateSkinCards());
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  renderXP();
-  renderDaily();
-  renderChat();
-  renderRoom();
-
-  if (upgrade.mobileMode) {
-    document.body.classList.add("bu-mobile-mode");
-    document.getElementById("buMobileToggle").textContent = "📱 Hide mobile controls";
-  }
-
-  document.getElementById("buSoundToggle").textContent =
-    `Sound: ${upgrade.sound ? "ON" : "OFF"}`;
-  document.getElementById("buMusicToggle").textContent =
-    `Music: ${upgrade.music ? "ON" : "OFF"}`;
-
-  decorateSkinCards();
-  console.log("BlokS upgrade pack loaded.");
-})();
+syncMissions();
