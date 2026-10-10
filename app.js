@@ -720,3 +720,25 @@ document.querySelectorAll('[data-mission]').forEach(btn=>{
 
 render();
 syncMissions();
+
+
+/* BLOKS: DAILY 30 S COINS REWARD */
+(function giveDailySCoins() {
+  const today = new Date();
+  const dateKey =
+    `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+
+  const lastReward = localStorage.getItem("bloks_s_daily_reward_date");
+
+  if (lastReward === dateKey) return;
+
+  state.coins += 30;
+  localStorage.setItem("bloks_s_daily_reward_date", dateKey);
+
+  if (typeof persist === "function") persist();
+  if (typeof render === "function") render();
+
+  if (typeof showToast === "function") {
+    showToast("🎉 Daily reward: +30 S Coins!");
+  }
+})();
