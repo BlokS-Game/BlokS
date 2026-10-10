@@ -1168,3 +1168,11 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   background: rgba(255, 255, 255, 0.06);
   border-radius: 10px;
 }
+
+
+/* BlokS update: Play Games and owned-emote picker */
+#gamesView .mission-grid, #missionsView .mission-grid { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+.owned-emote-picker { display:flex; flex-wrap:wrap; gap:10px; margin: 0 0 24px; }
+.owned-emote-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:88px; padding:12px; border:1px solid #34304d; border-radius:12px; background:#141522; color:#f4f2ff; cursor:pointer; }
+.owned-emote-btn span { font-size:28px; }
+.owned-emote-btn small { color:#a3abc0; font-size:11px; }

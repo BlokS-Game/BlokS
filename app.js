@@ -338,6 +338,11 @@ function openDetails(id){
 }
 
 function renderEmotes(){
+  const ownedPicker=$('ownedEmotePicker');
+  if(ownedPicker){
+    const ownedList=EMOTES.filter(e=>state.ownedEmotes.includes(e.id));
+    ownedPicker.innerHTML=ownedList.length?ownedList.map(e=>`<button class="owned-emote-btn" type="button" data-preview-emote="${e.id}" title="Use ${escapeHTML(e.name)}"><span>${e.emoji}</span><small>${escapeHTML(e.name)}</small></button>`).join(''):'<p class="muted-copy">Unlock an emote below to add it here.</p>';
+  }
   const grid=$('emoteGrid');
   if(!grid)return;
 
@@ -579,22 +584,10 @@ function joinGroup(code){
 }
 
 function claimMission(id,btn){
-  if(state.claimed.includes(id)){
-    toast('You already claimed this reward.');
-    return;
-  }
-
-  if(id==='collect'&&!state.owned.some(sid=>SKINS.find(s=>s.id===sid)?.category==='free')){
-    toast('Unlock a free skin first.');
-    return;
-  }
-
-  const rewards={visit:150,collect:300,explore:250};
-  state.claimed.push(id);
-  state.money+=rewards[id]||0;
-  persist();
-  render();
-  toast(`You earned ${fmt(rewards[id])} C Coins!`);
+  if(state.claimed.includes(id)){ toast('You already claimed this reward.'); return; }
+  const rewards={mission1:100,mission2:100,mission3:250,mission4:400,mission5:600,mission6:1000,mission7:200,mission8:500,mission9:100,mission10:400,mission11:800};
+  if(!Object.prototype.hasOwnProperty.call(rewards,id)){ toast('Mission not found.'); return; }
+  toast('Mission progress cannot be verified yet. Connect real gameplay and account tracking before rewards can be claimed.');
 }
 
 function syncMissions(){
