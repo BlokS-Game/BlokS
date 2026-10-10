@@ -636,3 +636,95 @@ button:disabled { cursor: not-allowed; opacity: .55; }
   .group-players { gap: 7px; }
   .group-player { width: 65px; }
 }
+
+
+/* =========================================
+   BLOKS EMOTE SHOP - VISUAL FIX
+========================================= */
+
+.emote-preview {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(166, 145, 255, 0.3);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(155, 138, 255, 0.28), transparent 65%),
+    linear-gradient(145deg, #24203c, #11121d);
+  cursor: pointer;
+}
+
+.emote-preview span {
+  display: block;
+  font-size: 64px;
+  line-height: 1.2;
+  filter: drop-shadow(0 8px 16px rgba(155, 138, 255, 0.35));
+  transition: transform 0.2s ease;
+}
+
+.emote-preview:hover span {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+.emote-card {
+  overflow: hidden;
+}
+
+.emote-stage-character {
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  border-radius: 18px;
+  background: radial-gradient(circle, #30264f, #11121d 72%);
+}
+
+.emote-stage-emoji {
+  font-size: 88px;
+  line-height: 1.2;
+  animation: bloksEmotePop 0.55s ease both;
+}
+
+.emote-stage-label {
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.emote-stage-sub {
+  max-width: 280px;
+  color: #b9b5d0;
+  font-size: 13px;
+}
+
+@keyframes bloksEmotePop {
+  0% {
+    transform: translateY(16px) scale(0.65);
+    opacity: 0;
+  }
+
+  70% {
+    transform: translateY(-5px) scale(1.12);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.user-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
