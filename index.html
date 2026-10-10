@@ -1,37 +1,46 @@
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090b12">
+  <meta name="description" content="Discover BlokS, collect original skins, customise your profile, and build your gaming identity.">
   <title>BlokS — Play Your World</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <a class="brand" href="#" aria-label="BlokS home">
-        <span class="brand-mark">B</span><span>Blok<span class="brand-accent">S</span></span>
+      <a class="brand" href="#" data-go="discover" aria-label="BlokS home">
+        <span class="brand-mark">B</span>
+        <span>Blok<span class="brand-accent">S</span></span>
       </a>
-      <div class="side-label">PLAY</div>
-      <button class="nav-item" data-view="games"><span>▶</span> Play Games</button>
-      <button class="nav-item" data-view="friends"><span>♧</span> Add Friend</button>
-      <button class="nav-item" data-view="invite"><span>↗</span> Invite Friend</button>
-      <button class="nav-item" data-view="groups"><span>＋</span> Create Group</button>
-      <button class="nav-item" data-view="joinGroup"><span>⌁</span> Join Group</button>
-      <div class="side-label extra-side-label">COLLECT</div>
+
+      <div class="side-label">MENU</div>
       <button class="nav-item active" data-view="discover"><span>◈</span> Discover</button>
       <button class="nav-item" data-view="skins"><span>✦</span> Skin Shop</button>
       <button class="nav-item" data-view="inventory"><span>▣</span> My Skins</button>
-      <button class="nav-item" data-view="emotes"><span>✺</span> Emote Shop</button>
       <button class="nav-item" data-view="missions"><span>⚡</span> Missions</button>
+      <button class="nav-item" data-view="emotes"><span>🎭</span> Emotes</button>
+      <button class="nav-item" data-view="friends"><span>👥</span> Friends</button>
+      <button class="nav-item" data-view="groups"><span>🎮</span> Groups</button>
+      <button class="nav-item" data-view="profile"><span>👤</span> Edit Profile</button>
+
       <div class="sidebar-bottom">
         <div class="mini-card">
           <div class="mini-icon">✧</div>
           <strong>Make your mark.</strong>
           <p>Your style. Your world. Your BlokS.</p>
         </div>
-        <div class="profile-mini"><div class="avatar-small">S</div><div><strong>Guest Player</strong><small>Level 1</small></div><span class="online-dot"></span></div>
+        <div class="profile-mini">
+          <div class="avatar-small" id="sidebarAvatar">B</div>
+          <div>
+            <strong id="sidebarPlayerName">Guest Player</strong>
+            <small>BlokS Player</small>
+          </div>
+          <span class="online-dot"></span>
+        </div>
       </div>
     </aside>
 
@@ -40,7 +49,11 @@
         <button class="mobile-brand" id="mobileMenu" aria-label="Open menu">☰ <strong>Blok<span class="brand-accent">S</span></strong></button>
         <div class="breadcrumbs">HOME <span>/</span> <strong id="crumb">DISCOVER</strong></div>
         <div class="top-actions">
-          <div class="wallet-pills"><div class="coin-pill money-pill"><span class="coin-symbol money-symbol">C</span><strong id="moneyBalance">5,000</strong><span class="coin-label">COINS</span></div><div class="coin-pill"><span class="coin-symbol">S</span><strong id="coinBalance">2,500</strong><span class="coin-label">S COINS</span></div></div>
+          <div class="coin-pill">
+            <span class="coin-symbol">S</span>
+            <strong id="coinBalance">0</strong>
+            <span class="coin-label">S COINS</span>
+          </div>
           <button class="sign-in" id="signInBtn">↗ Sign in</button>
         </div>
       </header>
@@ -51,113 +64,400 @@
             <div class="eyebrow"><span class="live-dot"></span> YOUR NEXT ADVENTURE STARTS HERE</div>
             <h1>Play your way.<br><span>Look legendary.</span></h1>
             <p>Discover original worlds, collect cool looks, and build your own BlokS identity.</p>
-            <div class="hero-buttons"><button class="primary-btn" data-go="skins">Explore skins <span>→</span></button><button class="ghost-btn" data-go="missions">View missions</button></div>
-            <div class="hero-stats"><div><strong>4</strong><small>Shop sections</small></div><div><strong>57</strong><small>Original skins</small></div><div><strong>∞</strong><small>Ways to play</small></div></div>
-          </div>
-          <div class="hero-art" aria-label="Original abstract BlokS character artwork">
-            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-            <div class="floating-cube cube-one"></div><div class="floating-cube cube-two"></div>
-            <div class="character">
-              <div class="char-halo"></div><div class="char-head"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></div>
-              <div class="char-body"><div class="shirt-mark">B</div></div>
-              <div class="char-arm arm-left"></div><div class="char-arm arm-right"></div>
-              <div class="char-leg leg-left"></div><div class="char-leg leg-right"></div>
+            <div class="hero-buttons">
+              <button class="primary-btn" data-go="skins">Explore skins <span>→</span></button>
+              <button class="ghost-btn" data-go="missions">View missions</button>
             </div>
-            <div class="art-tag tag-top">✦ ORIGINAL AVATARS</div><div class="art-tag tag-bottom">NO TWO WORLDS ALIKE</div>
+            <div class="hero-stats">
+              <div><strong>3</strong><small>Skin paths</small></div>
+              <div><strong>50+</strong><small>Original looks</small></div>
+              <div><strong>∞</strong><small>Ways to play</small></div>
+            </div>
+          </div>
+
+          <div class="hero-art" aria-label="Original BlokS character artwork">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="floating-cube cube-one"></div>
+            <div class="floating-cube cube-two"></div>
+            <div class="character">
+              <div class="char-halo"></div>
+              <div class="char-head">
+                <span class="eye eye-left"></span>
+                <span class="eye eye-right"></span>
+                <span class="mouth"></span>
+              </div>
+              <div class="char-body"><div class="shirt-mark">B</div></div>
+              <div class="char-arm arm-left"></div>
+              <div class="char-arm arm-right"></div>
+              <div class="char-leg leg-left"></div>
+              <div class="char-leg leg-right"></div>
+            </div>
+            <div class="art-tag tag-top">✦ ORIGINAL AVATARS</div>
+            <div class="art-tag tag-bottom">YOUR WORLD, YOUR STYLE</div>
           </div>
         </div>
 
-        <div class="section-heading"><div><div class="eyebrow">CHOOSE YOUR PATH</div><h2>Four ways to style up</h2></div><button class="text-btn" data-go="skins">Open Skin Shop ↗</button></div>
-        <div class="path-grid">
-          <button class="path-card free-path" data-category="free"><span class="path-icon">✦</span><span class="path-label">01 / START HERE</span><h3>Free Skins</h3><p>Simple, fun looks for every player.</p><span class="path-link">Unlock by playing ↗</span></button>
-          <button class="path-card coin-path" data-category="coins"><span class="path-icon">S</span><span class="path-label">02 / RARE COLLECTION</span><h3>S Coin Skins</h3><p>Rare designs, glowing effects, top-tier style.</p><span class="path-link">Spend S Coins ↗</span></button>
-          <button class="path-card money-path" data-category="money"><span class="path-icon">C</span><span class="path-label">03 / EARN & SPEND</span><h3>Money Shop</h3><p>Earn normal Coins by playing and completing missions.</p><span class="path-link">Spend earned Coins ↗</span></button>
-          <button class="path-card exclusive-path" data-category="premium"><span class="path-icon">♛</span><span class="path-label">04 / ULTRA EXCLUSIVE</span><h3>Exclusive Skins</h3><p>Five original ultra-premium looks.</p><span class="path-link">View exclusives ↗</span></button>
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">CHOOSE YOUR PATH</div>
+            <h2>Three ways to style up</h2>
+          </div>
+          <button class="text-btn" data-go="skins">Open Skin Shop ↗</button>
         </div>
 
-        <div class="section-heading"><div><div class="eyebrow">FEATURED LOOKS</div><h2>Find your signature style</h2></div><button class="text-btn" data-go="skins">See all skins ↗</button></div>
+        <div class="path-grid">
+          <button class="path-card free-path" data-category="free">
+            <span class="path-icon">✦</span>
+            <span class="path-label">01 / START HERE</span>
+            <h3>Free Skins</h3>
+            <p>Simple, fun looks for every player.</p>
+            <span class="path-link">Unlock free skins ↗</span>
+          </button>
+          <button class="path-card coin-path" data-category="coins">
+            <span class="path-icon">S</span>
+            <span class="path-label">02 / RARE COLLECTION</span>
+            <h3>S Coin Skins</h3>
+            <p>Rare designs, glowing effects, top-tier style.</p>
+            <span class="path-link">Spend S Coins ↗</span>
+          </button>
+          <button class="path-card money-path" data-category="money">
+            <span class="path-icon">◇</span>
+            <span class="path-label">03 / PREMIUM STYLE</span>
+            <h3>Paid Skins</h3>
+            <p>Explore premium cosmetic designs.</p>
+            <span class="path-link">Browse premium ↗</span>
+          </button>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">FEATURED LOOKS</div>
+            <h2>Find your signature style</h2>
+          </div>
+          <button class="text-btn" data-go="skins">See all skins ↗</button>
+        </div>
         <div class="skin-grid" id="featuredGrid"></div>
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">YOUR PLAYER</div>
+            <h2>Your BlokS identity</h2>
+          </div>
+          <button class="text-btn" data-go="profile">Edit profile ↗</button>
+        </div>
+        <div class="equipped-look" id="equippedLook"></div>
       </section>
 
       <section class="view" id="skinsView">
-        <div class="page-intro"><div class="eyebrow">THE COLLECTION</div><h1>Skin <span>Shop</span></h1><p>Every look is original to BlokS. Choose your style and collect your favourites.</p></div>
-        <div class="shop-toolbar"><div class="category-tabs" role="tablist" aria-label="Skin categories">
-          <button class="category-tab selected" data-category="all">All skins <span id="allCount">57</span></button>
-          <button class="category-tab" data-category="free">Free <span>7</span></button>
-          <button class="category-tab" data-category="money">Money shop <span>20</span></button>
-          <button class="category-tab" data-category="coins">S Coins <span>25</span></button>
-          <button class="category-tab" data-category="premium">Exclusive <span>5</span></button>
-        </div><label class="search-box"><span>⌕</span><input id="skinSearch" type="search" placeholder="Search skins…"></label></div>
+        <div class="page-intro">
+          <div class="eyebrow">THE COLLECTION</div>
+          <h1>Skin <span>Shop</span></h1>
+          <p>Choose your style and collect your favourite original BlokS looks.</p>
+        </div>
+        <div class="shop-toolbar">
+          <div class="category-tabs" role="tablist" aria-label="Skin categories">
+            <button class="category-tab selected" data-category="all">All skins <span id="allCount">0</span></button>
+            <button class="category-tab" data-category="free">Free <span>FREE</span></button>
+            <button class="category-tab" data-category="coins">S Coins <span>RARE</span></button>
+            <button class="category-tab" data-category="money">C Coins <span>COINS</span></button>
+            <button class="category-tab" data-category="premium">Premium <span>PAID</span></button>
+          </div>
+          <label class="search-box">
+            <span>⌕</span>
+            <input id="skinSearch" type="search" placeholder="Search skins…">
+          </label>
+        </div>
         <div class="skin-grid" id="skinGrid"></div>
       </section>
 
-
-      <section class="view" id="gamesView">
-        <div class="page-intro"><div class="eyebrow">YOUR NEXT ADVENTURE</div><h1>Play <span>Games</span></h1><p>Choose a BlokS experience. Game cards are ready for your original games to be connected.</p></div>
-        <div class="game-grid">
-          <article class="game-card game-featured"><div class="game-art game-art-neon"><span>✦</span><b>01</b></div><div class="game-card-copy"><span class="eyebrow">COMING TO BLOKS</span><h3>Neon Obby Run</h3><p>Jump across glowing platforms, dodge traps, and race your friends.</p><button class="primary-btn" data-launch-game="obby">Play game <span>→</span></button></div></article>
-          <article class="game-card"><div class="game-art game-art-island"><span>◈</span><b>02</b></div><div class="game-card-copy"><span class="eyebrow">ADVENTURE</span><h3>Sky Island Quest</h3><p>Explore floating islands and discover hidden rewards.</p><button class="ghost-btn" data-launch-game="island">Coming soon</button></div></article>
-          <article class="game-card"><div class="game-art game-art-arena"><span>⚡</span><b>03</b></div><div class="game-card-copy"><span class="eyebrow">TEAM PLAY</span><h3>Power Arena</h3><p>Team up with your group in a colourful challenge arena.</p><button class="ghost-btn" data-launch-game="arena">Coming soon</button></div></article>
-        </div>
-        <p class="demo-warning">These are game concepts, not playable games yet. Multiplayer needs a game client and a shared server.</p>
-      </section>
-      <section class="view" id="friendsView">
-        <div class="page-intro"><div class="eyebrow">PLAY TOGETHER</div><h1>Friends <span>Hub</span></h1><p>Add a display name to test the friend list and prepare group invites.</p></div>
-        <div class="social-layout"><div class="panel-card"><h2>Add a friend</h2><form id="addFriendForm" class="inline-form"><label class="field-label" for="friendName">Player display name</label><input id="friendName" class="field-input" placeholder="e.g. PixelRider" maxlength="24" required><button class="primary-btn" type="submit">Add friend</button></form><div class="panel-heading"><h2>Your friends</h2><span id="friendCount">Local demo</span></div><div id="friendList" class="people-list"></div></div><div class="panel-card"><h2>Player profile</h2><label class="field-label" for="playerName">Your display name</label><input id="playerName" class="field-input" maxlength="24" placeholder="Guest Player"><div id="equippedLook" class="equipped-look"></div><p class="demo-warning">Friend data currently stays in this browser. Real requests between different players need a shared backend and player accounts.</p></div></div>
-      </section>
-      <section class="view" id="inviteView">
-        <div class="page-intro"><div class="eyebrow">BRING YOUR SQUAD</div><h1>Invite <span>Friends</span></h1><p>Prepare invites to your current group. Online delivery will be enabled with the multiplayer backend.</p></div>
-        <div class="panel-card invite-panel"><div class="invite-icon">↗</div><h2>Invite your crew</h2><p>Add friends in the Friends Hub, then create or join a group to prepare invitations.</p><button class="primary-btn" data-go="friends">Manage friends</button><button class="ghost-btn" id="inviteCurrentBtn">Prepare group invites</button><div id="inviteCurrentPanel" class="current-group-panel"></div></div>
-      </section>
-      <section class="view" id="groupsView">
-        <div class="page-intro"><div class="eyebrow">SQUAD UP</div><h1>Create <span>Group</span></h1><p>Start a group, get a random five-digit code, and invite up to four other players.</p></div>
-        <div class="panel-card group-create-panel"><h2>Your squad starts here</h2><p class="muted-copy">The creator counts as player 1. Maximum group size is 5.</p><button class="primary-btn" id="createGroupBtn">＋ Create group & generate code</button><div id="groupCurrentPanel" class="current-group-panel"></div></div>
-        <p class="demo-warning">Prototype limitation: group codes and members are local to this browser, so they cannot yet connect different devices. Real online groups require a shared backend.</p>
-      </section>
-      <section class="view" id="joinGroupView">
-        <div class="page-intro"><div class="eyebrow">JOIN YOUR SQUAD</div><h1>Join <span>Group</span></h1><p>Enter the five-digit code shared by your group creator.</p></div>
-        <div class="social-layout"><div class="panel-card"><h2>Enter group code</h2><form id="joinGroupForm" class="inline-form"><label class="field-label" for="groupCodeInput">Five-digit group code</label><input id="groupCodeInput" class="field-input code-input" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="12345" required><button class="primary-btn" type="submit">Join group</button></form></div><div class="panel-card"><h2>Groups in this browser</h2><div id="groupList" class="people-list"></div><p class="demo-warning">Groups created in this browser appear here. Online joining across devices needs a backend.</p></div></div>
-      </section>
-      <section class="view" id="emotesView">
-        <div class="page-intro"><div class="eyebrow">EXPRESS YOURSELF</div><h1>Emote <span>Shop</span></h1><p>30 original BlokS emotes, from friendly gestures to legendary celebrations.</p></div>
-        <div id="emoteStage" class="emote-stage"><div class="stage-hint">Choose an emote below to preview its animation.</div></div>
-        <div class="shop-toolbar"><div class="category-tabs emote-tabs"><button class="category-tab selected" data-emote-category="all">All emotes <span>30</span></button><button class="category-tab" data-emote-category="free">Free <span>5</span></button><button class="category-tab" data-emote-category="money">Coins <span>15</span></button><button class="category-tab" data-emote-category="coins">S Coins <span>10</span></button></div><div id="emoteBalance" class="wallet-summary"></div></div>
-        <div class="emote-grid" id="emoteGrid"></div><p class="demo-warning">Emote previews use original simple effects. Full skeletal animation and synced multiplayer emotes need a 3D game client.</p>
-      </section>
-
       <section class="view" id="inventoryView">
-        <div class="page-intro"><div class="eyebrow">YOUR COLLECTION</div><h1>My <span>Skins</span></h1><p>Skins you have unlocked in this demo will appear here.</p></div>
-        <div class="inventory-note">Your collection is saved only in this browser demo. Sign-in and cloud inventory need to be connected before launch.</div>
+        <div class="page-intro">
+          <div class="eyebrow">YOUR COLLECTION</div>
+          <h1>My <span>Skins</span></h1>
+          <p>All the skins you have unlocked in this browser.</p>
+        </div>
+        <div class="inventory-note">Your collection is saved locally in this browser. Cloud inventory requires a connected account backend.</div>
         <div class="skin-grid" id="inventoryGrid"></div>
       </section>
 
       <section class="view" id="missionsView">
-        <div class="page-intro"><div class="eyebrow">PLAY. EARN. REPEAT.</div><h1>Daily <span>Missions</span></h1><p>Complete missions to earn normal in-game Coins for the Money skin shop.</p></div>
-        <div class="mission-grid">
-          <article class="mission-card"><div class="mission-symbol">🎮</div><div class="mission-meta">STARTER MISSION · ONCE</div><h3>Enter BlokS</h3><p>Visit the game hub and get your first reward.</p><div class="mission-reward">🟡 +150 Coins</div><button class="primary-btn mission-btn" data-mission="visit">Claim reward</button></article>
-          <article class="mission-card"><div class="mission-symbol">✦</div><div class="mission-meta">COLLECTOR MISSION · ONCE</div><h3>Pick a style</h3><p>Unlock any free skin and make it yours.</p><div class="mission-reward">🟡 +300 Coins</div><button class="primary-btn mission-btn" data-mission="collect">Claim reward</button></article>
-          <article class="mission-card"><div class="mission-symbol">🧭</div><div class="mission-meta">EXPLORER MISSION · DEMO</div><h3>Explore the shop</h3><p>Check out all four skin sections.</p><div class="mission-reward">🟡 +250 Coins</div><button class="primary-btn mission-btn" data-mission="explore">Claim reward</button></article>
+        <div class="page-intro">
+          <div class="eyebrow">PLAY. EARN. REPEAT.</div>
+          <h1>Daily <span>Missions</span></h1>
+          <p>Complete missions to earn demo S Coins and unlock more looks.</p>
         </div>
-        <p class="demo-warning">Demo balances are stored in this browser and are not secure or transferable. Do not sell these demo balances as real currency.</p>
+        <div class="mission-grid">
+          <article class="mission-card">
+            <div class="mission-symbol">🎮</div>
+            <div class="mission-meta">STARTER MISSION · ONCE</div>
+            <h3>Enter BlokS</h3>
+            <p>Visit the game hub and get your first reward.</p>
+            <div class="mission-reward">✦ +100 S Coins</div>
+            <button class="primary-btn mission-btn" data-mission="visit">Claim reward</button>
+          </article>
+          <article class="mission-card">
+            <div class="mission-symbol">✦</div>
+            <div class="mission-meta">COLLECTOR MISSION · ONCE</div>
+            <h3>Pick a style</h3>
+            <p>Unlock any free skin and make it yours.</p>
+            <div class="mission-reward">✦ +150 S Coins</div>
+            <button class="primary-btn mission-btn" data-mission="collect">Claim reward</button>
+          </article>
+          <article class="mission-card">
+            <div class="mission-symbol">🧭</div>
+            <div class="mission-meta">EXPLORER MISSION · DEMO</div>
+            <h3>Explore the shop</h3>
+            <p>Check out the skin categories.</p>
+            <div class="mission-reward">✦ +50 S Coins</div>
+            <button class="primary-btn mission-btn" data-mission="explore">Claim reward</button>
+          </article>
+        </div>
+        <p class="demo-warning">Demo rewards are local-only and are not real currency.</p>
       </section>
 
-      <footer class="footer"><span>© 2026 BlokS · Play your world.</span><span>Original concept · Built for mobile + PC</span></footer>
+      <section class="view" id="emotesView">
+        <div class="page-intro">
+          <div class="eyebrow">EXPRESS YOURSELF</div>
+          <h1>Emote <span>Studio</span></h1>
+          <p>Preview emotes and unlock more ways to express yourself.</p>
+        </div>
+        <div class="wallet-summary" id="emoteBalance"></div>
+        <div class="emote-stage" id="emoteStage">
+          <div class="emote-stage-character">
+            <div class="emote-stage-emoji">👋</div>
+            <div class="emote-stage-label">Choose an emote</div>
+            <div class="emote-stage-sub">Tap any emote below to preview it.</div>
+          </div>
+        </div>
+        <div class="category-tabs">
+          <button class="category-tab selected" data-emote-category="all">All</button>
+          <button class="category-tab" data-emote-category="free">Free</button>
+          <button class="category-tab" data-emote-category="money">C Coins</button>
+          <button class="category-tab" data-emote-category="coins">S Coins</button>
+        </div>
+        <div class="emote-grid" id="emoteGrid"></div>
+      </section>
+
+      <section class="view" id="friendsView">
+        <div class="page-intro">
+          <div class="eyebrow">PLAY TOGETHER</div>
+          <h1>Friends <span>Hub</span></h1>
+          <p>Keep a local list of friends you want to play with.</p>
+        </div>
+        <div class="inventory-note">This is a local demo list. Real friend requests and online presence need a connected backend.</div>
+        <div class="profile-editor">
+          <form id="friendForm">
+            <label for="friendName">Friend's display name</label>
+            <div class="friend-add-row">
+              <input id="friendName" name="friendName" maxlength="24" placeholder="Enter a player name" required>
+              <button class="primary-btn" type="submit">Add friend</button>
+            </div>
+          </form>
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">YOUR LIST</div>
+              <h2 id="friendCount">0 friends</h2>
+            </div>
+          </div>
+          <div id="friendList"></div>
+        </div>
+      </section>
+
+      <section class="view" id="groupsView">
+        <div class="page-intro">
+          <div class="eyebrow">SQUAD UP</div>
+          <h1>Player <span>Groups</span></h1>
+          <p>Create a local demo group or join one using a group code.</p>
+        </div>
+        <div class="inventory-note">Group codes and membership are stored in this browser only. They do not connect different players online.</div>
+        <div class="mission-grid">
+          <article class="mission-card">
+            <div class="mission-symbol">✚</div>
+            <h3>Create a group</h3>
+            <p>Create a group using your current player name.</p>
+            <button class="primary-btn full-btn" id="createGroupBtn" type="button">Create group</button>
+          </article>
+          <article class="mission-card">
+            <div class="mission-symbol">🔑</div>
+            <h3>Join a group</h3>
+            <p>Enter a code for a group saved in this browser.</p>
+            <form id="joinGroupForm">
+              <label for="groupCodeInput">Group code</label>
+              <input id="groupCodeInput" maxlength="8" placeholder="Enter code" required>
+              <button class="primary-btn full-btn" type="submit">Join group</button>
+            </form>
+          </article>
+          <article class="mission-card">
+            <div class="mission-symbol">📨</div>
+            <h3>Invite preview</h3>
+            <p>Prepare a local preview of friends you could invite.</p>
+            <div id="inviteCurrentPanel"></div>
+          </article>
+        </div>
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">CURRENT GROUP</div>
+            <h2>Your squad</h2>
+          </div>
+          <button class="text-btn" id="leaveGroupBtn" type="button">Leave group</button>
+        </div>
+        <div id="groupCurrentPanel"></div>
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">SAVED GROUPS</div>
+            <h2>Your groups</h2>
+          </div>
+        </div>
+        <div id="groupList"></div>
+      </section>
+
+      <section class="view" id="profileView">
+        <div class="page-intro">
+          <div class="eyebrow">YOUR IDENTITY</div>
+          <h1>Edit <span>Profile</span></h1>
+          <p>Customise how your player profile looks in BlokS.</p>
+        </div>
+
+        <div class="profile-editor">
+          <div class="profile-preview-card" id="profilePreviewCard">
+            <div class="profile-avatar-large" id="profileAvatarPreview">B</div>
+            <div class="profile-preview-info">
+              <div class="eyebrow">PLAYER PROFILE PREVIEW</div>
+              <h2 id="profileNamePreview">Guest Player</h2>
+              <p id="profileCountryPreview">BlokS Player</p>
+              <p id="profileBioPreview">Welcome to my BlokS profile!</p>
+            </div>
+          </div>
+
+          <form id="profileForm">
+            <div class="profile-form-grid">
+              <div class="profile-field">
+                <label for="profileName">Display name *</label>
+                <input id="profileName" name="profileName" type="text" maxlength="24" placeholder="Enter your player name" required>
+                <small>Maximum 24 characters.</small>
+              </div>
+
+              <div class="profile-field">
+                <label for="profileGender">Gender</label>
+                <select id="profileGender" name="profileGender">
+                  <option value="prefer-not-to-say">Prefer not to say</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="nonbinary">Non-binary</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="profile-field">
+                <label for="profileCountry">Country</label>
+                <select id="profileCountry" name="profileCountry">
+                  <option value="">Select country</option>
+                  <option>India</option>
+                  <option>United States</option>
+                  <option>United Kingdom</option>
+                  <option>Canada</option>
+                  <option>Australia</option>
+                  <option>Pakistan</option>
+                  <option>Bangladesh</option>
+                  <option>Nepal</option>
+                  <option>Sri Lanka</option>
+                  <option>United Arab Emirates</option>
+                  <option>Saudi Arabia</option>
+                  <option>Singapore</option>
+                  <option>Malaysia</option>
+                  <option>Indonesia</option>
+                  <option>Philippines</option>
+                  <option>Japan</option>
+                  <option>South Korea</option>
+                  <option>Germany</option>
+                  <option>France</option>
+                  <option>Brazil</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="profile-field">
+                <label for="profileLanguage">Language</label>
+                <select id="profileLanguage" name="profileLanguage">
+                  <option value="English">English</option>
+                  <option value="Hindi">Hindi</option>
+                  <option value="Marathi">Marathi</option>
+                  <option value="Bengali">Bengali</option>
+                  <option value="Tamil">Tamil</option>
+                  <option value="Telugu">Telugu</option>
+                  <option value="Urdu">Urdu</option>
+                  <option value="Spanish">Spanish</option>
+                  <option value="French">French</option>
+                  <option value="Portuguese">Portuguese</option>
+                  <option value="Japanese">Japanese</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="profile-field">
+                <label for="profileAccent">Profile accent colour</label>
+                <select id="profileAccent" name="profileAccent">
+                  <option value="#9b8aff">Purple</option>
+                  <option value="#35c9a4">Mint green</option>
+                  <option value="#ff75b5">Pink</option>
+                  <option value="#5ca9ff">Blue</option>
+                  <option value="#ffb454">Orange</option>
+                  <option value="#ff5f69">Red</option>
+                  <option value="#f2d36b">Gold</option>
+                </select>
+              </div>
+
+              <div class="profile-field profile-field-wide">
+                <label for="profileBio">About me</label>
+                <textarea id="profileBio" name="profileBio" maxlength="160" rows="4" placeholder="Tell other players a little about yourself..."></textarea>
+                <small>Maximum 160 characters.</small>
+              </div>
+
+              <div class="profile-field profile-field-wide">
+                <label class="profile-checkbox-label" for="profileShowCountry">
+                  <input id="profileShowCountry" name="profileShowCountry" type="checkbox">
+                  Show my country on my profile
+                </label>
+                <small>This setting is saved locally. Public profile visibility needs a connected account backend.</small>
+              </div>
+            </div>
+
+            <div class="profile-form-actions">
+              <button class="primary-btn" type="submit">Save profile</button>
+              <button class="ghost-btn" id="profileCancel" type="button">Reset changes</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>© 2026 BlokS · Play your world.</span>
+        <span>Original concept · Built for mobile + PC</span>
+      </footer>
     </main>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <dialog id="skinDialog" class="skin-dialog"><button class="dialog-close" id="dialogClose" aria-label="Close">×</button><div id="dialogContent"></div></dialog>
+
+  <dialog id="skinDialog" class="skin-dialog">
+    <button class="dialog-close" id="dialogClose" aria-label="Close">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
   <dialog id="signInDialog" class="skin-dialog sign-dialog">
     <button class="dialog-close" id="signClose" aria-label="Close">×</button>
-    <div class="dialog-icon">B</div><h2>Welcome to BlokS</h2>
-    <p>Use your Google account to sign in. Google sign-in becomes active after you add your own Firebase web configuration.</p>
+    <div class="dialog-icon">B</div>
+    <h2>Welcome to BlokS</h2>
+    <p>Google sign-in requires your own Firebase web configuration.</p>
     <button class="primary-btn full-btn" id="googleSignInBtn">◎ Continue with Google</button>
     <button class="ghost-btn full-btn" id="demoSignIn">Continue as demo guest</button>
     <p id="authMessage" class="auth-message" role="status">Google setup required before sign-in can work.</p>
     <div id="signedInProfile" class="signed-in-profile" hidden></div>
     <button class="ghost-btn full-btn" id="signOutBtn" hidden>Sign out</button>
-    <small>BlokS never asks you to type your Google password into this website. Google handles sign-in.</small>
+    <small>Never enter your Google password directly into this website.</small>
   </dialog>
+
   <script src="app.js"></script>
   <script type="module" src="firebase-auth.js"></script>
 </body>
